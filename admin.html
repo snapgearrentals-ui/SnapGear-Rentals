@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>SnapGear Admin</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#06152f; --navy2:#0b2348; --blue:#123966; --light:#f4f7fb; --text:#0a1938; --muted:#64748b;
+  --border:rgba(10,30,60,.12); --white:#fff;
+  --free:#15803d; --free-bg:#e6f6ec;
+  --res:#b45309; --res-bg:#fdf0cf;
+  --out:#1d4ed8; --out-bg:#dbe7ff;
+  --over:#b91c1c; --over-bg:#fde2e2;
+  --maint:#475569; --maint-bg:#e2e8f0;
+  --ret:#94a3b8; --ret-bg:#eef1f5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",sans-serif;color:var(--text);background:var(--light);line-height:1.5;font-size:15px}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+[hidden]{display:none!important}
+h1,h2,h3{font-family:"Montserrat",sans-serif;line-height:1.2}
+:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+
+/* buttons */
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;transition:background .15s}
+.btn:hover{background:var(--navy2)}
+.btn.ghost{background:#fff;color:var(--navy);border-color:var(--border)}
+.btn.ghost:hover{background:var(--light)}
+.btn.danger{background:#fff;color:var(--over);border-color:#f3c0c0}
+.btn.danger:hover{background:var(--over-bg)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.green{background:var(--free)}
+.btn.green:hover{background:#166534}
+
+/* login */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(circle at 80% 20%,rgba(34,79,135,.45),transparent 40%),linear-gradient(135deg,#06152f,#0a2449 60%,#071a37)}
+.login-box{background:#fff;border-radius:20px;padding:34px;width:100%;max-width:380px;box-shadow:0 25px 70px rgba(0,0,0,.35)}
+.login-box img{width:76px;height:76px;object-fit:contain;display:block;margin:0 auto 10px}
+.login-box h1{font-size:22px;text-align:center;margin-bottom:4px}
+.login-box .sub{text-align:center;color:var(--muted);margin-bottom:22px;font-size:14px}
+.login-box .btn{width:100%;padding:13px;margin-top:6px}
+.err{color:var(--over);font-size:13px;margin-top:10px;min-height:18px;text-align:center}
+.hint{background:var(--light);border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--muted);margin-top:14px}
+
+/* fields */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid #d5dde8;border-radius:10px;background:#fff;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy)}
+.field textarea{resize:vertical;min-height:64px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+/* top bar */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50}
+.top-in{max-width:1280px;margin:auto;padding:0 18px;display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Montserrat",sans-serif;font-weight:800;font-size:14px;white-space:nowrap}
+.brand img{width:40px;height:40px;object-fit:contain}
+.tabs{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:#c9d6ea;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:600;white-space:nowrap}
+.tab-btn:hover{background:rgba(255,255,255,.08);color:#fff}
+.tab-btn.active{background:#fff;color:var(--navy)}
+.logout{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;font-weight:600}
+.logout:hover{background:rgba(255,255,255,.1)}
+
+main{max-width:1280px;margin:auto;padding:24px 18px 60px}
+.page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.page-head h2{font-size:24px}
+.page-head p{color:var(--muted);font-size:14px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:18px}
+.card h3{font-size:16px;margin-bottom:14px}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px}
+.kpi small{color:var(--muted);font-weight:600;font-size:13px}
+.kpi strong{display:block;font-family:"Montserrat",sans-serif;font-size:28px;margin-top:2px;color:var(--navy)}
+.kpi span{font-size:12.5px;color:var(--muted)}
+
+/* status pills */
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill.available{background:var(--free-bg);color:var(--free)}
+.pill.reserved{background:var(--res-bg);color:var(--res)}
+.pill.out,.pill.rented{background:var(--out-bg);color:var(--out)}
+.pill.overdue{background:var(--over-bg);color:var(--over)}
+.pill.maint{background:var(--maint-bg);color:var(--maint)}
+.pill.returned{background:var(--ret-bg);color:#64748b}
+.pill.cancelled{background:#f1f1f1;color:#888;text-decoration:line-through}
+.pill.held{background:var(--res-bg);color:var(--res)}
+.pill.refunded{background:var(--free-bg);color:var(--free)}
+.pill.pending{background:var(--ret-bg);color:#64748b}
+
+/* camera board */
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cam{background:#fff;border:1px solid var(--border);border-left-width:5px;border-radius:14px;padding:14px}
+.cam.available{border-left-color:var(--free)}
+.cam.reserved{border-left-color:#d97706}
+.cam.out{border-left-color:var(--out)}
+.cam.overdue{border-left-color:var(--over)}
+.cam.maint{border-left-color:var(--maint)}
+.cam h4{font-family:"Montserrat",sans-serif;font-size:14px;margin-bottom:8px}
+.cam p{font-size:13px;color:var(--muted);margin-top:8px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.list-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
+.list-item:last-child{border-bottom:none}
+.list-item small{color:var(--muted);display:block}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+
+/* availability checker */
+.checker{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.checker .field{margin:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--free-bg);color:var(--free);border:1px solid #bfe5cc;border-radius:99px;padding:6px 8px 6px 12px;font-weight:600;font-size:13px;display:flex;gap:8px;align-items:center}
+.chip button{background:var(--free);color:#fff;border:none;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer}
+
+/* calendar */
+.cal-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:#fff;max-height:78vh}
+table.cal{border-collapse:separate;border-spacing:0;min-width:100%;table-layout:fixed}
+table.cal th,table.cal td{border-right:1px solid #eef1f5;border-bottom:1px solid #eef1f5;height:44px;text-align:center;font-size:12px;padding:0}
+table.cal thead th{position:sticky;top:0;background:#fff;z-index:3;height:46px;font-weight:600;color:var(--muted)}
+table.cal thead th b{display:block;font-size:14px;color:var(--text)}
+table.cal thead th.today{background:var(--navy);color:#cbd8ee}
+table.cal thead th.today b{color:#fff}
+table.cal thead th.wknd{background:#f6f8fb}
+table.cal th.camname{position:sticky;left:0;z-index:2;background:#fff;text-align:left;padding:0 12px;width:170px;min-width:170px;font-size:13px;font-weight:700;border-right:2px solid var(--border)}
+table.cal thead th.camname{z-index:4}
+table.cal col.d{width:40px}
+td.free{background:var(--free-bg);cursor:pointer}
+td.free:hover{background:#c9ecd6}
+td.free.today{box-shadow:inset 0 0 0 2px var(--navy)}
+td.blk{cursor:pointer;font-weight:700;border-radius:0;padding:0 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
+td.blk.reserved{background:var(--res-bg);color:var(--res);box-shadow:inset 0 0 0 1px #f0cf85}
+td.blk.rented{background:var(--out-bg);color:var(--out);box-shadow:inset 0 0 0 1px #aac3f7}
+td.blk.returned{background:var(--ret-bg);color:#7b8aa0;font-weight:500}
+td.maint{background:repeating-linear-gradient(45deg,#e2e8f0,#e2e8f0 6px,#f1f5f9 6px,#f1f5f9 12px);color:var(--maint)}
+tr.countrow th,tr.countrow td{background:#fafbfd;font-weight:700;height:34px}
+tr.countrow td.zero{color:var(--over)}
+tr.countrow td.some{color:var(--free)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav h3{min-width:160px;text-align:center;font-size:18px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.tbl th{text-align:left;font-size:12.5px;color:var(--muted);font-weight:700;padding:10px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+table.tbl td{padding:12px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+table.tbl td small{display:block;color:var(--muted)}
+table.tbl tr:hover td{background:#fafbfd}
+.num{text-align:right!important;white-space:nowrap}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.filters input,.filters select{padding:10px 12px;border:1px solid #d5dde8;border-radius:10px;background:#fff}
+.filters input{flex:1;min-width:200px}
+
+/* bars */
+.bar-row{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin-bottom:10px;font-size:14px}
+.bar-row .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{background:var(--light);border-radius:6px;height:20px;overflow:hidden}
+.bar-fill{background:linear-gradient(90deg,#123966,#2f5f9a);height:100%;border-radius:6px;min-width:2px}
+.bar-row .val{text-align:right;font-weight:700}
+.bar-row small{color:var(--muted);font-weight:400}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(3,10,25,.6);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:640px;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.modal h3{font-size:20px;margin-bottom:16px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.modal-actions .spacer{flex:1}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.checks label{display:flex;gap:8px;align-items:center;font-weight:500;font-size:14px;border:1px solid #d5dde8;border-radius:9px;padding:8px 10px;margin:0;cursor:pointer}
+.checks label:has(input:checked){background:var(--out-bg);border-color:#aac3f7}
+.checks label:has(input:disabled){opacity:.45;cursor:not-allowed}
+.checks input{width:auto}
+.inline-check{display:flex;gap:8px;align-items:center;font-weight:500!important}
+.inline-check input{width:auto}
+.warn{background:var(--over-bg);color:var(--over);border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:12px}
+.info{background:var(--light);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--muted);margin-bottom:12px}
+.link-btn{background:none;border:none;color:var(--blue);text-decoration:underline;cursor:pointer;font-size:12.5px;font-weight:600}
+
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;z-index:200;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+
+/* contracts */
+.ct-layout{display:grid;grid-template-columns:380px 1fr;gap:18px;align-items:start}
+.ct-form{position:sticky;top:78px;margin-bottom:0}
+.ct-preview{overflow-x:auto}
+.doc{background:#fff;width:794px;max-width:100%;margin:0 auto;padding:44px 50px;border:1px solid var(--border);border-radius:6px;box-shadow:0 10px 40px rgba(3,17,40,.10);font-size:12.5px;line-height:1.55;color:#0a1938}
+.doc-head{display:flex;align-items:center;gap:20px;border-bottom:2px solid var(--navy);padding-bottom:16px;margin-bottom:18px}
+.doc-head img{width:150px;height:auto;flex-shrink:0}
+.doc-head h1{font-size:20px;letter-spacing:.5px}
+.doc-head p{color:var(--muted);margin:2px 0 0}
+.doc p{margin:0 0 7px}
+.doc h4{font-family:"Montserrat",sans-serif;font-size:13px;margin:14px 0 4px}
+.doc ul.eq{margin:0 0 9px 22px;font-weight:700}
+.doc .clause,.doc .sig{break-inside:avoid;page-break-inside:avoid}
+.doc .sig{margin-top:20px}
+.doc .sig-row{display:flex;gap:26px;margin-top:34px}
+.doc .sig-line{flex:1;border-top:1px solid #0a1938;padding-top:4px;font-size:11.5px;color:var(--muted);position:relative}
+.doc .sig-name{position:absolute;left:0;right:0;bottom:100%;margin-bottom:3px;color:#0a1938;font-weight:700;font-size:12.5px}
+.doc .doc-foot{margin-top:22px;border-top:1px solid #dde4ee;padding-top:10px;text-align:center;color:var(--muted);font-size:11px}
+.bar-row.clickable{cursor:pointer;border-radius:8px;padding:3px 4px;margin-left:-4px;margin-right:-4px}
+.bar-row.clickable:hover{background:var(--light)}
+.bar-row.clickable.sel{background:var(--light);outline:2px solid var(--navy)}
+.month-in{padding:8px 10px;border:1px solid #d5dde8;border-radius:10px;background:#fff}
+@media(max-width:1000px){.ct-layout{grid-template-columns:1fr}.ct-form{position:static}.doc{padding:26px 20px}.doc-head{flex-direction:column;align-items:flex-start}.doc .sig-row{flex-direction:column;gap:38px}.doc .sig-line{max-width:none!important}}
+@media print{
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff!important}
+  .top,.ct-head,.ct-form,#toast,#modal{display:none!important}
+  main{max-width:none!important;padding:0!important;margin:0!important}
+  .ct-layout{display:block}
+  .ct-preview{overflow:visible}
+  .doc{width:100%!important;max-width:none!important;border:0;box-shadow:none;border-radius:0;padding:0;font-size:10.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .doc-head img{width:130px}
+}
+/* sync badge */
+.sync{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.sync.ok{background:var(--free-bg);color:var(--free)}
+.sync.busy,.sync.warn{background:var(--res-bg);color:var(--res)}
+.sync.bad{background:var(--over-bg);color:var(--over)}
+.pos,.kpi strong.pos{color:var(--free)}
+.neg,.kpi strong.neg{color:var(--over)}
+.mini{display:flex;flex-direction:column;gap:3px}
+.mini i{display:block;height:7px;border-radius:4px;min-width:2px}
+.bar-fill.green{background:linear-gradient(90deg,#15803d,#22a35a)}
+.bar-fill.amber{background:linear-gradient(90deg,#b45309,#d97706)}
+/* units */
+.cam .units{margin-top:8px}
+.u{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 0;border-top:1px solid var(--border);font-size:13px}
+.u .ul{font-weight:700;min-width:62px}
+.u small{flex-basis:100%;color:var(--muted)}
+.chip.none{background:var(--light);color:var(--muted);border-color:var(--border);padding:6px 12px}
+.checks label.busy{color:var(--over);background:var(--over-bg);border-color:#f3c0c0}
+.checks label span{flex:1}
+.checks em{font-style:normal;font-size:12px;font-weight:700}
+.unit-row{display:grid;grid-template-columns:1fr 100px 140px auto;gap:8px;margin-bottom:8px}
+.unit-row input,.unit-row select{padding:10px 12px;border:1px solid #d5dde8;border-radius:10px;background:#fff;width:100%}
+table.cal th.camname b{display:block;line-height:1.15;font-size:13px}
+table.cal th.camname small{display:block;font-weight:500;color:var(--muted);font-size:11px;line-height:1.1}
+table.cal tr.grp > *{border-top:2px solid #cfd8e6}
+@media(max-width:620px){.unit-row{grid-template-columns:1fr 1fr}.unit-row button{grid-column:1/-1}}
+@media(max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr)}.board{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:620px){
+  .brand span{display:none}
+  .board{grid-template-columns:1fr}
+  .row2,.row3,.checks{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:100px 1fr 76px}
+  .kpi strong{font-size:22px}
+  table.cal th.camname{width:104px;min-width:104px;font-size:12px;padding:0 8px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login">
+  <form class="login-box" id="loginForm" autocomplete="on">
+    <img src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w300" alt="" onerror="this.style.display='none'">
+    <h1>SnapGear Admin</h1>
+    <p class="sub">Sign in to manage bookings and availability</p>
+    <div class="field"><label for="lu">Username</label><input id="lu" autocomplete="username" required></div>
+    <div class="field"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" required></div>
+    <button class="btn" type="submit">Sign in</button>
+    <div class="err" id="loginErr"></div>
+    <div class="hint" id="loginHint" hidden>First time here? Sign in with <b>admin</b> / <b>snapgear123</b>, then change them in Settings.</div>
+  </form>
+</div>
+
+<!-- APP -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="top-in">
+      <div class="brand">
+        <img src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w300" alt="" onerror="this.style.display='none'">
+        <span>SnapGear Admin</span>
+      </div>
+      <nav class="tabs" id="tabs">
+        <button class="tab-btn active" data-act="tab" data-tab="dash">Dashboard</button>
+        <button class="tab-btn" data-act="tab" data-tab="cal">Calendar</button>
+        <button class="tab-btn" data-act="tab" data-tab="book">Bookings</button>
+        <button class="tab-btn" data-act="tab" data-tab="sales">Sales</button>
+        <button class="tab-btn" data-act="tab" data-tab="ct">Contracts</button>
+        <button class="tab-btn" data-act="tab" data-tab="equip">Equipment</button>
+        <button class="tab-btn" data-act="tab" data-tab="set">Settings</button>
+      </nav>
+      <span class="sync" id="sync"></span>
+      <button class="logout" data-act="logout">Log out</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="tab-dash"></section>
+    <section id="tab-cal" hidden></section>
+    <section id="tab-book" hidden></section>
+    <section id="tab-sales" hidden></section>
+    <section id="tab-ct" hidden></section>
+    <section id="tab-equip" hidden></section>
+    <section id="tab-set" hidden></section>
+  </main>
+</div>
+
+<div class="overlay" id="modal" hidden><div class="modal" id="modalBox"></div></div>
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* =========================================================
+   HELPERS
+========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse = s => new Date(s + 'T00:00:00');
+const today = () => iso(new Date());
+const addDays = (s,n) => { const d = parse(s); d.setDate(d.getDate()+n); return iso(d); };
+const diff = (a,b) => Math.round((parse(b) - parse(a)) / 864e5);
+const fmt = s => parse(s).toLocaleDateString('en-PH',{month:'short',day:'numeric'});
+const peso = n => '₱' + Math.round(Number(n)||0).toLocaleString('en-PH');
+const uid = () => 'b' + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3);
+
+const KEY = 'snapgear_admin_v1';
+const SESSION = 'snapgear_admin_session';
+const RES_FEE = 200;
+const LOGO = 'data:image/png;base64,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';
+
+/* ---------------------------------------------------------
+   CLOUD SYNC (Firebase). Paste your Firebase web config
+   between the braces below, replacing the word null.
+   Leave it as null to keep using this device only.
+--------------------------------------------------------- */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC0RlTj2tfwEWUEESfw2pTnoEjXLy6Kses",
+  authDomain: "snapgear-7d4c5.firebaseapp.com",
+  projectId: "snapgear-7d4c5",
+  storageBucket: "snapgear-7d4c5.firebasestorage.app",
+  messagingSenderId: "702346246144",
+  appId: "1:702346246144:web:22e68279351929a4d440e5"
+};
+const CLOUD = !!FIREBASE_CONFIG;
+const JOINED = 'snapgear_cloud_joined';
+let fbAuth = null, fbDoc = null, cloudEmail = '', cloudUnsub = null, cloudFirst = true;
+
+/* =========================================================
+   DATA  (each camera model has one or more physical units;
+   bookings store unit ids in b.cameras)
+========================================================= */
+const DEFAULT_UNITS = {
+  pocket3: ['Unit 1','Unit 2','Unit 3'],
+  pocket4: ['Unit 1','Unit 2'],
+  xt30: ['Kitlens','35mm lens'],
+  goultra: ['Unit 1','Unit 2']
+};
+function mkUnits(id, labels, status='active'){ return labels.map((l,i) => ({id:`${id}-u${i+1}`, label:l, status})); }
+
+function migrate(d){
+  d.cameras.forEach(c => {
+    if(!Array.isArray(c.units) || !c.units.length){
+      c.units = mkUnits(c.id, DEFAULT_UNITS[c.id] || ['Unit 1'], c.status === 'maintenance' ? 'maintenance' : 'active');
+    }
+    delete c.status;
+  });
+  d.bookings.forEach(b => {
+    b.cameras = (b.cameras || []).map(id => {
+      if(d.cameras.some(c => c.units.some(u => u.id === id))) return id;
+      const c = d.cameras.find(c => c.id === id);
+      return c ? c.units[0].id : id;
+    });
+  });
+  if(!Array.isArray(d.expenses)) d.expenses = [];
+  return d;
+}
+function defaults(){
+  return migrate({
+    cameras: [
+      {id:'pocket3', name:'DJI Osmo Pocket 3 Creator Combo', short:'Osmo Pocket 3', rate3:435, rate4:375},
+      {id:'pocket4', name:'DJI Osmo Pocket 4 Creator Combo', short:'Osmo Pocket 4', rate3:550, rate4:450},
+      {id:'xt30', name:'Fujifilm XT30 II', short:'Fujifilm XT30 II', rate3:650, rate4:550},
+      {id:'g7x', name:'Canon G7X Mark III', short:'Canon G7X III', rate3:600, rate4:500},
+      {id:'goultra', name:'Insta360 GO Ultra', short:'Insta360 GO Ultra', rate3:500, rate4:400},
+      {id:'nano', name:'DJI Osmo Nano', short:'Osmo Nano', rate3:435, rate4:375},
+      {id:'tamron', name:'Tamron 18-300mm Fuji X Lens', short:'Tamron 18-300', rate3:650, rate4:550},
+      {id:'x4', name:'Insta360 X4', short:'Insta360 X4', rate3:500, rate4:400}
+    ],
+    bookings: [],
+    auth: {user:'admin', hash:null, isDefault:true}
+  });
+}
+function load(){
+  try{
+    const r = localStorage.getItem(KEY);
+    if(r){ const d = JSON.parse(r); if(d && d.cameras && d.bookings){ d.auth = d.auth || defaults().auth; return migrate(d); } }
+  }catch(e){}
+  return defaults();
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch(e){ toast('Could not save on this device. Check that browser storage is not blocked.'); }
+  if(CLOUD && fbDoc && fbAuth.currentUser) cloudWrite();
+}
+let db = load();
+
+async function sha(s){
+  if(window.crypto && crypto.subtle){
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('sg|' + s));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('');
+  }
+  let h = 5381; for(const c of 'sg|' + s) h = ((h << 5) + h + c.charCodeAt(0)) | 0;
+  return 'f' + h;
+}
+
+/* =========================================================
+   BUSINESS LOGIC
+========================================================= */
+const occ = b => b.status === 'reserved' || b.status === 'rented';
+const cam = id => db.cameras.find(c => c.id === id);                  /* model */
+function U(id){ for(const c of db.cameras){ const u = c.units.find(x => x.id === id); if(u) return {u, c}; } return null; }
+const modelOf = id => { const r = U(id); return r ? r.c : null; };
+function uName(id){ const r = U(id); if(!r) return '(deleted)'; return r.c.units.length > 1 ? `${r.c.short} (${r.u.label})` : r.c.short; }
+const camName = uName;
+const allUnits = () => db.cameras.flatMap(c => c.units.map(u => ({u, c})));
+
+function calcAmount(ids, days){
+  days = Math.max(days, 1);
+  const parts = {}; let total = 0;
+  const models = ids.map(id => (modelOf(id) || {}).id);
+  const combo = models.includes('xt30') && models.includes('tamron');      /* website promo */
+  ids.forEach(id => {
+    const c = modelOf(id); if(!c) return;
+    let rate = days >= 4 ? c.rate4 : c.rate3;
+    if(combo && c.id === 'tamron') rate = 500;
+    parts[id] = rate * days; total += parts[id];
+  });
+  return {total, parts};
+}
+
+function conflictsFor(ids, start, end, ignoreId){
+  const out = [];
+  ids.forEach(id => {
+    const r = U(id); if(!r) return;
+    if(r.u.status === 'maintenance') out.push(`${uName(id)} is under maintenance`);
+    db.bookings.forEach(b => {
+      if(b.id === ignoreId || !occ(b) || !b.cameras.includes(id)) return;
+      if(start <= b.end && end >= b.start) out.push(`${uName(id)} is already booked ${fmt(b.start)} – ${fmt(b.end)} (${b.renter})`);
+    });
+  });
+  return out;
+}
+
+function unitStatus(id, d){
+  const r = U(id);
+  if(!r || r.u.status === 'maintenance') return {k:'maint', label:'Maintenance'};
+  const bs = db.bookings.filter(b => occ(b) && b.cameras.includes(id));
+  const cur = bs.find(b => b.start <= d && b.end >= d);
+  if(cur) return {k: cur.status === 'rented' ? 'out' : 'reserved', b:cur, label: cur.status === 'rented' ? 'Out on rental' : 'Reserved'};
+  const od = bs.find(b => b.status === 'rented' && b.end < d);
+  if(od) return {k:'overdue', b:od, label:'Overdue return'};
+  return {k:'available', label:'Available'};
+}
+function nextBooking(id, d){
+  return db.bookings.filter(b => occ(b) && b.cameras.includes(id) && b.start > d).sort((a,b) => a.start.localeCompare(b.start))[0];
+}
+
+function revenueOf(b){
+  if(b.status === 'rented' || b.status === 'returned') return (Number(b.amount) || 0) + (Number(b.extra) || 0);
+  if(b.status === 'cancelled' && b.feePaid) return RES_FEE;
+  return 0;
+}
+function allocate(b){
+  const rev = revenueOf(b);
+  if(!b.cameras.length) return [];
+  if(b.status === 'cancelled') return b.cameras.map(id => [id, rev / b.cameras.length]);
+  const {parts} = calcAmount(b.cameras, diff(b.start, b.end));
+  const sum = Object.values(parts).reduce((a,x) => a + x, 0);
+  return b.cameras.map(id => [id, sum ? rev * (parts[id] || 0) / sum : rev / b.cameras.length]);
+}
+
+/* =========================================================
+   UI BASICS
+========================================================= */
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2800); }
+function openModal(html){ $('#modalBox').innerHTML = html; $('#modal').hidden = false; }
+function closeModal(){ $('#modal').hidden = true; $('#modalBox').innerHTML = ''; }
+$('#modal').addEventListener('mousedown', e => { if(e.target.id === 'modal') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+let curTab = 'dash';
+function showTab(t){
+  curTab = t;
+  document.querySelectorAll('main > section').forEach(s => s.hidden = s.id !== 'tab-' + t);
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  render();
+}
+function render(){
+  ({dash:renderDash, cal:renderCal, book:renderBook, sales:renderSales, ct:renderContracts, equip:renderEquip, set:renderSet})[curTab]();
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+async function boot(){
+  if(CLOUD){ cloudBoot(); return; }
+  if(!db.auth.hash){ db.auth.hash = await sha('snapgear123'); db.auth.isDefault = true; save(); }
+  $('#loginHint').hidden = !db.auth.isDefault;
+  if(sessionStorage.getItem(SESSION) === '1') enter();
+}
+function enter(){ $('#login').hidden = true; $('#app').hidden = false; setSync('This device only','warn'); showTab('dash'); }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const u = $('#lu').value.trim(), p = $('#lp').value;
+  if(CLOUD){
+    $('#loginErr').textContent = '';
+    try{ await fbAuth.signInWithEmailAndPassword(u, p); $('#lp').value = ''; }
+    catch(err){ $('#loginErr').textContent = authMsg(err); }
+    return;
+  }
+  if(u === db.auth.user && await sha(p) === db.auth.hash){
+    sessionStorage.setItem(SESSION, '1'); $('#loginErr').textContent = ''; $('#lp').value = ''; enter();
+  } else { $('#loginErr').textContent = 'Wrong username or password.'; }
+});
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+let chk = {from: today(), to: addDays(today(), 1)};
+
+function unitInfo(s, id, t){
+  if(s.k === 'out') return `Back ${fmt(s.b.end)} · ${esc(s.b.renter)}`;
+  if(s.k === 'reserved') return `Pickup ${fmt(s.b.start)} · ${esc(s.b.renter)}`;
+  if(s.k === 'overdue') return `Was due ${fmt(s.b.end)} · ${esc(s.b.renter)}`;
+  if(s.k === 'maint') return 'Not rentable right now';
+  const nx = nextBooking(id, t);
+  return nx ? `Free until ${fmt(addDays(nx.start,-1))}` : 'No upcoming bookings';
+}
+
+function renderDash(){
+  const t = today();
+  const units = allUnits().map(x => ({...x, s: unitStatus(x.u.id, t)}));
+  const nAvail = units.filter(x => x.s.k === 'available').length;
+  const nOut = units.filter(x => x.s.k === 'out' || x.s.k === 'overdue').length;
+  const ym = t.slice(0,7);
+  const monthRev = db.bookings.filter(b => b.start.slice(0,7) === ym).reduce((a,b) => a + revenueOf(b), 0);
+  const monthExp = db.expenses.filter(e => e.date.slice(0,7) === ym).reduce((a,e) => a + (Number(e.amount)||0), 0);
+  const held = db.bookings.filter(b => b.depositStatus === 'held' && b.status !== 'cancelled').reduce((a,b) => a + (Number(b.deposit)||0), 0);
+
+  const pickups = db.bookings.filter(b => b.status === 'reserved' && b.start <= t).sort((a,b) => a.start.localeCompare(b.start));
+  const returns = db.bookings.filter(b => b.status === 'rented' && b.end <= t).sort((a,b) => a.end.localeCompare(b.end));
+  const upcoming = db.bookings.filter(b => b.status === 'reserved' && b.start > t).sort((a,b) => a.start.localeCompare(b.start)).slice(0,5);
+
+  const board = db.cameras.map(c => {
+    const rows = c.units.map(u => ({u, s: unitStatus(u.id, t)}));
+    const free = rows.filter(r => r.s.k === 'available').length, n = rows.length;
+    const k = free === n ? 'available' : free === 0 ? 'out' : 'reserved';
+    return `<div class="cam ${k}"><h4>${esc(c.short)}</h4><span class="pill ${k}">${free} of ${n} free</span>
+      <div class="units">${rows.map(({u,s}) => `<div class="u">${n > 1 ? `<span class="ul">${esc(u.label)}</span>` : ''}<span class="pill ${s.k}">${s.label}</span><small>${unitInfo(s, u.id, t)}</small></div>`).join('')}</div></div>`;
+  }).join('');
+
+  $('#tab-dash').innerHTML = `
+  <div class="page-head">
+    <div><h2>Dashboard</h2><p>${new Date().toLocaleDateString('en-PH',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</p></div>
+    <div class="actions"><button class="btn" data-act="newBooking">+ New booking</button></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><small>Available today</small><strong>${nAvail} / ${units.length}</strong><span>units ready to rent</span></div>
+    <div class="kpi"><small>Out on rental</small><strong>${nOut}</strong><span>${nOut ? 'units currently with renters' : 'none right now'}</span></div>
+    <div class="kpi"><small>Sales this month</small><strong>${peso(monthRev)}</strong><span>profit ${(monthRev - monthExp < 0 ? '-' : '') + peso(Math.abs(monthRev - monthExp))} after expenses</span></div>
+    <div class="kpi"><small>Deposits held</small><strong>${peso(held)}</strong><span>to refund after return</span></div>
+  </div>
+
+  <div class="card">
+    <h3>Camera status today</h3>
+    <div class="board">${board}</div>
+  </div>
+
+  <div class="card">
+    <h3>Check availability for dates</h3>
+    <div class="checker">
+      <div class="field"><label>From</label><input type="date" id="chkFrom" value="${chk.from}"></div>
+      <div class="field"><label>Until (return date)</label><input type="date" id="chkTo" value="${chk.to}"></div>
+    </div>
+    <div id="chkResult"></div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h3>Needs action</h3>
+      ${returns.map(b => `<div class="list-item"><div><b>${esc(b.renter)}</b> ${b.end < t ? '<span class="pill overdue">Overdue</span>' : '<span class="pill reserved">Return today</span>'}<small>${b.cameras.map(camName).map(esc).join(' + ')} · due ${fmt(b.end)}</small></div><div class="actions"><button class="btn sm ghost" data-act="copyMsg" data-id="${b.id}">Copy reminder</button><button class="btn sm green" data-act="quickReturn" data-id="${b.id}">Mark returned</button></div></div>`).join('')}
+      ${pickups.map(b => `<div class="list-item"><div><b>${esc(b.renter)}</b> <span class="pill reserved">${b.start < t ? 'Late pickup' : 'Pickup today'}</span><small>${b.cameras.map(camName).map(esc).join(' + ')} · starts ${fmt(b.start)}</small></div><div class="actions"><button class="btn sm ghost" data-act="copyMsg" data-id="${b.id}">Copy reminder</button><button class="btn sm" data-act="quickRent" data-id="${b.id}">Mark rented out</button></div></div>`).join('')}
+      ${!returns.length && !pickups.length ? '<div class="empty">Nothing to do. No pickups or returns waiting.</div>' : ''}
+    </div>
+    <div class="card">
+      <h3>Upcoming reservations</h3>
+      ${upcoming.length ? upcoming.map(b => `<div class="list-item" style="cursor:pointer" data-act="editBooking" data-id="${b.id}"><div><b>${esc(b.renter)}</b><small>${b.cameras.map(camName).map(esc).join(' + ')}</small></div><div style="text-align:right">${fmt(b.start)} – ${fmt(b.end)}<small>${peso(b.amount)}</small></div></div>`).join('') : '<div class="empty">No upcoming reservations yet.</div>'}
+    </div>
+  </div>`;
+  runCheck();
+  $('#chkFrom').addEventListener('change', e => { chk.from = e.target.value; if(chk.to < chk.from){ chk.to = chk.from; $('#chkTo').value = chk.to; } runCheck(); });
+  $('#chkTo').addEventListener('change', e => { chk.to = e.target.value; runCheck(); });
+}
+function runCheck(){
+  const box = $('#chkResult'); if(!box) return;
+  if(!chk.from || !chk.to || chk.to < chk.from){ box.innerHTML = '<div class="empty">Pick a valid date range.</div>'; return; }
+  let totalFree = 0, total = 0;
+  const chips = db.cameras.map(c => {
+    const free = c.units.filter(u => !conflictsFor([u.id], chk.from, chk.to).length);
+    totalFree += free.length; total += c.units.length;
+    if(!free.length) return `<span class="chip none">${esc(c.short)} · none free</span>`;
+    const names = c.units.length > 1 ? ` (${free.map(u => esc(u.label)).join(', ')})` : '';
+    return `<span class="chip">${esc(c.short)} · ${free.length} of ${c.units.length} free${names}<button data-act="newBooking" data-cam="${free[0].id}" data-start="${chk.from}" data-end="${chk.to}">Book</button></span>`;
+  }).join('');
+  box.innerHTML = `<div class="chips">${chips}</div><p class="empty" style="margin-top:8px">${totalFree} of ${total} units free for ${fmt(chk.from)} – ${fmt(chk.to)}.</p>`;
+}
+
+/* =========================================================
+   CALENDAR  (one row per physical unit)
+========================================================= */
+let calM = {y: new Date().getFullYear(), m: new Date().getMonth()};
+
+function renderCal(){
+  const {y,m} = calM;
+  const nd = new Date(y, m+1, 0).getDate();
+  const last = `${y}-${pad(m+1)}-${pad(nd)}`;
+  const t = today();
+  const title = new Date(y,m,1).toLocaleDateString('en-PH',{month:'long',year:'numeric'});
+  const dayIso = d => `${y}-${pad(m+1)}-${pad(d)}`;
+
+  let head = '<tr><th class="camname">Camera</th>';
+  for(let d=1; d<=nd; d++){
+    const i = dayIso(d), dow = parse(i).getDay();
+    head += `<th class="${i === t ? 'today' : ''} ${dow===0||dow===6 ? 'wknd' : ''}"><b>${d}</b>${'SMTWTFS'[dow]}</th>`;
+  }
+  head += '</tr>';
+
+  const showB = (id, i) => {
+    const hit = db.bookings.filter(b => b.status !== 'cancelled' && b.cameras.includes(id) && b.start <= i && b.end >= i);
+    return hit.find(occ) || hit[0];
+  };
+
+  let rows = '';
+  db.cameras.forEach(c => c.units.forEach((u, ui) => {
+    const multi = c.units.length > 1;
+    rows += `<tr class="${ui === 0 ? 'grp' : ''}"><th class="camname" title="${esc(c.name)}"><b>${esc(c.short)}</b>${multi ? `<small>${esc(u.label)}</small>` : ''}</th>`;
+    for(let d=1; d<=nd;){
+      const i = dayIso(d);
+      if(u.status === 'maintenance'){ rows += `<td class="maint" title="Under maintenance">${d === 1 ? 'Maintenance' : ''}</td>`; d++; continue; }
+      const b = showB(u.id, i);
+      if(b){
+        const endI = b.end < last ? b.end : last;
+        const span = diff(i, endI) + 1;
+        const label = span >= 3 ? esc(b.renter) : (span === 2 ? esc(b.renter.split(' ')[0]) : esc(b.renter.charAt(0)));
+        rows += `<td colspan="${span}" class="blk ${b.status}" data-act="editBooking" data-id="${b.id}" title="${esc(b.renter)} · ${fmt(b.start)} – ${fmt(b.end)} · ${b.status}">${label}</td>`;
+        d += span;
+      } else {
+        rows += `<td class="free ${i === t ? 'today' : ''}" data-act="calFree" data-cam="${u.id}" data-date="${i}" title="Available ${fmt(i)}. Click to book."></td>`;
+        d++;
+      }
+    }
+    rows += '</tr>';
+  }));
+
+  let count = '<tr class="countrow"><th class="camname">Free units</th>';
+  for(let d=1; d<=nd; d++){
+    const i = dayIso(d);
+    const n = allUnits().filter(({u}) => u.status !== 'maintenance' && !db.bookings.some(b => occ(b) && b.cameras.includes(u.id) && b.start <= i && b.end >= i)).length;
+    count += `<td class="${n === 0 ? 'zero' : 'some'}">${n}</td>`;
+  }
+  count += '</tr>';
+
+  $('#tab-cal').innerHTML = `
+  <div class="page-head">
+    <div><h2>Master calendar</h2><p>One row per unit. Green cells are free. Click a free cell to book, or a colored block to edit.</p></div>
+    <div class="actions cal-nav">
+      <button class="btn ghost sm" data-act="calPrev">◀</button>
+      <h3>${title}</h3>
+      <button class="btn ghost sm" data-act="calNext">▶</button>
+      <button class="btn ghost sm" data-act="calToday">Today</button>
+      <button class="btn sm" data-act="newBooking">+ New booking</button>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--free-bg);border:1px solid #bfe5cc"></i>Available</span>
+    <span><i style="background:var(--res-bg);border:1px solid #f0cf85"></i>Reserved</span>
+    <span><i style="background:var(--out-bg);border:1px solid #aac3f7"></i>Rented out</span>
+    <span><i style="background:var(--ret-bg)"></i>Returned</span>
+    <span><i style="background:repeating-linear-gradient(45deg,#e2e8f0,#e2e8f0 3px,#f1f5f9 3px,#f1f5f9 6px)"></i>Maintenance</span>
+  </div>
+  <div class="cal-wrap"><table class="cal"><colgroup><col style="width:170px">${'<col class="d">'.repeat(nd)}</colgroup><thead>${head}</thead><tbody>${rows}${count}</tbody></table></div>`;
+}
+
+/* =========================================================
+   BOOKINGS LIST
+========================================================= */
+let bf = {q:'', status:'all'};
+function renderBook(){
+  $('#tab-book').innerHTML = `
+  <div class="page-head">
+    <div><h2>Bookings</h2><p>Every reservation, rental and return.</p></div>
+    <div class="actions"><button class="btn" data-act="newBooking">+ New booking</button></div>
+  </div>
+  <div class="filters">
+    <input id="bq" placeholder="Search renter, contact or camera" value="${esc(bf.q)}">
+    <select id="bs">
+      ${[['all','All statuses'],['reserved','Reserved'],['rented','Rented out'],['returned','Returned'],['cancelled','Cancelled']].map(([v,l]) => `<option value="${v}" ${bf.status===v?'selected':''}>${l}</option>`).join('')}
+    </select>
+  </div>
+  <div class="card"><div class="tbl-wrap" id="bTable"></div></div>`;
+  $('#bq').addEventListener('input', e => { bf.q = e.target.value; drawBookTable(); });
+  $('#bs').addEventListener('change', e => { bf.status = e.target.value; drawBookTable(); });
+  drawBookTable();
+}
+function drawBookTable(){
+  const q = bf.q.toLowerCase();
+  const cnt = {};
+  db.bookings.forEach(b => { if(b.status !== 'cancelled'){ const k = b.renter.trim().toLowerCase(); cnt[k] = (cnt[k] || 0) + 1; } });
+  const list = db.bookings
+    .filter(b => (bf.status === 'all' || b.status === bf.status))
+    .filter(b => !q || (b.renter + ' ' + (b.contact||'') + ' ' + b.cameras.map(camName).join(' ')).toLowerCase().includes(q))
+    .sort((a,b) => b.start.localeCompare(a.start));
+  const label = {reserved:'Reserved', rented:'Rented out', returned:'Returned', cancelled:'Cancelled'};
+  const dep = {pending:'Deposit pending', held:'Deposit held', refunded:'Deposit refunded'};
+  $('#bTable').innerHTML = list.length ? `
+  <table class="tbl"><thead><tr><th>Dates</th><th>Renter</th><th>Gear</th><th class="num">Rental</th><th>Status</th><th></th></tr></thead><tbody>
+  ${list.map(b => {
+    const n = Math.max(diff(b.start,b.end),1);
+    const rc = cnt[b.renter.trim().toLowerCase()] || 0;
+    const done = CHECKS.filter(([k]) => b.checks && b.checks[k]).length;
+    const ver = (b.status === 'reserved' || b.status === 'rented') ? ` · Verified ${done}/${CHECKS.length}` : '';
+    return `<tr>
+    <td>${fmt(b.start)} – ${fmt(b.end)}<small>${n} day${n>1?'s':''}</small></td>
+    <td><b>${esc(b.renter)}</b>${rc > 1 && b.status !== 'cancelled' ? ' <span class="pill pending">Repeat · ' + rc + ' rentals</span>' : ''}<small>${esc(b.contact||'')}${ver}</small></td>
+    <td>${b.cameras.map(c => esc(camName(c))).join('<br>')}</td>
+    <td class="num">${peso(b.amount)}${Number(b.extra) ? ' + ' + peso(b.extra) : ''}<small>${b.feePaid ? 'Fee paid' : 'Fee unpaid'}${b.status === 'reserved' ? ' · collect ' + peso(balanceDue(b)) : ''}</small></td>
+    <td><span class="pill ${b.status}">${label[b.status]}</span><br><span class="pill ${b.depositStatus}" style="margin-top:4px">${dep[b.depositStatus]} ${b.deposit ? '· ' + peso(b.deposit) : ''}</span></td>
+    <td class="num">
+      ${b.status === 'reserved' || b.status === 'rented' ? `<button class="btn sm ghost" data-act="copyMsg" data-id="${b.id}">Copy reminder</button> ` : ''}
+      ${b.status === 'reserved' ? `<button class="btn sm" data-act="quickRent" data-id="${b.id}">Rent out</button> ` : ''}
+      ${b.status === 'rented' ? `<button class="btn sm green" data-act="quickReturn" data-id="${b.id}">Returned</button> ` : ''}
+      <button class="btn sm ghost" data-act="editBooking" data-id="${b.id}">Edit</button>
+    </td></tr>`; }).join('')}
+  </tbody></table>` : '<div class="empty">No bookings match. Add one with “New booking”.</div>';
+}
+
+/* =========================================================
+   BOOKING MODAL
+========================================================= */
+const CHECKS = [['ids','2 valid IDs + selfie'],['bill','Billing statement'],['fb','Facebook connected'],['video','Video verification'],['contract','Agreement signed']];
+const balanceDue = b => (Number(b.amount)||0) + (Number(b.extra)||0) + (Number(b.deposit)||0) - (b.feePaid ? RES_FEE : 0);
+
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){ prompt('Copy this message:', text); }
+  ta.remove();
+}
+function copyText(text){
+  const done = () => toast('Message copied. Paste it in Messenger.');
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  else fallbackCopy(text, done);
+}
+function reminderText(b){
+  const gear = b.cameras.map(camName).join(' + '), t = today(), first = b.renter.trim().split(' ')[0];
+  if(b.status === 'rented'){
+    const when = b.end < t ? `noong ${fmt(b.end)}` : b.end === t ? 'ngayong araw' : `sa ${fmt(b.end)}`;
+    return `Hi ${first}! Friendly reminder po na due na ang return ng ${gear} ${when}. Pakisabi po kung anong oras kayo makakapag-return o kung kailangan ng pick-up. Salamat po! – SnapGear Rentals`;
+  }
+  return `Hi ${first}! Reminder po sa rental ninyo ng ${gear} (${fmt(b.start)} – ${fmt(b.end)}). Ang babayaran sa rental day ay ${peso(balanceDue(b))}, kasama na ang refundable security deposit. Salamat po! – SnapGear Rentals`;
+}
+
+let editingId = null, fm = {amt:false, dep:false};
+
+function openBooking(id, pre = {}){
+  editingId = id || null;
+  const b = id ? db.bookings.find(x => x.id === id) : null;
+  const start = pre.start || today();
+  const d = b || {renter:'', contact:'', cameras: pre.cam ? [pre.cam] : [], start, end: pre.end || addDays(start,1), status:'reserved', feePaid:false, amount:0, extra:0, deposit:1000, depositStatus:'pending', notes:'', amountManual:false, checks:{}};
+  fm.amt = !!d.amountManual;
+  fm.dep = b ? Number(d.deposit) !== 1000 * d.cameras.length : false;
+
+  openModal(`
+  <h3>${b ? 'Edit booking' : 'New booking'}</h3>
+  <div id="f_warn"></div>
+  <div class="row2">
+    <div class="field"><label>Renter name</label><input id="f_renter" value="${esc(d.renter)}" placeholder="Full name"></div>
+    <div class="field"><label>Contact or Facebook</label><input id="f_contact" value="${esc(d.contact)}" placeholder="Number or FB name"></div>
+  </div>
+  <div class="field"><label>Units to rent (max 2)</label>
+    <div class="checks" id="f_cams">${allUnits().map(({u}) => `<label data-u="${u.id}"><input type="checkbox" value="${u.id}" ${d.cameras.includes(u.id)?'checked':''}> <span>${esc(uName(u.id))}</span><em></em></label>`).join('')}</div>
+  </div>
+  <div class="row3">
+    <div class="field"><label>Start date</label><input type="date" id="f_start" value="${d.start}"></div>
+    <div class="field"><label>Return date</label><input type="date" id="f_end" value="${d.end}"></div>
+    <div class="field"><label>Rental period</label><div id="f_days" style="padding:11px 0;font-weight:700"></div></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Status</label>
+      <select id="f_status">${[['reserved','Reserved (not yet released)'],['rented','Rented out'],['returned','Returned'],['cancelled','Cancelled']].map(([v,l]) => `<option value="${v}" ${d.status===v?'selected':''}>${l}</option>`).join('')}</select>
+    </div>
+    <div class="field"><label>&nbsp;</label><label class="inline-check" style="padding-top:11px"><input type="checkbox" id="f_fee" ${d.feePaid?'checked':''}> ${peso(RES_FEE)} reservation fee paid</label></div>
+  </div>
+  <div class="row3">
+    <div class="field"><label>Rental amount <button type="button" class="link-btn" id="f_auto">use auto</button></label><input type="number" min="0" id="f_amount" value="${d.amount}"></div>
+    <div class="field"><label>Security deposit</label><input type="number" min="0" id="f_deposit" value="${d.deposit}"></div>
+    <div class="field"><label>Deposit status</label>
+      <select id="f_depstatus">${[['pending','Not received yet'],['held','Held'],['refunded','Refunded']].map(([v,l]) => `<option value="${v}" ${d.depositStatus===v?'selected':''}>${l}</option>`).join('')}</select>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Extra charges (delivery, late, damage)</label><input type="number" min="0" id="f_extra" value="${d.extra || 0}"></div>
+    <div class="field"><label>Collect on rental day</label><div id="f_balance" style="padding:11px 0;font-weight:700"></div></div>
+  </div>
+  <div class="field"><label>Renter verification</label>
+    <div class="checks" id="f_checks">${CHECKS.map(([k,l]) => `<label><input type="checkbox" id="k_${k}" ${d.checks && d.checks[k] ? 'checked' : ''}> ${l}</label>`).join('')}</div>
+  </div>
+  <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Pickup or delivery details, add-ons, damage notes">${esc(d.notes)}</textarea></div>
+  <div class="info">Rental is counted per 24 hours (start to return date, minimum 1 day). A unit counts as taken from the start date through the return date. Units marked “taken” are already booked for the dates above. Extra charges count as income in Sales.</div>
+  <div class="modal-actions">
+    ${b ? '<button class="btn danger" data-act="delBooking">Delete</button>' : ''}
+    <span class="spacer"></span>
+    <button class="btn ghost" data-act="closeModal">Cancel</button>
+    <button class="btn" data-act="saveBooking">Save booking</button>
+  </div>`);
+
+  const box = $('#modalBox');
+  box.addEventListener('input', e => {
+    if(e.target.id === 'f_amount' && e.isTrusted) fm.amt = true;
+    if(e.target.id === 'f_deposit' && e.isTrusted) fm.dep = true;
+    bfUpdate();
+  });
+  box.addEventListener('change', bfUpdate);
+  $('#f_auto').addEventListener('click', () => { fm.amt = false; bfUpdate(); });
+  bfUpdate();
+}
+function readForm(){
+  return {
+    renter: $('#f_renter').value.trim(),
+    contact: $('#f_contact').value.trim(),
+    cameras: [...document.querySelectorAll('#f_cams input:checked')].map(i => i.value),
+    start: $('#f_start').value, end: $('#f_end').value,
+    status: $('#f_status').value, feePaid: $('#f_fee').checked,
+    amount: Number($('#f_amount').value) || 0, deposit: Number($('#f_deposit').value) || 0,
+    extra: Number($('#f_extra').value) || 0,
+    depositStatus: $('#f_depstatus').value, notes: $('#f_notes').value.trim(), amountManual: fm.amt,
+    checks: Object.fromEntries(CHECKS.map(([k]) => [k, !!($('#k_' + k) && $('#k_' + k).checked)]))
+  };
+}
+function bfUpdate(){
+  if(!$('#f_cams')) return;
+  const boxes = [...document.querySelectorAll('#f_cams input')];
+  const n = boxes.filter(i => i.checked).length;
+  boxes.forEach(i => i.disabled = n >= 2 && !i.checked);
+  const f = readForm();
+  const valid = f.start && f.end && f.end >= f.start;
+  const live = f.status === 'reserved' || f.status === 'rented';
+  const days = valid ? Math.max(diff(f.start, f.end), 1) : 0;
+  $('#f_days').textContent = valid ? `${days} day${days>1?'s':''}` : '—';
+  if(!fm.amt && valid) $('#f_amount').value = calcAmount(f.cameras, days).total;
+  if(!fm.dep) $('#f_deposit').value = 1000 * f.cameras.length;
+  const f2 = readForm();
+  $('#f_balance').innerHTML = `${peso(balanceDue(f2))} <small style="color:var(--muted);font-weight:500">includes refundable deposit</small>`;
+  document.querySelectorAll('#f_cams label').forEach(l => {
+    const busy = valid && live && conflictsFor([l.dataset.u], f.start, f.end, editingId).length > 0;
+    l.classList.toggle('busy', busy);
+    l.querySelector('em').textContent = busy ? 'taken' : '';
+  });
+  const w = (valid && f.cameras.length && live) ? conflictsFor(f.cameras, f.start, f.end, editingId) : [];
+  $('#f_warn').innerHTML = w.length ? `<div class="warn"><b>Heads up:</b><br>${w.map(esc).join('<br>')}</div>` : '';
+}
+
+function saveBooking(){
+  const f = readForm();
+  if(!f.renter) return toast('Enter the renter name.');
+  if(!f.cameras.length) return toast('Pick at least one unit.');
+  if(!f.start || !f.end || f.end < f.start) return toast('Check the dates. Return date can’t be before the start date.');
+  if(f.status === 'reserved' || f.status === 'rented'){
+    const w = conflictsFor(f.cameras, f.start, f.end, editingId);
+    if(w.length && !confirm('There are conflicts:\n\n' + w.join('\n') + '\n\nSave anyway?')) return;
+  }
+  if(f.status === 'rented' && f.depositStatus === 'pending' && f.deposit > 0) f.depositStatus = 'held';
+  if(editingId){ const i = db.bookings.findIndex(b => b.id === editingId); db.bookings[i] = {...db.bookings[i], ...f}; }
+  else db.bookings.push({id: uid(), ...f, created: today()});
+  save(); closeModal(); render(); toast('Booking saved.');
+}
+function deleteBooking(){
+  if(!editingId || !confirm('Delete this booking permanently?')) return;
+  db.bookings = db.bookings.filter(b => b.id !== editingId);
+  save(); closeModal(); render(); toast('Booking deleted.');
+}
+
+/* =========================================================
+   SALES
+========================================================= */
+const EXP_CATS = ['Delivery (Grab/Lalamove)','Repair & maintenance','Equipment purchase','Accessories & supplies','Ads & marketing','Fees & subscriptions','Other'];
+const monthKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
+const shiftMonth = (k, n) => { const [y,m] = k.split('-').map(Number); return monthKey(new Date(y, m-1+n, 1)); };
+const monthName = k => new Date(k + '-01T00:00:00').toLocaleDateString('en-PH',{month:'long',year:'numeric'});
+let salesPeriod = 'month';
+let pickedMonth = shiftMonth(monthKey(), -1);
+function setPick(k){ if(k >= monthKey()) salesPeriod = 'month'; else { pickedMonth = k; salesPeriod = 'pick'; } renderSales(); }
+const pesoS = n => (n < 0 ? '-' : '') + peso(Math.abs(n));
+const weekStart = s => { const dow = (parse(s).getDay() + 6) % 7; return addDays(s, -dow); };   /* weeks run Monday to Sunday */
+const inR = (d, r) => d >= r.from && d <= r.to;
+const isPaid = b => b.status === 'rented' || b.status === 'returned';
+
+function periodRange(p){
+  const t = today();
+  if(p === 'week'){ const w = weekStart(t); return {from: w, to: addDays(w,6)}; }
+  if(p === 'month'){ const [y,m] = t.split('-').map(Number); const last = new Date(y, m, 0).getDate(); return {from: `${y}-${pad(m)}-01`, to: `${y}-${pad(m)}-${pad(last)}`}; }
+  if(p === 'pick'){ const [y,m] = pickedMonth.split('-').map(Number); const last = new Date(y, m, 0).getDate(); return {from: `${y}-${pad(m)}-01`, to: `${y}-${pad(m)}-${pad(last)}`}; }
+  if(p === 'last30') return {from: addDays(t,-29), to: t};
+  if(p === 'year') return {from: t.slice(0,4) + '-01-01', to: t.slice(0,4) + '-12-31'};
+  const dates = [...db.bookings.map(b => b.start), ...db.expenses.map(e => e.date)].sort();
+  return {from: dates[0] || t, to: '9999-12-31'};
+}
+const sumExp = list => list.reduce((a,e) => a + (Number(e.amount) || 0), 0);
+const sumRev = list => list.reduce((a,b) => a + revenueOf(b), 0);
+
+function renderSales(){
+  const t = today(), r = periodRange(salesPeriod);
+  const bks = db.bookings.filter(b => inR(b.start, r));
+  const exps = db.expenses.filter(e => inR(e.date, r));
+  const counted = bks.filter(isPaid);
+  const rev = sumRev(bks), expTotal = sumExp(exps), profit = rev - expTotal;
+  const margin = rev ? Math.round(profit / rev * 100) : 0;
+  const days = counted.reduce((a,b) => a + Math.max(diff(b.start,b.end),1), 0);
+  const pending = bks.filter(b => b.status === 'reserved').reduce((a,b) => a + (Number(b.amount)||0) + (Number(b.extra)||0), 0);
+
+  /* weekly breakdown (Mon–Sun): the weeks of the chosen month, otherwise the last 12 weeks */
+  const monthScoped = salesPeriod === 'month' || salesPeriod === 'pick';
+  const weeks = [];
+  const mkWeek = (f, to, cur) => {
+    const wb = db.bookings.filter(b => b.start >= f && b.start <= to);
+    const wr = sumRev(wb), we = sumExp(db.expenses.filter(e => e.date >= f && e.date <= to));
+    return {f, to, rev: wr, exp: we, profit: wr - we, n: wb.filter(isPaid).length, cur};
+  };
+  if(monthScoped){
+    for(let f = weekStart(r.from); f <= r.to; f = addDays(f, 7)){
+      const full = addDays(f, 6);
+      weeks.push(mkWeek(f < r.from ? r.from : f, full > r.to ? r.to : full, t >= f && t <= full));
+    }
+  } else {
+    const w0 = weekStart(t);
+    for(let i = 11; i >= 0; i--){ const f = addDays(w0, -7*i); weeks.push(mkWeek(f, addDays(f, 6), i === 0)); }
+  }
+  const thisWeek = weeks[weeks.length - 1];
+  const bestWeek = weeks.reduce((a,w) => w.profit > a.profit ? w : a, weeks[0]);
+  const avgWeek = weeks.reduce((a,w) => a + w.profit, 0) / weeks.length;
+  const maxW = Math.max(...weeks.map(w => Math.max(w.rev, w.exp)), 1);
+
+  /* last 12 months */
+  const months = [];
+  for(let i = 11; i >= 0; i--){ const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); months.push(`${d.getFullYear()}-${pad(d.getMonth()+1)}`); }
+  const mrows = months.map(k => { const rv = sumRev(db.bookings.filter(b => b.start.slice(0,7) === k)); const ex = sumExp(db.expenses.filter(e => e.date.slice(0,7) === k)); return {k, rv, ex}; });
+  const maxM = Math.max(...mrows.map(x => x.rv), 1);
+
+  /* expenses by category */
+  const cat = {}; exps.forEach(e => { cat[e.category] = (cat[e.category] || 0) + (Number(e.amount) || 0); });
+  const catRows = Object.entries(cat).sort((a,b) => b[1] - a[1]);
+  const maxCat = Math.max(...catRows.map(x => x[1]), 1);
+
+  /* camera performance (per model) */
+  const per = {}; db.cameras.forEach(c => per[c.id] = {name: c.short, units: c.units.length, rev:0, n:0, days:0, exp:0, occ:0});
+  bks.forEach(b => {
+    allocate(b).forEach(([id,v]) => { const m = modelOf(id); if(m) per[m.id].rev += v; });
+    if(isPaid(b)) b.cameras.forEach(id => { const m = modelOf(id); if(m){ per[m.id].n++; per[m.id].days += Math.max(diff(b.start,b.end),1); } });
+  });
+  exps.forEach(e => { if(e.cam && per[e.cam]) per[e.cam].exp += Number(e.amount) || 0; });
+  const uTo = r.to < t ? r.to : t, rangeDays = uTo >= r.from ? diff(r.from, uTo) + 1 : 0;
+  db.bookings.filter(isPaid).forEach(b => {
+    const n = Math.max(diff(b.start,b.end),1), lo = b.start > r.from ? b.start : r.from, endD = addDays(b.start, n-1), hi = endD < uTo ? endD : uTo;
+    const od = hi >= lo ? diff(lo, hi) + 1 : 0;
+    if(od) b.cameras.forEach(id => { const m = modelOf(id); if(m) per[m.id].occ += od; });
+  });
+  const perRows = Object.values(per).sort((a,b) => b.rev - a.rev);
+
+  /* payback (all time) */
+  const life = {}; db.cameras.forEach(c => life[c.id] = {name: c.short, rev:0, exp:0, cost: c.units.reduce((a,u) => a + (Number(u.cost)||0), 0)});
+  db.bookings.forEach(b => allocate(b).forEach(([id,v]) => { const m = modelOf(id); if(m) life[m.id].rev += v; }));
+  db.expenses.forEach(e => { if(e.cam && life[e.cam] && e.category !== 'Equipment purchase') life[e.cam].exp += Number(e.amount) || 0; });
+  const payRows = Object.values(life).filter(x => x.cost > 0).sort((a,b) => ((b.rev - b.exp) / b.cost) - ((a.rev - a.exp) / a.cost));
+
+  const expList = exps.slice().sort((a,b) => b.date.localeCompare(a.date));
+  const periodLabel = salesPeriod === 'pick' ? monthName(pickedMonth) : {week:'this week', month:'this month', last30:'the last 30 days', year:'this year', all:'all time'}[salesPeriod];
+
+  $('#tab-sales').innerHTML = `
+  <div class="page-head">
+    <div><h2>Sales</h2><p>Income, expenses and profit for ${periodLabel}. Income is counted on the rental start date.</p></div>
+    <div class="actions">
+      <div class="cal-nav">
+        <button class="btn ghost sm" data-act="spPrev" title="Previous month">◀</button>
+        <input type="month" class="month-in" id="spMonth" value="${salesPeriod === 'pick' ? pickedMonth : salesPeriod === 'month' ? monthKey() : ''}" max="${monthKey()}" title="Pick a month">
+        <button class="btn ghost sm" data-act="spNext" title="Next month">▶</button>
+      </div>
+      <select id="spSel" style="padding:10px 12px;border:1px solid #d5dde8;border-radius:10px;background:#fff">
+        ${[['week','This week'],['month','This month'],['pick','Specific month'],['last30','Last 30 days'],['year','This year'],['all','All time']].map(([v,l]) => `<option value="${v}" ${salesPeriod===v?'selected':''}>${v === 'pick' && salesPeriod === 'pick' ? monthName(pickedMonth) : l}</option>`).join('')}
+      </select>
+      <button class="btn" data-act="newExpense">+ Add expense</button>
+      <button class="btn ghost" data-act="exportCSV">Bookings CSV</button>
+      <button class="btn ghost" data-act="exportExpCSV">Expenses CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><small>Revenue</small><strong>${peso(rev)}</strong><span>${counted.length} paid rental${counted.length===1?'':'s'}, ${days} rental days</span></div>
+    <div class="kpi"><small>Expenses</small><strong>${peso(expTotal)}</strong><span>${exps.length} entr${exps.length===1?'y':'ies'}</span></div>
+    <div class="kpi"><small>Net profit</small><strong class="${profit < 0 ? 'neg' : 'pos'}">${pesoS(profit)}</strong><span>${margin}% margin</span></div>
+    ${monthScoped
+      ? `<div class="kpi"><small>Best week</small><strong class="${bestWeek.profit < 0 ? 'neg' : 'pos'}">${pesoS(bestWeek.profit)}</strong><span>${fmt(bestWeek.f)} – ${fmt(bestWeek.to)}</span></div>`
+      : `<div class="kpi"><small>This week’s profit</small><strong class="${thisWeek.profit < 0 ? 'neg' : 'pos'}">${pesoS(thisWeek.profit)}</strong><span>${fmt(thisWeek.f)} – ${fmt(thisWeek.to)}</span></div>`}
+    <div class="kpi"><small>Average per rental</small><strong>${peso(counted.length ? rev / counted.length : 0)}</strong><span>before deposits</span></div>
+    <div class="kpi"><small>Average weekly profit</small><strong class="${avgWeek < 0 ? 'neg' : 'pos'}">${pesoS(avgWeek)}</strong><span>${monthScoped ? 'over ' + weeks.length + ' week' + (weeks.length === 1 ? '' : 's') + ' of the month' : 'over the last 12 weeks'}</span></div>
+    <div class="kpi"><small>Reserved, not yet released</small><strong>${peso(pending)}</strong><span>expected income</span></div>
+    <div class="kpi"><small>Deposits held</small><strong>${peso(db.bookings.filter(b => b.depositStatus === 'held' && b.status !== 'cancelled').reduce((a,b) => a + (Number(b.deposit)||0), 0))}</strong><span>not your income, to be refunded</span></div>
+  </div>
+
+  <div class="card"><h3>Weekly earnings ${monthScoped ? '· ' + periodLabel + ' (Monday to Sunday)' : '(Monday to Sunday, last 12 weeks)'}</h3>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Week</th><th class="num">Rentals</th><th class="num">Revenue</th><th class="num">Expenses</th><th class="num">Profit</th><th>Revenue vs expenses</th></tr></thead><tbody>
+    ${weeks.slice().reverse().map(w => `<tr${w.cur ? ' style="background:#f4f7fb"' : ''}>
+      <td><b>${fmt(w.f)} – ${fmt(w.to)}</b>${w.cur ? ' <span class="pill reserved">This week</span>' : ''}</td>
+      <td class="num">${w.n}</td><td class="num">${peso(w.rev)}</td><td class="num">${peso(w.exp)}</td>
+      <td class="num ${w.profit < 0 ? 'neg' : 'pos'}"><b>${pesoS(w.profit)}</b></td>
+      <td style="min-width:130px"><div class="mini"><i style="width:${w.rev / maxW * 100}%;background:#2f5f9a"></i><i style="width:${w.exp / maxW * 100}%;background:#d97706"></i></div></td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="legend" style="margin:12px 0 0"><span><i style="background:#2f5f9a"></i>Revenue</span><span><i style="background:#d97706"></i>Expenses</span></div>
+  </div>
+
+  <div class="two">
+    <div class="card"><h3>Revenue by month <small style="font-weight:500;color:var(--muted)">· click a month to open it</small></h3>
+      ${mrows.map(x => `<div class="bar-row clickable ${(salesPeriod === 'pick' && pickedMonth === x.k) || (salesPeriod === 'month' && x.k === monthKey()) ? 'sel' : ''}" data-act="pickMonth" data-m="${x.k}" style="grid-template-columns:70px 1fr 100px"><div class="lbl">${new Date(x.k + '-01T00:00:00').toLocaleDateString('en-PH',{month:'short',year:'2-digit'})}</div><div class="bar-track"><div class="bar-fill" style="width:${x.rv / maxM * 100}%"></div></div><div class="val">${peso(x.rv)}<br><small>profit ${pesoS(x.rv - x.ex)}</small></div></div>`).join('')}
+    </div>
+    <div class="card"><h3>Expenses by category</h3>
+      ${catRows.length ? catRows.map(([c,v]) => `<div class="bar-row" style="grid-template-columns:130px 1fr 80px"><div class="lbl" title="${esc(c)}">${esc(c)}</div><div class="bar-track"><div class="bar-fill amber" style="width:${v / maxCat * 100}%"></div></div><div class="val">${peso(v)}</div></div>`).join('') : '<div class="empty">No expenses in this period. Use “+ Add expense” to log delivery fees, repairs, SD cards and so on.</div>'}
+    </div>
+  </div>
+
+  <div class="card"><h3>Camera performance</h3>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Camera</th><th class="num">Rentals</th><th class="num">Days rented</th><th class="num">Revenue</th><th class="num">Its expenses</th><th class="num">Net</th><th class="num">Utilization</th></tr></thead><tbody>
+    ${perRows.map(x => { const util = rangeDays ? Math.min(100, Math.round(x.occ / (x.units * rangeDays) * 100)) : 0; return `<tr><td><b>${esc(x.name)}</b><small>${x.units} unit${x.units===1?'':'s'}</small></td><td class="num">${x.n}</td><td class="num">${x.days}</td><td class="num">${peso(x.rev)}</td><td class="num">${peso(x.exp)}</td><td class="num ${x.rev - x.exp < 0 ? 'neg' : 'pos'}">${pesoS(x.rev - x.exp)}</td><td class="num">${util}%</td></tr>`; }).join('')}
+    </tbody></table></div>
+    <p class="empty" style="margin-top:8px">Utilization is the share of days a unit was rented out. High numbers mean the camera is in demand, so consider buying another unit.</p>
+  </div>
+
+  <div class="card"><h3>Payback on your gear (all time)</h3>
+    ${payRows.length ? payRows.map(x => { const net = x.rev - x.exp, pct = Math.round(net / x.cost * 100), w = Math.max(0, Math.min(100, pct));
+      return `<div class="bar-row" style="grid-template-columns:130px 1fr 150px"><div class="lbl">${esc(x.name)}</div><div class="bar-track"><div class="bar-fill ${pct >= 100 ? 'green' : ''}" style="width:${w}%"></div></div><div class="val">${pct >= 100 ? 'Paid back ✓' : pct + '%'}<br><small>${pesoS(net)} of ${peso(x.cost)}${pct >= 100 ? ' · ' + pesoS(net - x.cost) + ' profit' : ''}</small></div></div>`; }).join('')
+      : '<div class="empty">Add what you paid for each unit in <b>Equipment → Edit</b> (the “Cost ₱” box) to see how close each camera is to paying for itself.</div>'}
+    <p class="empty" style="margin-top:8px">Counts the camera’s rental revenue minus expenses you tagged to it (repairs, accessories). General expenses and “Equipment purchase” entries aren’t included.</p>
+  </div>
+
+  <div class="card"><h3>Expenses · ${periodLabel}</h3>
+    ${expList.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Category</th><th>Note</th><th>Camera</th><th class="num">Amount</th><th></th></tr></thead><tbody>
+    ${expList.map(e => `<tr><td>${fmt(e.date)}</td><td>${esc(e.category)}</td><td>${esc(e.note || '')}</td><td>${e.cam && cam(e.cam) ? esc(cam(e.cam).short) : '<small>General</small>'}</td><td class="num">${peso(e.amount)}</td><td class="num"><button class="btn sm ghost" data-act="editExpense" data-id="${e.id}">Edit</button></td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="empty">No expenses logged for this period.</div>'}
+  </div>`;
+  $('#spSel').addEventListener('change', e => { salesPeriod = e.target.value; renderSales(); });
+  $('#spMonth').addEventListener('change', e => { if(e.target.value) setPick(e.target.value); });
+}
+
+/* ---------- expenses ---------- */
+let editingExp = null;
+function openExpense(id){
+  editingExp = id || null;
+  const x = id ? db.expenses.find(e => e.id === id) : {date: today(), category: EXP_CATS[0], amount: '', note: '', cam: ''};
+  openModal(`
+  <h3>${id ? 'Edit expense' : 'Add expense'}</h3>
+  <div class="row2">
+    <div class="field"><label>Date</label><input type="date" id="x_date" value="${x.date}"></div>
+    <div class="field"><label>Amount (₱)</label><input type="number" min="0" id="x_amount" value="${x.amount}"></div>
+  </div>
+  <div class="field"><label>Category</label><select id="x_cat">${EXP_CATS.map(c => `<option ${x.category === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+  <div class="field"><label>For which camera? (optional)</label><select id="x_cam"><option value="">General business expense</option>${db.cameras.map(c => `<option value="${c.id}" ${x.cam === c.id ? 'selected' : ''}>${esc(c.short)}</option>`).join('')}</select></div>
+  <div class="field"><label>Note</label><input id="x_note" value="${esc(x.note)}" placeholder="e.g. Lalamove delivery to Cavite"></div>
+  <div class="modal-actions">
+    ${id ? '<button class="btn danger" data-act="delExpense">Delete</button>' : ''}
+    <span class="spacer"></span>
+    <button class="btn ghost" data-act="closeModal">Cancel</button>
+    <button class="btn" data-act="saveExpense">Save expense</button>
+  </div>`);
+}
+function saveExpense(){
+  const o = {date: $('#x_date').value, category: $('#x_cat').value, amount: Number($('#x_amount').value) || 0, cam: $('#x_cam').value, note: $('#x_note').value.trim()};
+  if(!o.date) return toast('Pick a date.');
+  if(o.amount <= 0) return toast('Enter the amount.');
+  if(editingExp){ const i = db.expenses.findIndex(e => e.id === editingExp); db.expenses[i] = {...db.expenses[i], ...o}; }
+  else db.expenses.push({id: uid(), ...o});
+  save(); closeModal(); render(); toast('Expense saved.');
+}
+function delExpense(){
+  if(!editingExp || !confirm('Delete this expense?')) return;
+  db.expenses = db.expenses.filter(e => e.id !== editingExp);
+  save(); closeModal(); render(); toast('Expense deleted.');
+}
+
+function exportCSV(){
+  const rows = [['Start','Return','Renter','Contact','Equipment','Status','Rental amount','Extra charges','Reservation fee paid','Deposit','Deposit status','Notes']];
+  db.bookings.slice().sort((a,b) => a.start.localeCompare(b.start)).forEach(b => rows.push([b.start,b.end,b.renter,b.contact||'',b.cameras.map(camName).join(' + '),b.status,b.amount,b.extra||0,b.feePaid?'Yes':'No',b.deposit,b.depositStatus,b.notes||'']));
+  csvDownload('snapgear-bookings-' + today() + '.csv', rows);
+}
+function exportExpCSV(){
+  const rows = [['Date','Category','Amount','Camera','Note']];
+  db.expenses.slice().sort((a,b) => a.date.localeCompare(b.date)).forEach(e => rows.push([e.date, e.category, e.amount, e.cam && cam(e.cam) ? cam(e.cam).short : 'General', e.note || '']));
+  csvDownload('snapgear-expenses-' + today() + '.csv', rows);
+}
+function csvDownload(name, rows){
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download(name, csv, 'text/csv');
+}
+function download(name, text, type){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* =========================================================
+   EQUIPMENT (models + their units)
+========================================================= */
+function renderEquip(){
+  $('#tab-equip').innerHTML = `
+  <div class="page-head">
+    <div><h2>Equipment</h2><p>Rates are per model. Add every physical unit you own. Units under maintenance can’t be booked.</p></div>
+    <div class="actions"><button class="btn" data-act="newCam">+ Add equipment</button></div>
+  </div>
+  <div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Equipment</th><th class="num">1–3 days</th><th class="num">4+ days</th><th>Units</th><th></th></tr></thead><tbody>
+  ${db.cameras.map(c => `<tr><td><b>${esc(c.short)}</b><small>${esc(c.name)}</small></td><td class="num">${peso(c.rate3)}</td><td class="num">${peso(c.rate4)}</td>
+    <td>${c.units.map(u => `<span class="pill ${u.status === 'maintenance' ? 'maint' : 'available'}" style="margin:2px 4px 2px 0">${esc(u.label)}${u.status === 'maintenance' ? ' · maintenance' : ''}</span>`).join('')}</td>
+    <td class="num"><button class="btn sm ghost" data-act="editCam" data-id="${c.id}">Edit</button></td></tr>`).join('')}
+  </tbody></table></div></div>`;
+}
+let editingCam = null, editUnits = [];
+function openCam(id){
+  editingCam = id || null;
+  const c = id ? cam(id) : {name:'', short:'', rate3:0, rate4:0, units:[{id:null, label:'Unit 1', status:'active'}]};
+  editUnits = c.units.map(u => ({...u}));
+  openModal(`
+  <h3>${id ? 'Edit equipment' : 'Add equipment'}</h3>
+  <div class="field"><label>Full name</label><input id="c_name" value="${esc(c.name)}"></div>
+  <div class="field"><label>Short name (used in the calendar)</label><input id="c_short" value="${esc(c.short)}"></div>
+  <div class="row2">
+    <div class="field"><label>Rate, 1–3 days (per day)</label><input type="number" min="0" id="c_r3" value="${c.rate3}"></div>
+    <div class="field"><label>Rate, 4+ days (per day)</label><input type="number" min="0" id="c_r4" value="${c.rate4}"></div>
+  </div>
+  <div class="field"><label>Units you own</label>
+    <div id="c_units"></div>
+    <button type="button" class="btn ghost sm" data-act="addUnit" style="margin-top:6px">+ Add unit</button>
+  </div>
+  <div class="info">Name each unit so you can tell them apart, for example “Unit 1” or “Kitlens”. The label shows in the calendar and booking form. The optional cost is what you paid for the unit, used for the payback tracker in Sales.</div>
+  <div class="modal-actions">
+    ${id ? '<button class="btn danger" data-act="delCam">Delete model</button>' : ''}
+    <span class="spacer"></span>
+    <button class="btn ghost" data-act="closeModal">Cancel</button>
+    <button class="btn" data-act="saveCam">Save equipment</button>
+  </div>`);
+  drawUnits();
+}
+function drawUnits(){
+  $('#c_units').innerHTML = editUnits.map((u,i) => `<div class="unit-row">
+    <input class="ul-in" value="${esc(u.label)}" placeholder="e.g. Unit 1, Kitlens">
+    <input class="uc-in" type="number" min="0" value="${u.cost || ''}" placeholder="Cost ₱" title="What you paid for this unit (optional, used for payback)">
+    <select class="us-in"><option value="active" ${u.status==='active'?'selected':''}>Active</option><option value="maintenance" ${u.status==='maintenance'?'selected':''}>Maintenance</option></select>
+    <button type="button" class="btn danger sm" data-act="rmUnit" data-i="${i}">Remove</button></div>`).join('');
+}
+function syncUnits(){
+  document.querySelectorAll('#c_units .unit-row').forEach((r,i) => {
+    editUnits[i].label = r.querySelector('.ul-in').value;
+    editUnits[i].cost = Number(r.querySelector('.uc-in').value) || 0;
+    editUnits[i].status = r.querySelector('.us-in').value;
+  });
+}
+function saveCam(){
+  syncUnits();
+  const name = $('#c_name').value.trim(), short = $('#c_short').value.trim() || name;
+  if(!name) return toast('Enter the equipment name.');
+  if(!editUnits.length) return toast('Add at least one unit.');
+  if(editUnits.some(u => !u.label.trim())) return toast('Give every unit a label.');
+  const mid = editingCam || ('c' + uid());
+  const units = editUnits.map(u => ({id: u.id || `${mid}-u${Math.random().toString(36).slice(2,7)}`, label: u.label.trim(), status: u.status, cost: Number(u.cost) || 0}));
+  const o = {name, short, rate3: Number($('#c_r3').value)||0, rate4: Number($('#c_r4').value)||0, units};
+  if(editingCam) Object.assign(cam(editingCam), o); else db.cameras.push({id: mid, ...o});
+  save(); closeModal(); render(); toast('Equipment saved.');
+}
+function delCam(){
+  const c = cam(editingCam);
+  if(db.bookings.some(b => b.cameras.some(id => c.units.some(u => u.id === id)))) return toast('This model has bookings. Set its units to Maintenance instead.');
+  if(!confirm('Delete this equipment and all its units?')) return;
+  db.cameras = db.cameras.filter(x => x.id !== editingCam);
+  save(); closeModal(); render(); toast('Equipment deleted.');
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+function renderSet(){
+  const loginCard = CLOUD ? `<div class="card"><h3>Admin login</h3>
+      <div class="info">Signed in as <b>${esc(cloudEmail)}</b>. Your login is handled by Firebase, so it is secure and works on every device.</div>
+      <button class="btn" data-act="resetPw">Send password reset email</button>
+    </div>` : `<div class="card"><h3>Admin login</h3>
+      <div class="field"><label>Username</label><input id="s_user" value="${esc(db.auth.user)}" autocomplete="off"></div>
+      <div class="field"><label>New password</label><input id="s_pw" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div>
+      <div class="field"><label>Repeat new password</label><input id="s_pw2" type="password" autocomplete="new-password"></div>
+      <button class="btn" data-act="savePw">Save login</button>
+      <div class="hint">This login only keeps casual visitors out. The page’s code can still be read by anyone who opens it, so don’t reuse an important password. To get real security and sync across devices, set up the cloud option.</div>
+    </div>`;
+  const dataInfo = CLOUD
+    ? 'Your data syncs to the cloud, so your phone and laptop always match. Still download a backup once in a while as a safety net.'
+    : 'Your data lives in this browser on this device only. Download a backup regularly, and use it to move to another phone or laptop.';
+  $('#tab-set').innerHTML = `
+  <div class="page-head"><div><h2>Settings</h2><p>Login, backup and data.</p></div></div>
+  <div class="two">
+    ${loginCard}
+    <div class="card"><h3>Backup and restore</h3>
+      <div class="info">${dataInfo}</div>
+      <div class="actions" style="margin-bottom:14px">
+        <button class="btn" data-act="exportJSON">Download backup</button>
+        <button class="btn ghost" data-act="importPick">Restore from backup</button>
+        <button class="btn ghost" data-act="mergePick">Merge a backup</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+        <input type="file" id="mergeFile" accept=".json,application/json" hidden>
+      </div>
+      <div class="info"><b>Restore</b> replaces everything with the backup. <b>Merge</b> only adds bookings that are missing, so nothing is lost.</div>
+      <h3 style="margin-top:20px">Data</h3>
+      <div class="actions">
+        <button class="btn ghost" data-act="sampleData">Add sample bookings</button>
+        <button class="btn danger" data-act="resetAll">Delete all bookings</button>
+      </div>
+    </div>
+  </div>`;
+  const readFile = (input, fn) => input.addEventListener('change', e => {
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try{
+        const d = JSON.parse(r.result);
+        if(!Array.isArray(d.cameras) || !Array.isArray(d.bookings)) throw 0;
+        fn(d);
+      }catch(err){ toast('That file isn’t a valid SnapGear backup.'); }
+    };
+    r.readAsText(f); e.target.value = '';
+  });
+  readFile($('#importFile'), d => {
+    if(!confirm('Replace current cameras and bookings with this backup?')) return;
+    const m = migrate({cameras: d.cameras, bookings: d.bookings, expenses: d.expenses || []});
+    db.cameras = m.cameras; db.bookings = m.bookings; db.expenses = m.expenses; save(); render(); toast('Backup restored.');
+  });
+  readFile($('#mergeFile'), d => {
+    const m = migrate({cameras: d.cameras, bookings: d.bookings});
+    const have = new Set(db.bookings.map(b => b.id)); let add = 0;
+    m.bookings.forEach(b => { if(!have.has(b.id)){ db.bookings.push(b); add++; } });
+    m.cameras.forEach(c => { if(!cam(c.id)) db.cameras.push(c); });
+    (d.expenses || []).forEach(x => { if(!db.expenses.some(e => e.id === x.id)) db.expenses.push(x); });
+    save(); render(); toast(`Merged ${add} new booking${add === 1 ? '' : 's'}.`);
+  });
+}
+async function savePw(){
+  const u = $('#s_user').value.trim(), p = $('#s_pw').value, p2 = $('#s_pw2').value;
+  if(!u) return toast('Username can’t be empty.');
+  if(p || p2){
+    if(p.length < 6) return toast('Use at least 6 characters.');
+    if(p !== p2) return toast('Passwords don’t match.');
+    db.auth.hash = await sha(p); db.auth.isDefault = false;
+  }
+  db.auth.user = u; save(); $('#s_pw').value = $('#s_pw2').value = ''; toast('Login updated.');
+}
+function sampleData(){
+  if(!confirm('Add a few sample bookings so you can see how the calendar looks?')) return;
+  const t = today();
+  const mk = (ids, s, e, st, name) => ({id: uid(), renter:name, contact:'Sample', cameras:ids, start:addDays(t,s), end:addDays(t,e), status:st, feePaid:true,
+    amount:calcAmount(ids, e - s).total, deposit:1000*ids.length, depositStatus: st==='reserved'?'pending':st==='returned'?'refunded':'held', notes:'Sample', amountManual:false});
+  const ok = id => U(id);
+  [
+    mk(['pocket3-u1'],-2,2,'rented','Sample Raine'),
+    mk(['pocket3-u2'],0,3,'reserved','Sample Jay'),
+    mk(['xt30-u1','tamron-u1'],1,5,'reserved','Sample Menchu'),
+    mk(['x4-u1'],-6,-3,'returned','Sample George'),
+    mk(['goultra-u1'],-1,1,'rented','Sample Deondre'),
+    mk(['g7x-u1'],3,4,'reserved','Sample Mhel')
+  ].filter(b => b.cameras.every(ok)).forEach(b => db.bookings.push(b));
+  db.expenses.push({id: uid(), date: addDays(t,-3), category: EXP_CATS[0], amount: 180, note: 'Sample Lalamove', cam: ''}, {id: uid(), date: addDays(t,-8), category: EXP_CATS[3], amount: 450, note: 'Sample SD card', cam: ''});
+  save(); render(); toast('Sample bookings added.');
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+/* =========================================================
+   CLOUD SYNC
+========================================================= */
+function setSync(text, cls){ const el = $('#sync'); if(!el) return; el.textContent = text; el.className = 'sync ' + cls; }
+function authMsg(err){
+  const c = err && err.code || '';
+  if(['auth/invalid-credential','auth/wrong-password','auth/user-not-found','auth/invalid-email'].includes(c)) return 'Wrong email or password.';
+  if(c === 'auth/too-many-requests') return 'Too many tries. Wait a few minutes, or reset your password.';
+  if(c === 'auth/network-request-failed') return 'No internet connection.';
+  return 'Could not sign in (' + c + ').';
+}
+function setLoginBusy(busy, msg){
+  $('#loginForm button[type=submit]').disabled = busy;
+  if(busy) $('#loginErr').textContent = msg || '';
+}
+function cacheLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){} }
+function cloudWrite(){
+  setSync('Saving…','busy');
+  const payload = JSON.parse(JSON.stringify({cameras: db.cameras, bookings: db.bookings, expenses: db.expenses, updatedAt: Date.now(), updatedBy: cloudEmail}));
+  fbDoc.set(payload).then(() => setSync('Synced','ok')).catch(e => { setSync('Not synced','bad'); toast('Could not save to the cloud (' + (e.code || 'error') + ').'); });
+}
+function cloudBoot(){
+  if(!window.firebase){ $('#loginErr').textContent = 'Could not load Firebase. Check your internet connection and reload.'; return; }
+  firebase.initializeApp(FIREBASE_CONFIG);
+  fbAuth = firebase.auth();
+  fbDoc = firebase.firestore().collection('snapgear').doc('data');
+  document.querySelector('label[for=lu]').textContent = 'Email';
+  $('#lu').type = 'email'; $('#lu').placeholder = 'you@example.com';
+  $('#loginHint').hidden = true;
+  fbAuth.onAuthStateChanged(user => {
+    if(user){ cloudEmail = user.email || ''; startSync(); }
+    else {
+      if(cloudUnsub){ cloudUnsub(); cloudUnsub = null; }
+      cloudFirst = true; $('#app').hidden = true; $('#login').hidden = false; setLoginBusy(false);
+    }
+  });
+}
+function startSync(){
+  setLoginBusy(true, 'Loading your data…');
+  if(cloudUnsub) cloudUnsub();
+  cloudUnsub = fbDoc.onSnapshot(snap => {
+    if(snap.metadata.hasPendingWrites) return;          /* our own write echoing back */
+    const first = cloudFirst;
+    if(!snap.exists){
+      if(first){ localStorage.setItem(JOINED,'1'); cloudWrite(); }   /* very first time: upload this device's data */
+    } else {
+      const d = snap.data();
+      let extra = [];
+      if(first && !localStorage.getItem(JOINED)){
+        const have = new Set((d.bookings || []).map(b => b.id));
+        extra = db.bookings.filter(b => !have.has(b.id));
+      }
+      db.cameras = d.cameras; db.bookings = d.bookings || []; db.expenses = d.expenses || []; migrate(db);
+      if(first) localStorage.setItem(JOINED,'1');
+      cacheLocal();
+      if(first && extra.length && confirm(`This device has ${extra.length} booking${extra.length === 1 ? '' : 's'} that ${extra.length === 1 ? 'isn’t' : 'aren’t'} in the cloud yet. Add ${extra.length === 1 ? 'it' : 'them'} now?`)){
+        db.bookings.push(...extra); save();
+      }
+    }
+    setSync('Synced','ok');
+    if(first){ cloudFirst = false; $('#login').hidden = true; $('#app').hidden = false; setLoginBusy(false); showTab('dash'); }
+    else render();
+  }, err => {
+    if(cloudFirst){
+      $('#loginErr').textContent = err.code === 'permission-denied'
+        ? 'This account is not allowed to open the data. Check your Firestore rules and email.'
+        : 'Could not load data (' + (err.code || 'error') + ').';
+      setLoginBusy(false, ''); fbAuth.signOut();
+    } else setSync('Offline','bad');
+  });
+}
+
+/* =========================================================
+   CONTRACTS
+========================================================= */
+const php = n => 'Php ' + Math.round(Number(n)||0).toLocaleString('en-PH');
+const longDate = s => parse(s).toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'});
+const ct = {name:'', u1:'', u2:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null};
+
+const CT_CLAUSES = [
+  ['1. Rental Period', [
+    'A non-refundable reservation fee is required to secure your reservation of Equipment. The reservation fee amount will be specified at the time of booking and will be applied towards your total rental fee.',
+    'The rental period begins on the date the Equipment is shipped, delivered or picked up by the Renter and ends on the date the Equipment is returned to SnapGear Rentals.',
+    'Extensions to the rental period must be requested and approved in writing before the original return date. Additional charges may apply.']],
+  ['2. Rental Fees and Payment', [
+    'Rental fees are determined by the duration of the rental period and the type of Equipment rented. All rental fees must be paid in full before the Equipment is shipped or released.',
+    'We accept payments via cash, Gcash, Maya, GoTyme, and UnionBank.']],
+  ['3. Security Deposit', [
+    'A security deposit may be required and will be held until the Equipment is returned and inspected for damage. The amount of the security deposit will be specified at the time of rental.',
+    'The security deposit will be refunded within 24 hours after the Equipment is returned, provided there is no damage or missing items.']],
+  ['4. Shipping and Delivery', [
+    'The Renter is responsible for all shipping costs, both to and from SnapGear Rentals. Shipping costs will be calculated and included in the rental invoice. If the Renter picks up the Equipment in person, no shipping cost applies.',
+    'We will ship the Equipment to the address provided by the Renter. It is the Renter’s responsibility to ensure the address is correct and accessible for delivery.',
+    'The Renter must use a trackable and insured shipping method for returning the Equipment.']],
+  ['5. Use of Equipment', [
+    'The Renter must use the Equipment responsibly and lawfully. Only the Renter may use the Equipment unless written consent is given.']],
+  ['6. Maintenance and Care', [
+    'The Renter is responsible for keeping the Equipment in good condition and must report any damage, malfunction, or loss immediately.']],
+  ['7. Return of Equipment', [
+    'The Equipment must be returned in the same condition as it was received, with all accessories and packaging materials.',
+    'Late returns may incur additional fees, which will be specified at the time of rental.']],
+  ['8. Damage and Loss', [
+    'The Renter is fully responsible for any damage, loss, or theft of the Equipment during the rental period. In the event of damage or loss, the Renter will be charged for the repair or replacement cost of the Equipment.',
+    'Dents on rental cameras are categorized based on their severity, which directly affects the corresponding repair charges.',
+    '<b>Minor Dents:</b> Small, superficial dents that don’t affect the functionality of the camera will be charged from ₱300 to ₱1,000, depending on the size and visibility.',
+    '<b>Moderate Dents:</b> Dents that may require professional repairs but don’t affect performance too much might range from ₱1,000 to ₱3,000, depending on the extent of the damage and the camera model.',
+    '<b>Severe Dents:</b> Large or deep dents that affect the structural integrity or functionality of the camera can cost ₱3,000 to ₱5,000 or more for repair, or might charge the full replacement value if the damage is irreparable.']],
+  ['9. Limitation of Liability', [
+    'SnapGear Rentals is not liable for any direct, indirect, incidental, or consequential damages arising from the use or inability to use the Equipment, even if we have been advised of the possibility of such damages.']],
+  ['10. Indemnification', [
+    'The Renter agrees to indemnify and hold harmless SnapGear Rentals, its officers, employees, and agents from any and all claims, actions, suits, proceedings, costs, expenses, damages, and liabilities, including reasonable attorney’s fees, arising out of or related to the Renter’s use of the Equipment.']],
+  ['11. Governing Law', [
+    'These Terms are governed by and construed in accordance with the laws of the Philippines, without regard to its conflict of laws principles.']],
+  ['12. Entire Agreement', [
+    'These Terms are the complete and final agreement between SnapGear Rentals and the Renter, replacing all prior agreements or discussions.']]
+];
+
+const fullUnit = id => { const r = U(id); return r ? r.c.name + (r.c.units.length > 1 ? ` (${r.u.label})` : '') : ''; };
+const ctUnits = () => [ct.u1, ct.u2].filter((v,i,a) => v && U(v) && a.indexOf(v) === i);
+const ctDays = () => (ct.start && ct.end && ct.end >= ct.start) ? Math.max(diff(ct.start, ct.end), 1) : 0;
+const ctAuto = () => ctUnits().length && ctDays() ? calcAmount(ctUnits(), ctDays()).total : 0;
+const ctFile = () => 'SnapGear Rentals_Terms and Conditions_' + ((ct.name.trim().replace(/[\\\/:*?"<>|]+/g,'').replace(/\s+/g,' ')) || 'Renter Name');
+
+function contractHTML(){
+  const ids = ctUnits(), name = ct.name.trim(), blank = '________________';
+  const disc = ct.amtManual ? ctAuto() - ct.amount : 0;
+  const feeLine = php(ct.amount) + (ct.showDisc && disc > 0 ? ` (after a discount of ${php(disc)} from the regular rate of ${php(ctAuto())})` : '');
+  return `
+  <div class="doc-head">
+    <img src="${LOGO}" alt="SnapGear Rentals">
+    <div><h1>EQUIPMENT LEASE AGREEMENT</h1><p>Terms and Conditions · Rental Agreement</p></div>
+  </div>
+  <p>This Equipment Lease Agreement (“Agreement”) is made and effective as of <b>${ct.signed ? longDate(ct.signed) : blank}</b>, by and between <b>SnapGear Rentals</b> (“Lessor”) and <b>${name ? esc(name) : blank}</b> (“Lessee”).</p>
+  <p>The Lessor hereby leases to the Lessee, and the Lessee hereby leases from the Lessor, the following camera equipment (“Equipment”):</p>
+  <ul class="eq">${ids.length ? ids.map(id => `<li>${esc(fullUnit(id))}</li>`).join('') : `<li>${blank}</li>`}</ul>
+  <p>The lease term begins on <b>${ct.start ? longDate(ct.start) : blank}</b> and ends on <b>${ct.end ? longDate(ct.end) : blank}</b>, unless terminated earlier in accordance with this Agreement. The total rental fee for the lease term is <b>${feeLine}</b>. A security deposit of <b>${php(ct.deposit)}</b> is required, which will be refunded upon return of the Equipment in good condition.</p>
+  ${CT_CLAUSES.map(([h, ps]) => `<div class="clause"><h4>${h}</h4>${ps.map(p => `<p>${p}</p>`).join('')}</div>`).join('')}
+  <div class="sig">
+    <h4>Acknowledgment and Acceptance</h4>
+    <p>By signing below, the Renter acknowledges that they have read, understood, and agree to be bound by these Terms and Conditions.</p>
+    <div class="sig-row">
+      <div class="sig-line"><span class="sig-name">&nbsp;</span>Renter’s Signature</div>
+      <div class="sig-line"><span class="sig-name">${esc(name)}&nbsp;</span>Renter’s Name (Printed)</div>
+      <div class="sig-line" style="max-width:150px"><span class="sig-name">&nbsp;</span>Date</div>
+    </div>
+  </div>
+  <div class="doc-foot"><b>SNAPGEAR RENTALS</b><br>SMDC Vine Residences Tower 4, Near SM Novaliches · Contact: 0935-385-4220</div>`;
+}
+
+function renderContracts(){
+  const opts = sel => allUnits().map(({u}) => `<option value="${u.id}" ${sel === u.id ? 'selected' : ''}>${esc(uName(u.id))}</option>`).join('');
+  const fills = db.bookings.filter(b => b.status === 'reserved' || b.status === 'rented').sort((a,b) => a.start.localeCompare(b.start));
+  $('#tab-ct').innerHTML = `
+  <div class="page-head ct-head">
+    <div><h2>Contracts</h2><p>Type the renter’s name, pick the unit or units, and the contract is ready to save as PDF.</p></div>
+  </div>
+  <div class="ct-layout">
+    <div class="card ct-form" id="ctForm">
+      ${fills.length ? `<div class="field"><label>Fill from an existing booking (optional)</label>
+        <select id="ct_fill"><option value="">Choose a booking…</option>${fills.map(b => `<option value="${b.id}" ${ct.bookingId === b.id ? 'selected' : ''}>${esc(b.renter)} · ${fmt(b.start)} – ${fmt(b.end)} · ${esc(b.cameras.map(camName).join(' + '))}</option>`).join('')}</select></div>` : ''}
+      <div class="field"><label>Renter name</label><input id="ct_name" value="${esc(ct.name)}" placeholder="Full name" autocomplete="off"></div>
+      <div class="field"><label>Unit 1</label><select id="ct_u1"><option value="">Select a unit…</option>${opts(ct.u1)}</select></div>
+      <div class="field"><label>Unit 2 (optional)</label><select id="ct_u2"><option value="">None (1 item only)</option>${opts(ct.u2)}</select></div>
+      <div class="row2">
+        <div class="field"><label>Start date</label><input type="date" id="ct_start" value="${ct.start}"></div>
+        <div class="field"><label>Return date</label><input type="date" id="ct_end" value="${ct.end}"></div>
+      </div>
+      <div class="info" id="ct_info"></div>
+      <div class="row2">
+        <div class="field"><label>Rental fee (₱) <button type="button" class="link-btn" id="ct_useauto">use auto</button></label><input type="number" min="0" id="ct_amount" value="${ct.amount}"></div>
+        <div class="field"><label>Security deposit (₱)</label><input type="number" min="0" id="ct_deposit" value="${ct.deposit}"></div>
+      </div>
+      <label class="inline-check" style="margin-bottom:12px"><input type="checkbox" id="ct_disc" ${ct.showDisc ? 'checked' : ''}> Mention the discount in the contract</label>
+      <div class="field"><label>Contract date</label><input type="date" id="ct_signed" value="${ct.signed}"></div>
+      <div id="ct_warn"></div>
+      <div class="info">File name: <b id="ct_file"></b></div>
+      <div class="actions" style="margin-top:6px">
+        <button class="btn" data-act="ctPrint">Save as PDF</button>
+        <button class="btn ghost" data-act="ctJpg">Download JPG</button>
+        <button class="btn ghost" data-act="ctReset">Clear</button>
+      </div>
+      <div class="hint" style="margin-top:12px">In the print window, set the destination to <b>Save as PDF</b>. The file name is filled in for you.</div>
+    </div>
+    <div class="ct-preview"><div class="doc" id="contractDoc"></div></div>
+  </div>`;
+  const f = $('#ctForm');
+  f.addEventListener('input', ctRead);
+  f.addEventListener('change', ctRead);
+  $('#ct_useauto').addEventListener('click', () => { ct.amtManual = false; ctSync(true); });
+  const fill = $('#ct_fill');
+  if(fill) fill.addEventListener('change', () => {
+    const b = db.bookings.find(x => x.id === fill.value); if(!b) return;
+    ct.bookingId = b.id; ct.name = b.renter; ct.u1 = b.cameras[0] || ''; ct.u2 = b.cameras[1] || '';
+    ct.start = b.start; ct.end = b.end; ct.amount = Number(b.amount) || 0; ct.deposit = Number(b.deposit) || 0;
+    ct.amtManual = ct.amount !== ctAuto(); ct.depManual = ct.deposit !== 1000 * ctUnits().length;
+    renderContracts();
+  });
+  ctSync(true);
+}
+function ctRead(e){
+  const g = id => $('#' + id);
+  ct.name = g('ct_name').value; ct.u1 = g('ct_u1').value; ct.u2 = g('ct_u2').value;
+  ct.start = g('ct_start').value; ct.end = g('ct_end').value; ct.signed = g('ct_signed').value; ct.showDisc = g('ct_disc').checked;
+  if(e && e.target && e.target.id === 'ct_amount'){ ct.amtManual = true; ct.amount = Number(g('ct_amount').value) || 0; }
+  if(e && e.target && e.target.id === 'ct_deposit'){ ct.depManual = true; ct.deposit = Number(g('ct_deposit').value) || 0; }
+  ctSync(false);
+}
+function ctSync(setInputs){
+  const ids = ctUnits(), days = ctDays(), auto = ctAuto();
+  if(!ct.amtManual) ct.amount = auto;
+  if(!ct.depManual) ct.deposit = 1000 * ids.length;
+  if(setInputs || !ct.amtManual) $('#ct_amount').value = ct.amount;
+  if(setInputs || !ct.depManual) $('#ct_deposit').value = ct.deposit;
+  const disc = ct.amtManual ? auto - ct.amount : 0;
+  $('#ct_info').innerHTML = days
+    ? `<b>${days} day${days > 1 ? 's' : ''}</b> · regular rate <b>${peso(auto)}</b>${disc > 0 ? ` · discount <b>${peso(disc)}</b>` : ct.amtManual && disc < 0 ? ` · <b>${peso(-disc)}</b> above the regular rate` : ''}`
+    : 'Pick the start and return dates to see the rental period.';
+  const w = [];
+  if(ct.u1 && ct.u1 === ct.u2) w.push('Unit 1 and Unit 2 are the same unit.');
+  if(ct.start && ct.end && ct.end < ct.start) w.push('The return date is before the start date.');
+  if(ids.length && days) conflictsFor(ids, ct.start, ct.end, ct.bookingId).forEach(x => w.push(x + '.'));
+  $('#ct_warn').innerHTML = w.length ? `<div class="warn">${w.map(esc).join('<br>')}</div>` : '';
+  $('#ct_file').textContent = ctFile();
+  $('#contractDoc').innerHTML = contractHTML();
+}
+function ctCheck(){
+  if(!ct.name.trim()){ toast('Enter the renter’s name first.'); return false; }
+  if(!ctUnits().length){ toast('Pick at least one unit.'); return false; }
+  if(!ctDays()){ toast('Check the dates.'); return false; }
+  return true;
+}
+function ctPrint(){
+  if(!ctCheck()) return;
+  const old = document.title; document.title = ctFile();
+  const restore = () => { document.title = old; window.removeEventListener('afterprint', restore); };
+  window.addEventListener('afterprint', restore);
+  window.print();
+}
+async function ctJpg(){
+  if(!ctCheck()) return;
+  if(!window.html2canvas) return toast('Image export needs an internet connection. Use Save as PDF instead.');
+  try{
+    const canvas = await html2canvas($('#contractDoc'), {scale: 2, backgroundColor: '#ffffff', windowWidth: 1000,
+      onclone: d => { const el = d.getElementById('contractDoc'); el.style.width = '794px'; el.style.maxWidth = '794px'; el.style.boxShadow = 'none'; }});
+    const a = document.createElement('a'); a.download = ctFile() + '.jpg'; a.href = canvas.toDataURL('image/jpeg', 0.95); a.click();
+  }catch(e){ toast('Could not create the image. Use Save as PDF instead.'); }
+}
+function ctReset(){
+  Object.assign(ct, {name:'', u1:'', u2:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null});
+  renderContracts();
+}
+
+const actions = {
+  tab: el => showTab(el.dataset.tab),
+  logout: () => { if(CLOUD) fbAuth.signOut().then(() => location.reload()); else { sessionStorage.removeItem(SESSION); location.reload(); } },
+  resetPw: () => fbAuth.sendPasswordResetEmail(cloudEmail).then(() => toast('Password reset email sent to ' + cloudEmail)).catch(() => toast('Could not send the reset email.')),
+  closeModal,
+  newBooking: el => openBooking(null, {cam: el.dataset.cam, start: el.dataset.start, end: el.dataset.end}),
+  editBooking: el => openBooking(el.dataset.id),
+  saveBooking, delBooking: deleteBooking,
+  calPrev: () => { calM.m--; if(calM.m < 0){ calM.m = 11; calM.y--; } renderCal(); },
+  calNext: () => { calM.m++; if(calM.m > 11){ calM.m = 0; calM.y++; } renderCal(); },
+  calToday: () => { calM = {y: new Date().getFullYear(), m: new Date().getMonth()}; renderCal(); },
+  calFree: el => openBooking(null, {cam: el.dataset.cam, start: el.dataset.date, end: addDays(el.dataset.date,1)}),
+  quickRent: el => { const b = db.bookings.find(x => x.id === el.dataset.id); b.status = 'rented'; if(b.depositStatus === 'pending' && b.deposit > 0) b.depositStatus = 'held'; save(); render(); toast('Marked as rented out.'); },
+  quickReturn: el => {
+    const b = db.bookings.find(x => x.id === el.dataset.id); b.status = 'returned';
+    if(b.depositStatus === 'held' && confirm('Marked as returned. Was the ' + peso(b.deposit) + ' deposit refunded too?')) b.depositStatus = 'refunded';
+    save(); render(); toast('Marked as returned.');
+  },
+  newCam: () => openCam(null), editCam: el => openCam(el.dataset.id), saveCam, delCam,
+  addUnit: () => { syncUnits(); editUnits.push({id:null, label:'Unit ' + (editUnits.length + 1), status:'active'}); drawUnits(); },
+  rmUnit: el => {
+    syncUnits();
+    const i = Number(el.dataset.i), u = editUnits[i];
+    if(editUnits.length === 1) return toast('A model needs at least one unit.');
+    if(u.id && db.bookings.some(b => b.cameras.includes(u.id))) return toast('This unit has bookings. Set it to Maintenance instead.');
+    editUnits.splice(i,1); drawUnits();
+  },
+  exportCSV, exportExpCSV, savePw,
+  spPrev: () => setPick(shiftMonth(salesPeriod === 'pick' ? pickedMonth : monthKey(), -1)),
+  spNext: () => setPick(shiftMonth(salesPeriod === 'pick' ? pickedMonth : monthKey(), 1)),
+  pickMonth: el => setPick(el.dataset.m),
+  ctPrint, ctJpg, ctReset,
+  newExpense: () => openExpense(null), editExpense: el => openExpense(el.dataset.id), saveExpense, delExpense,
+  copyMsg: el => copyText(reminderText(db.bookings.find(x => x.id === el.dataset.id))),
+  exportJSON: () => download('snapgear-backup-' + today() + '.json', JSON.stringify({cameras: db.cameras, bookings: db.bookings, expenses: db.expenses}, null, 2), 'application/json'),
+  importPick: () => $('#importFile').click(),
+  mergePick: () => $('#mergeFile').click(),
+  sampleData,
+  resetAll: () => { if(confirm('Delete ALL bookings? This can’t be undone. Download a backup first if unsure.')){ db.bookings = []; save(); render(); toast('All bookings deleted.'); } }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if(el && actions[el.dataset.act]) actions[el.dataset.act](el);
+});
+
+boot();
+</script>
+</body>
+</html>
