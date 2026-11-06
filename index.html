@@ -1,0 +1,2811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SnapGear Rentals | Camera Rental in Metro Manila</title>
+
+<meta name="description" content="SnapGear Rentals - Camera, DJI, Insta360 and lens rentals in Quezon City, Metro Manila and nearby provinces.">
+
+<!-- GOOGLE FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- HTML2CANVAS FOR JPEG QUOTATION -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+:root {
+    --navy: #06152f;
+    --navy2: #0b2348;
+    --blue: #123966;
+    --white: #ffffff;
+    --light: #f4f7fb;
+    --text: #0a1938;
+    --muted: #64748b;
+    --border: rgba(10, 30, 60, 0.12);
+    --shadow: 0 15px 45px rgba(3, 17, 40, 0.10);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    color: var(--text);
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(6, 21, 47, 0.94);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner {
+    max-width: 1180px;
+    margin: auto;
+    height: 78px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 62px;
+    height: 62px;
+    object-fit: contain;
+}
+
+.logo-text {
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    color: white;
+    font-size: 14px;
+}
+
+.nav-links a {
+    opacity: .88;
+    transition: .2s;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+}
+
+.nav-book {
+    background: white;
+    color: var(--navy) !important;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    opacity: 1 !important;
+}
+
+.mobile-menu {
+    display: none;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 720px;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(34,79,135,.45), transparent 35%),
+        linear-gradient(135deg, #06152f 0%, #0a2449 55%, #071a37 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 50%;
+    right: -150px;
+    top: 70px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 50%;
+    right: -250px;
+    top: -30px;
+}
+
+.hero-inner {
+    max-width: 1180px;
+    min-height: 720px;
+    margin: auto;
+    padding: 80px 22px;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-logo {
+    width: 135px;
+    height: 135px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: .98;
+    letter-spacing: -2px;
+    max-width: 760px;
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    display: block;
+    color: #b8c9e0;
+}
+
+.hero p {
+    max-width: 620px;
+    font-size: 18px;
+    color: #d8e2f1;
+    margin-bottom: 32px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 24px;
+    border-radius: 11px;
+    font-weight: 800;
+    transition: .25s;
+}
+
+.btn-primary {
+    background: white;
+    color: var(--navy);
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    color: white;
+    border: 1px solid rgba(255,255,255,.35);
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.hero-card {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.16);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.hero-card h3 {
+    font-family: "Montserrat", sans-serif;
+    margin-bottom: 20px;
+    font-size: 23px;
+}
+
+.hero-info {
+    display: grid;
+    gap: 16px;
+}
+
+.hero-info-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.hero-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hero-info strong {
+    display: block;
+}
+
+.hero-info small {
+    color: #b9c7da;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.section {
+    padding: 90px 22px;
+}
+
+.section-light {
+    background: var(--light);
+}
+
+.container {
+    max-width: 1180px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title .eyebrow {
+    color: #486789;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.section-title h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.1;
+}
+
+.section-title p {
+    max-width: 650px;
+    margin: 14px auto 0;
+    color: var(--muted);
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+}
+
+.step {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.step-number {
+    font-family: "Montserrat", sans-serif;
+    font-size: 34px;
+    color: #c5d1df;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.step h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.step p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================
+   TERMS
+========================= */
+
+.terms-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 18px;
+}
+
+.term {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 27px;
+    box-shadow: var(--shadow);
+}
+
+.term-number {
+    font-family: "Montserrat", sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 5px;
+    color: #b9c7d8;
+}
+
+.term h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 17px;
+}
+
+.term p {
+    color: var(--muted);
+    margin-top: 7px;
+}
+
+.term a {
+    color: var(--blue);
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* =========================
+   REVIEWS
+========================= */
+
+.reviews-section {
+    background: var(--navy);
+    color: white;
+}
+
+.reviews-section .section-title .eyebrow {
+    color: #b8c8dd;
+}
+
+.reviews-section .section-title p {
+    color: #b7c5d9;
+}
+
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+}
+
+.review {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    padding: 27px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+}
+
+.stars {
+    letter-spacing: 3px;
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+
+.review-text {
+    color: #e0e7f0;
+    font-size: 14px;
+    flex: 1;
+}
+
+.review-author {
+    margin-top: 20px;
+    font-weight: 800;
+}
+
+.review-link {
+    margin-top: 12px;
+    color: #c2d1e5;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+/* =========================
+   EQUIPMENT (REDESIGNED)
+========================= */
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.equipment-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(3, 17, 40, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.equipment-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow);
+}
+
+.equipment-image-wrapper {
+    width: 100%;
+    height: 280px;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.equipment-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05));
+}
+
+.equipment-content {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.equipment-content h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--navy);
+    line-height: 1.3;
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.price {
+    background: white;
+    color: var(--navy);
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.price strong {
+    display: block;
+    font-family: "Montserrat", sans-serif;
+    font-size: 22px;
+    color: var(--navy);
+}
+
+.price small {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.includes-title {
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: var(--navy);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.includes {
+    list-style: none;
+    padding-left: 0;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.includes li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+}
+
+.includes li::before {
+    content: "✓";
+    color: var(--blue);
+    font-weight: 900;
+    font-size: 12px;
+    background: var(--light);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* =========================
+   BOOKING PAGE
+========================= */
+
+.booking-section {
+    background:
+        radial-gradient(circle at 10% 10%, rgba(38,83,137,.35), transparent 30%),
+        var(--navy);
+    color: white;
+}
+
+.booking-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 35px;
+    align-items: stretch;
+}
+
+.booking-info {
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    border-radius: 24px;
+    padding: 35px;
+    backdrop-filter: blur(15px);
+}
+
+.booking-info h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 28px;
+    margin-bottom: 14px;
+}
+
+.booking-info p {
+    color: #bdc9da;
+    margin-bottom: 22px;
+}
+
+.booking-list {
+    display: grid;
+    gap: 14px;
+}
+
+.booking-list div {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.booking-list span {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: white;
+    color: var(--navy);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.booking-form-box {
+    background: white;
+    color: var(--text);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.booking-form-box h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 27px;
+    margin-bottom: 10px;
+}
+
+.booking-form-box p {
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.booking-button {
+    width: 100%;
+    background: var(--navy);
+    color: white;
+    padding: 17px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.booking-button:hover {
+    background: var(--navy2);
+}
+
+/* =========================
+   QUOTATION
+========================= */
+
+.quotation-section {
+    background: #eef3f8;
+}
+
+.quote-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.quote-form {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.quote-form h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 17px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d5dde8;
+    border-radius: 10px;
+    outline: none;
+    background: white;
+    color: var(--text);
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: var(--navy);
+}
+
+.quote-preview-wrap {
+    overflow-x: auto;
+}
+
+#quotation {
+    background: white;
+    width: 700px;
+    max-width: 100%;
+    margin: auto;
+    padding: 45px;
+    box-shadow: var(--shadow);
+    border-radius: 5px;
+}
+
+.quote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.quote-brand {
+    display: flex;
+    align-items: center;
+}
+
+.quote-brand h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 24px;
+    color: var(--navy);
+    letter-spacing: 0.5px;
+}
+
+.quote-label {
+    text-align: right;
+}
+
+.quote-label strong {
+    display: block;
+    font-family: "Montserrat", sans-serif;
+    font-size: 23px;
+}
+
+.quote-label small {
+    color: var(--muted);
+}
+
+.quote-client {
+    background: #f4f7fb;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+}
+
+.quote-client div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 4px 0;
+    font-size: 14px;
+}
+
+.quote-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.quote-table th,
+.quote-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e3e8ef;
+    text-align: left;
+    font-size: 14px;
+}
+
+.quote-table th:last-child,
+.quote-table td:last-child {
+    text-align: right;
+}
+
+/* Hide second item in quotation by default */
+.hidden-row {
+    display: none !important;
+}
+
+.quote-total {
+    margin-left: auto;
+    width: 300px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+}
+
+.total-row.grand {
+    border-top: 2px solid var(--navy);
+    margin-top: 8px;
+    padding-top: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+}
+
+.refund-note {
+    margin-top: 18px;
+    background: #f4f7fb;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.quote-footer {
+    margin-top: 25px;
+    border-top: 1px solid #e3e8ef;
+    padding-top: 15px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.download-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: var(--navy);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact {
+    background: white;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+}
+
+.contact-card {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.contact-card h3 {
+    font-family: "Montserrat", sans-serif;
+    margin-bottom: 7px;
+}
+
+.contact-card p {
+    color: var(--muted);
+}
+
+.contact-card a {
+    color: var(--blue);
+    font-weight: 800;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #020e22;
+    color: white;
+    padding: 45px 22px 25px;
+}
+
+.footer-inner {
+    max-width: 1180px;
+    margin: auto;
+}
+
+.footer-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-brand img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.footer-brand strong {
+    font-family: "Montserrat", sans-serif;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+    color: #cad5e5;
+    font-size: 14px;
+}
+
+.footer-bottom {
+    padding-top: 20px;
+    color: #8e9db3;
+    font-size: 13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1024px) {
+    .equipment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 950px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card {
+        max-width: 650px;
+    }
+
+    .steps {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .reviews {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .booking-layout,
+    .quote-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 650px) {
+
+    .nav-inner {
+        height: 68px;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-text {
+        font-size: 12px;
+    }
+
+    .hero {
+        min-height: auto;
+    }
+
+    .hero-inner {
+        padding: 65px 20px;
+        min-height: auto;
+    }
+
+    .hero-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .steps,
+    .terms-grid,
+    .reviews {
+        grid-template-columns: 1fr;
+    }
+    
+    .equipment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 65px 18px;
+    }
+
+    .footer-main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+    }
+
+    #quotation {
+        width: 100%;
+        padding: 25px;
+    }
+
+    .quote-total {
+        width: 100%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+      NAVBAR
+========================= -->
+
+<nav class="navbar">
+    <div class="nav-inner">
+
+        <a href="#home" class="logo-wrap">
+            <img
+                class="logo"
+                src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w300"
+                alt="SnapGear Rentals Logo"
+            >
+            <div class="logo-text">SNAPGEAR RENTALS</div>
+        </a>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#how">How to Rent</a>
+            <a href="#terms">Terms</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#equipment">Equipment</a>
+            <a href="#booking" class="nav-book">BOOK A RENTAL</a>
+        </div>
+
+        <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+
+    </div>
+</nav>
+
+
+<!-- =========================
+      HOME
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-inner">
+
+        <div>
+
+            <img
+                class="hero-logo"
+                src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w500"
+                alt="SnapGear Rentals"
+            >
+
+            <h1>
+                Capture the moment.
+                <span>Rent the gear.</span>
+            </h1>
+
+            <p>
+                Camera, action camera, gimbal and lens rentals
+                based in Quezon City — available for delivery
+                anywhere in Metro Manila and nearby provinces.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#booking"
+                    class="btn btn-primary"
+                >
+                    📸 Book a Rental
+                </a>
+
+                <a
+                    href="#how"
+                    class="btn btn-outline"
+                >
+                    How to Rent
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <h3>SnapGear Rentals</h3>
+
+            <div class="hero-info">
+
+                <div class="hero-info-item">
+                    <div class="hero-icon">📍</div>
+                    <div>
+                        <strong>Pickup Location</strong>
+                        <small>
+                            SMDC Vine Residences Tower 4,
+                            Near SM Novaliches
+                        </small>
+                    </div>
+                </div>
+
+                <div class="hero-info-item">
+                    <div class="hero-icon">🚚</div>
+                    <div>
+                        <strong>Delivery Available</strong>
+                        <small>
+                            Grab / Lalamove around Metro Manila
+                            and nearby provinces
+                        </small>
+                    </div>
+                </div>
+
+                <div class="hero-info-item">
+                    <div class="hero-icon">📱</div>
+                    <div>
+                        <strong>Contact Us</strong>
+                        <small>0935-385-4220</small>
+                    </div>
+                </div>
+
+                <div class="hero-info-item">
+                    <div class="hero-icon">⏱</div>
+                    <div>
+                        <strong>24-Hour Rental Basis</strong>
+                        <small>
+                            Rental days are calculated by
+                            24-hour periods.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      HOW IT WORKS
+========================= -->
+
+<section class="section" id="how">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Simple Process</div>
+
+            <h2>How to Rent</h2>
+
+            <p>
+                Follow these steps to reserve your camera or
+                equipment with SnapGear Rentals.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Send Us a Message</h3>
+                <p>
+                    Send us a DM on our Facebook page with
+                    your target rental date and preferred equipment.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Check Availability</h3>
+                <p>
+                    We'll confirm whether your preferred camera
+                    or equipment is available.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Fill Out the Booking Form</h3>
+                <p>
+                    Once availability is confirmed, complete
+                    the official booking form.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">04</div>
+                <h3>Secure Your Slot</h3>
+                <p>
+                    Settle the reservation fee to secure your
+                    rental schedule.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">05</div>
+                <h3>Sign the Agreement</h3>
+                <p>
+                    Review and sign the rental agreement before
+                    proceeding with the rental.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">06</div>
+                <h3>Rental Day</h3>
+                <p>
+                    Settle the remaining balance plus the
+                    refundable security deposit.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">07</div>
+                <h3>Verification</h3>
+                <p>
+                    We'll schedule a quick video call for
+                    verification before releasing the equipment.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">08</div>
+                <h3>Receive Your Camera</h3>
+                <p>
+                    Pick up your equipment or have it delivered
+                    through Grab or Lalamove.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      TERMS
+========================= -->
+
+<section class="section section-light" id="terms">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Please Read</div>
+
+            <h2>Terms & Conditions</h2>
+
+            <p>
+                These requirements help keep every rental
+                safe and secure.
+            </p>
+
+        </div>
+
+
+        <div class="terms-grid">
+
+            <div class="term">
+                <div class="term-number">01</div>
+                <h3>Valid IDs</h3>
+                <p>
+                    Provide 2 valid IDs and a selfie with them
+                    for verification.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">02</div>
+                <h3>Signed Agreement</h3>
+                <p>
+                    A rental contract must be signed by the
+                    ID holder.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">03</div>
+                <h3>Proof of Address</h3>
+                <p>
+                    Submit a billing statement matching the
+                    name on your ID.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">04</div>
+                <h3>Reservation Fee</h3>
+                <p>
+                    ₱200 reservation fee is non-refundable but
+                    deductible from the total payment.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">05</div>
+                <h3>Security Deposit</h3>
+                <p>
+                    ₱1,000 security deposit is refundable after
+                    camera return and inspection.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">06</div>
+                <h3>Video Verification</h3>
+                <p>
+                    A short video call showing your ID is
+                    required before pick-up.
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">07</div>
+                <h3>Facebook Verification</h3>
+                <p>
+                    The renter must first be mutually connected
+                    with the owner on Facebook and add the owner
+                    for verification.
+                </p>
+
+                <p style="margin-top:10px;">
+                    <a
+                        href="https://www.facebook.com/angelo.pacya12"
+                        target="_blank"
+                    >
+                        Facebook Profile →
+                    </a>
+                </p>
+            </div>
+
+            <div class="term">
+                <div class="term-number">08</div>
+                <h3>Official Booking Form</h3>
+                <p>
+                    To book a rental, fill out the official
+                    booking form. The owner will message you
+                    through the personal Facebook account listed
+                    in the form.
+                </p>
+
+                <p style="margin-top:10px;">
+                    <a
+                        href="https://script.google.com/a/*/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec"
+                        target="_blank"
+                    >
+                        Open Booking Form →
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      REVIEWS
+========================= -->
+
+<section class="section reviews-section" id="reviews">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">From Our Renters</div>
+
+            <h2>What Our Customers Say</h2>
+
+            <p>
+                Real feedback from customers who rented
+                with SnapGear Rentals.
+            </p>
+
+        </div>
+
+
+        <div class="reviews">
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “Highly recommended! Super fast transaction
+                    and the owner, sir Angelo, is so kind and
+                    mabilis mag reply sa mga inquiries namin.
+                    Thank you so much!”
+                </div>
+
+                <div class="review-author">
+                    — Mhel Faye
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/1JKUFa6Jbk/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “smooth transaction with Angelo! super legit!
+                    100% will recommend!!”
+                </div>
+
+                <div class="review-author">
+                    — George
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/17ubD7QtfQ/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “would totally recommend!! the owner is super
+                    accommodating and will help you figure out
+                    exactly which camera fits your vibe! Tried the
+                    Camera 360 and it was sooo goodddd. I’m already
+                    excited to check out their other ones next time.
+                    Thank uuu, SnapGear!”
+                </div>
+
+                <div class="review-author">
+                    — Raine
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/1CsghtBxmg/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “I recommend this! Very accommodating, respectful
+                    and fun to conversate with. Lalo yung may ari!
+                    Napakabait! Thank you po so much. 10/10. Legit!”
+                </div>
+
+                <div class="review-author">
+                    — Deondre
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/18DqQ71Gio/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “Highly recommended!! Very accommodating kahit
+                    super rush ung booking. maraming salamat po at
+                    sa mga susunod na events ❤️. Special thanks
+                    kay Sir Angelo 👍”
+                </div>
+
+                <div class="review-author">
+                    — Jay
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/1ascxLp5bE/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="stars">★★★★★</div>
+
+                <div class="review-text">
+                    “Five out of five stars for SnapGear Rentals!
+                    My whole experience with them was super smooth
+                    and easy—the best rental process I've ever dealt
+                    with. they totally kept me updated on the shipping
+                    details, so I knew exactly when my unit would show
+                    up. Plus, they made the contract stuff incredibly
+                    easy to understand, which made me feel confident
+                    and stress-free about the whole thing. They got
+                    back to my questions right away and were always
+                    super polite and helpful. The shop is the perfect
+                    find if you want to take good quality, professional
+                    photos on your travels without dropping a ton of
+                    cash on a permanent camera. If you're looking for
+                    flexible, high-quality gear backed by genuinely
+                    great service, you've found it. I highly recommend
+                    checking them out!”
+                </div>
+
+                <div class="review-author">
+                    — Menchu
+                </div>
+
+                <a
+                    class="review-link"
+                    href="https://www.facebook.com/share/p/1HJB2XfHNL/"
+                    target="_blank"
+                >
+                    View Facebook Post →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      EQUIPMENT (REDESIGNED)
+========================= -->
+
+<section class="section" id="equipment">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Available Gear</div>
+
+            <h2>Our Equipment</h2>
+
+            <p>
+                Choose from cameras, action cameras,
+                compact cameras and lenses.
+            </p>
+
+        </div>
+
+
+        <div class="equipment-grid">
+
+
+            <!-- POCKET 3 -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1WsVHgPr3mpobLLJH87_NO8Vd9enoNqpo&sz=w900"
+                        alt="DJI Osmo Pocket 3 Creator Combo"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>DJI Osmo Pocket 3 Creator Combo</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱435</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱375</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>DJI Osmo Pocket 3</li>
+                        <li>DJI Mic</li>
+                        <li>Battery Handle</li>
+                        <li>Handle with 1/4 Thread</li>
+                        <li>DJI Mini Tripod</li>
+                        <li>DJI Wide-Angle Lens</li>
+                        <li>128GB SD Card</li>
+                        <li>2-in-1 USB / Type-C Card Reader</li>
+                        <li>Charging Cable</li>
+                        <li>Hard Case</li>
+                        <li>Delivery Bag</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- POCKET 4 -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1pDhYk_I2eh1DtIuwgafRk6ey1P5l5221&sz=w900"
+                        alt="DJI Osmo Pocket 4 Creator Combo"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>DJI Osmo Pocket 4 Creator Combo</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱450</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱550</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>DJI Osmo Pocket 4</li>
+                        <li>DJI Mic</li>
+                        <li>Gimbal Clamp</li>
+                        <li>Battery Handle</li>
+                        <li>Handle with 1/4 Thread</li>
+                        <li>DJI Mini Tripod</li>
+                        <li>DJI Wide-Angle Lens</li>
+                        <li>128GB SD Card</li>
+                        <li>Fill Light</li>
+                        <li>2-in-1 USB / Type-C Card Reader</li>
+                        <li>Charging Cable</li>
+                        <li>Hard Case</li>
+                        <li>Delivery Bag</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- FUJI -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1A8k-TqoDTo6RyOUKaUt66tFjk4a4scRr&sz=w900"
+                        alt="Fujifilm XT30 II"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>Fujifilm XT30 II</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱650</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱550</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>Fujifilm XT30 II Body</li>
+                        <li>Fujinon 35mm / Kitlens</li>
+                        <li>3 Batteries</li>
+                        <li>2-in-1 SD Card Reader</li>
+                        <li>128GB SanDisk SD Card</li>
+                        <li>Andoer Mini Tripod</li>
+                        <li>Camera Neck Strap</li>
+                        <li>Camera Bag</li>
+                        <li>Half Leather Case</li>
+                        <li>Wiper for Maintenance</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- G7X -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1IzW9b3w1Op_BjEduqt3O2EGYmw_-qRU-&sz=w900"
+                        alt="Canon G7X Mark III"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>Canon G7X Mark III</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱600</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱500</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>Canon G7X Mark III</li>
+                        <li>2 Batteries</li>
+                        <li>Charger with Adapter</li>
+                        <li>2-in-1 Card Reader</li>
+                        <li>128GB Memory Card</li>
+                        <li>Camera Bag</li>
+                        <li>Carrying Bag</li>
+                        <li>Silicone Case</li>
+                        <li>Tripod</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- GO ULTRA -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1sD6dvmeU5bdUIf77gL2OCBgiFt9Mia65&sz=w900"
+                        alt="Insta360 GO Ultra"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>Insta360 GO Ultra</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱400</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱500</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>GO Ultra Camera with Tempered Glass</li>
+                        <li>Silicone Case</li>
+                        <li>Lens Guard</li>
+                        <li>Safety Cord</li>
+                        <li>128GB SD Card</li>
+                        <li>Magnetic Easy Clip</li>
+                        <li>Magnet Lace</li>
+                        <li>Quick Release Mount</li>
+                        <li>Mini 2-in-1 Tripod</li>
+                        <li>Pivot Stand</li>
+                        <li>Hard Case</li>
+                        <li>SD Card Reader</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- OSMO NANO -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1WDj3e8nnGhkIZfUCtsoSDv2RTHoydF1G&sz=w900"
+                        alt="DJI Osmo Nano"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>DJI Osmo Nano</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱435</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱375</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>128GB DJI Osmo Nano Camera</li>
+                        <li>Tempered Glass</li>
+                        <li>Body Sticker</li>
+                        <li>Osmo Nano Vision Dock</li>
+                        <li>Magnetic Hat Clip</li>
+                        <li>Magnetic Lanyard</li>
+                        <li>Protective Case</li>
+                        <li>USB-C Charger</li>
+                        <li>Magnetic Ball Joint Adapter Mount</li>
+                        <li>Hard Case</li>
+                        <li>Silicone Lens Cover</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- TAMRON -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=1R71FZfklGCUGGv-FODP4SoniEFxzPWuC&sz=w900"
+                        alt="Tamron 18-300mm Fuji X Lens"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>Tamron 18–300mm Fuji X Lens</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱650</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱550</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>Tamron 18-300mm f/3.5-6.3 Di III-A VC VXD Lens for Fujifilm X</li>
+                        <li>Delivery Bag</li>
+                        <li>Wiper</li>
+                        <li>ND Filter</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- INSTA X4 -->
+            <div class="equipment-card">
+                <div class="equipment-image-wrapper">
+                    <img
+                        class="equipment-image"
+                        src="https://drive.google.com/thumbnail?id=11s9pYVsPavYsnuAY8gQB4HP4FWsrHoNI&sz=w900"
+                        alt="Insta360 X4"
+                    >
+                </div>
+                <div class="equipment-content">
+                    <h3>Insta360 X4</h3>
+                    <div class="price-grid">
+                        <div class="price">
+                            <strong>₱500</strong>
+                            <small>1–3 DAYS</small>
+                        </div>
+                        <div class="price">
+                            <strong>₱400</strong>
+                            <small>4 DAYS+</small>
+                        </div>
+                    </div>
+                    <div class="includes-title">Inclusions</div>
+                    <ul class="includes">
+                        <li>Insta360 X4 Camera with Tempered Glass</li>
+                        <li>Invisible Selfie Stick (120cm)</li>
+                        <li>Removable Lens Guard</li>
+                        <li>Hard Case</li>
+                        <li>1 Battery</li>
+                        <li>Charger</li>
+                        <li>Pouch</li>
+                        <li>Thermo Cover</li>
+                        <li>128GB SD Card</li>
+                        <li>Delivery Bag</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      BOOKING
+========================= -->
+
+<section class="section booking-section" id="booking">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Reserve Your Gear</div>
+
+            <h2>Book a Rental</h2>
+
+            <p>
+                Ready to rent? Complete the booking form and
+                wait for the owner to contact you for confirmation.
+            </p>
+
+        </div>
+
+
+        <div class="booking-layout">
+
+
+            <div class="booking-info">
+
+                <h3>Ready to shoot?</h3>
+
+                <p>
+                    Submit your rental request through our
+                    official booking form.
+                </p>
+
+                <div class="booking-list">
+
+                    <div>
+                        <span>1</span>
+                        <div>
+                            Choose your equipment and rental dates.
+                        </div>
+                    </div>
+
+                    <div>
+                        <span>2</span>
+                        <div>
+                            Complete the booking form.
+                        </div>
+                    </div>
+
+                    <div>
+                        <span>3</span>
+                        <div>
+                            The owner will message you using the
+                            Facebook account listed in the form.
+                        </div>
+                    </div>
+
+                    <div>
+                        <span>4</span>
+                        <div>
+                            Complete verification and rental requirements.
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <a
+                    href="https://www.facebook.com/angelo.pacya12"
+                    target="_blank"
+                    class="btn btn-outline"
+                >
+                    Verify Owner on Facebook
+                </a>
+
+            </div>
+
+
+            <div class="booking-form-box">
+
+                <h3>Official Booking Form</h3>
+
+                <p>
+                    Click the button below to open the official
+                    SnapGear Rentals booking form.
+                </p>
+
+                <p>
+                    After submitting the form, the owner will
+                    contact you through the personal Facebook
+                    account indicated in your submission.
+                </p>
+
+                <a
+                    href="https://script.google.com/a/*/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec"
+                    target="_blank"
+                    class="booking-button"
+                    style="display:flex;text-align:center;"
+                >
+                    OPEN BOOKING FORM
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      QUOTATION
+========================= -->
+
+<section class="section quotation-section" id="quotation-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Plan Your Rental</div>
+
+            <h2>Rental Quotation</h2>
+
+            <p>
+                Calculate your estimated rental cost and
+                generate a branded quotation.
+            </p>
+
+        </div>
+
+
+        <div class="quote-layout">
+
+
+            <div class="quote-form">
+
+                <h3>Quotation Details</h3>
+
+                <div class="field">
+
+                    <label>Your Name</label>
+
+                    <input
+                        type="text"
+                        id="clientName"
+                        placeholder="Enter your name"
+                        oninput="updateQuotation()"
+                    >
+
+                </div>
+
+
+                <div class="field">
+                    <label>Select Primary Equipment</label>
+                    <select id="equipmentSelect" onchange="updateQuotation()">
+                        <option value="DJI Osmo Pocket 3 Creator Combo" data-short="DJI Osmo Pocket 3" data-rate3="435" data-rate4="375">DJI Osmo Pocket 3 Creator Combo</option>
+                        <option value="DJI Osmo Pocket 4 Creator Combo" data-short="DJI Osmo Pocket 4" data-rate3="450" data-rate4="550">DJI Osmo Pocket 4 Creator Combo</option>
+                        <option value="Fujifilm XT30 II" data-short="Fujifilm XT30 II" data-rate3="650" data-rate4="550">Fujifilm XT30 II</option>
+                        <option value="Canon G7X Mark III" data-short="Canon G7X Mark III" data-rate3="600" data-rate4="500">Canon G7X Mark III</option>
+                        <option value="Insta360 GO Ultra" data-short="Insta360 GO Ultra" data-rate3="400" data-rate4="500">Insta360 GO Ultra</option>
+                        <option value="DJI Osmo Nano" data-short="DJI Osmo Nano" data-rate3="435" data-rate4="375">DJI Osmo Nano</option>
+                        <option value="Tamron 18-300mm Fuji X Lens" data-short="Tamron 18-300mm" data-rate3="650" data-rate4="550">Tamron 18-300mm Fuji X Lens</option>
+                        <option value="Insta360 X4" data-short="Insta360 X4" data-rate3="500" data-rate4="400">Insta360 X4</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Select Second Equipment (Optional, Max 2)</label>
+                    <select id="equipmentSelect2" onchange="updateQuotation()">
+                        <option value="none" data-short="None" data-rate3="0" data-rate4="0">None (1 Item Only)</option>
+                        <option value="DJI Osmo Pocket 3 Creator Combo" data-short="DJI Osmo Pocket 3" data-rate3="435" data-rate4="375">DJI Osmo Pocket 3 Creator Combo</option>
+                        <option value="DJI Osmo Pocket 4 Creator Combo" data-short="DJI Osmo Pocket 4" data-rate3="450" data-rate4="550">DJI Osmo Pocket 4 Creator Combo</option>
+                        <option value="Fujifilm XT30 II" data-short="Fujifilm XT30 II" data-rate3="650" data-rate4="550">Fujifilm XT30 II</option>
+                        <option value="Canon G7X Mark III" data-short="Canon G7X Mark III" data-rate3="600" data-rate4="500">Canon G7X Mark III</option>
+                        <option value="Insta360 GO Ultra" data-short="Insta360 GO Ultra" data-rate3="400" data-rate4="500">Insta360 GO Ultra</option>
+                        <option value="DJI Osmo Nano" data-short="DJI Osmo Nano" data-rate3="435" data-rate4="375">DJI Osmo Nano</option>
+                        <option value="Tamron 18-300mm Fuji X Lens" data-short="Tamron 18-300mm" data-rate3="650" data-rate4="550">Tamron 18-300mm Fuji X Lens</option>
+                        <option value="Insta360 X4" data-short="Insta360 X4" data-rate3="500" data-rate4="400">Insta360 X4</option>
+                    </select>
+                </div>
+
+
+                <div class="field">
+
+                    <label>Start Date</label>
+
+                    <input
+                        type="date"
+                        id="startDate"
+                        onchange="updateQuotation()"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>End Date</label>
+
+                    <input
+                        type="date"
+                        id="endDate"
+                        onchange="updateQuotation()"
+                    >
+
+                </div>
+
+
+                <div
+                    style="
+                    background:#f4f7fb;
+                    padding:15px;
+                    border-radius:10px;
+                    margin-bottom:18px;
+                    "
+                >
+
+                    <strong>Rental Period</strong>
+
+                    <div
+                        id="daysDisplay"
+                        style="
+                        font-size:24px;
+                        font-family:Montserrat,sans-serif;
+                        margin-top:3px;
+                        "
+                    >
+                        0 days
+                    </div>
+
+                    <small style="color:#64748b;">
+                        Rental is calculated on a 24-hour basis.
+                        Example: Aug 22 → Aug 23 = 1 day.
+                    </small>
+
+                </div>
+
+
+                <button
+                    class="download-btn"
+                    onclick="downloadQuotation()"
+                >
+                    DOWNLOAD QUOTATION AS JPEG
+                </button>
+
+            </div>
+
+
+            <div class="quote-preview-wrap">
+
+                <div id="quotation">
+
+                    <div class="quote-header">
+
+                        <div class="quote-brand">
+
+                            <h2>SNAPGEAR RENTALS</h2>
+
+                        </div>
+
+                        <div class="quote-label">
+
+                            <strong>QUOTATION</strong>
+
+                            <small id="quoteDate">
+                                —
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quote-client">
+
+                        <div>
+                            <strong>Client</strong>
+                            <span id="qClient">—</span>
+                        </div>
+
+                        <div>
+                            <strong>Equipment</strong>
+                            <span id="qEquipment" style="text-align: right;">—</span>
+                        </div>
+
+                        <div>
+                            <strong>Rental Period</strong>
+                            <span id="qPeriod">—</span>
+                        </div>
+
+                        <div>
+                            <strong>Number of Days</strong>
+                            <span id="qDays">0 days</span>
+                        </div>
+
+                    </div>
+
+
+                    <table class="quote-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Item 1 -->
+                            <tr>
+                                <td>
+                                    <strong id="qRateDescription">Rental Rate (Item 1)</strong>
+                                    <br>
+                                    <small id="qRateText">₱0 × 0 days</small>
+                                </td>
+                                <td id="qRental">₱0</td>
+                            </tr>
+                            <!-- Item 2 (Hidden by default) -->
+                            <tr id="qRow2" class="hidden-row">
+                                <td>
+                                    <strong id="qRateDescription2">Rental Rate (Item 2)</strong>
+                                    <br>
+                                    <small id="qRateText2">₱0 × 0 days</small>
+                                </td>
+                                <td id="qRental2_item">₱0</td>
+                            </tr>
+                            <tr>
+                                <td>Refundable Security Deposit</td>
+                                <td id="qDeposit">₱1,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="quote-total">
+
+                        <div class="total-row">
+
+                            <span>Rental Cost</span>
+
+                            <strong id="qRental2">
+                                ₱0
+                            </strong>
+
+                        </div>
+
+                        <div class="total-row">
+
+                            <span>Security Deposit</span>
+
+                            <strong id="qDepositTotal">₱1,000</strong>
+
+                        </div>
+
+                        <div class="total-row grand">
+
+                            <span>Total Due</span>
+
+                            <strong id="qTotal">
+                                ₱1,000
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="refund-note">
+
+                        <strong>Important:</strong>
+                        The security deposit is refundable
+                        upon return and inspection of the equipment.
+                        This quotation does not include the ₱200
+                        reservation fee.
+
+                    </div>
+
+
+                    <div class="quote-footer">
+
+                        <strong>SNAPGEAR RENTALS</strong><br>
+
+                        SMDC Vine Residences Tower 4,
+                        Near SM Novaliches<br>
+
+                        Metro Manila & Nearby Provinces —
+                        Grab / Lalamove Delivery<br>
+
+                        Contact: 0935-385-4220
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      CONTACT
+========================= -->
+
+<section class="section contact" id="contact">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">Get In Touch</div>
+
+            <h2>Contact SnapGear</h2>
+
+            <p>
+                Have questions about availability,
+                pricing or equipment? Send us a message.
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+            <div class="contact-card">
+
+                <h3>📱 Contact</h3>
+
+                <p>
+                    <a href="tel:09353854220">
+                        0935-385-4220
+                    </a>
+                </p>
+
+            </div>
+
+
+            <div class="contact-card">
+
+                <h3>📍 Pickup</h3>
+
+                <p>
+                    SMDC Vine Residences Tower 4,
+                    Near SM Novaliches
+                </p>
+
+            </div>
+
+
+            <div class="contact-card">
+
+                <h3>🚚 Delivery</h3>
+
+                <p>
+                    Grab / Lalamove around Metro Manila
+                    and nearby provinces
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <img
+                    src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w300"
+                    alt="SnapGear Rentals"
+                >
+
+                <strong>SNAPGEAR RENTALS</strong>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="#home">Home</a>
+
+                <a href="#reviews">Reviews</a>
+
+                <a href="#equipment">Equipment</a>
+
+                <a href="#booking">Booking</a>
+
+                <a
+                    href="https://www.facebook.com/angelo.pacya12"
+                    target="_blank"
+                >
+                    Facebook
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 SnapGear Rentals. All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+      JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu() {
+
+    const nav = document.querySelector(".nav-links");
+
+    if (nav.style.display === "flex") {
+
+        nav.style.display = "none";
+
+    } else {
+
+        nav.style.display = "flex";
+
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "20px";
+        nav.style.background = "#06152f";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+
+    }
+
+}
+
+
+/* =========================
+   DATE DIFFERENCE
+========================= */
+
+function calculateDays() {
+
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+
+    if (!start || !end) {
+        return 0;
+    }
+
+    const startDate = new Date(start + "T00:00:00");
+    const endDate = new Date(end + "T00:00:00");
+
+    const difference =
+        endDate.getTime() - startDate.getTime();
+
+    const days =
+        Math.round(difference / (1000 * 60 * 60 * 24));
+
+    return days;
+
+}
+
+
+/* =========================
+   FORMAT CURRENCY
+========================= */
+
+function peso(number) {
+
+    return "₱" + Number(number).toLocaleString("en-PH");
+
+}
+
+
+/* =========================
+   UPDATE QUOTATION
+========================= */
+
+function updateQuotation() {
+    const name = document.getElementById("clientName").value || "—";
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+    let days = calculateDays();
+
+    if (days < 0) days = 0;
+
+    // Get Item 1
+    const select1 = document.getElementById("equipmentSelect");
+    const option1 = select1.options[select1.selectedIndex];
+    const equip1 = option1.value;
+    let rate1 = days >= 4 ? Number(option1.dataset.rate4) : Number(option1.dataset.rate3);
+
+    // Get Item 2
+    const select2 = document.getElementById("equipmentSelect2");
+    const option2 = select2.options[select2.selectedIndex];
+    const equip2 = option2.value;
+    let rate2 = days >= 4 ? Number(option2.dataset.rate4) : Number(option2.dataset.rate3);
+
+    // PROMO LOGIC: Fujifilm XT30 II + Tamron 18-300mm combo
+    const isCombo = 
+        (equip1 === "Fujifilm XT30 II" && equip2 === "Tamron 18-300mm Fuji X Lens") ||
+        (equip2 === "Fujifilm XT30 II" && equip1 === "Tamron 18-300mm Fuji X Lens");
+
+    if (isCombo) {
+        if (equip1 === "Tamron 18-300mm Fuji X Lens") rate1 = 500;
+        if (equip2 === "Tamron 18-300mm Fuji X Lens") rate2 = 500;
+    }
+
+    // Calculations
+    const rentalCost1 = rate1 * days;
+    const rentalCost2 = (equip2 !== "none") ? rate2 * days : 0;
+    const totalRental = rentalCost1 + rentalCost2;
+    
+    // Security Deposit - 2,000 if two items, 1,000 if one item.
+    const securityDeposit = (equip2 !== "none") ? 2000 : 1000; 
+    const total = totalRental + securityDeposit;
+
+    // Update Client Info
+    document.getElementById("qClient").textContent = name;
+    document.getElementById("qEquipment").innerHTML = equip1 + (equip2 !== "none" ? `<br><small style="color:var(--muted)">+ ${equip2}</small>` : "");
+    document.getElementById("qDays").textContent = days + (days === 1 ? " day" : " days");
+    document.getElementById("daysDisplay").textContent = days + (days === 1 ? " day" : " days");
+
+    if (start && end) {
+        document.getElementById("qPeriod").textContent = formatDate(start) + " → " + formatDate(end);
+    } else {
+        document.getElementById("qPeriod").textContent = "—";
+    }
+
+    // Update Item 1 UI
+    document.getElementById("qRateDescription").textContent = equip1;
+    let rateText1 = peso(rate1) + " × " + days + (days === 1 ? " day" : " days");
+    if (isCombo && equip1 === "Tamron 18-300mm Fuji X Lens") rateText1 += " (Promo Applied)";
+    document.getElementById("qRateText").textContent = rateText1;
+    document.getElementById("qRental").textContent = peso(rentalCost1);
+
+    // Update Item 2 UI (Show/Hide)
+    const row2 = document.getElementById("qRow2");
+    if (equip2 !== "none") {
+        row2.classList.remove("hidden-row");
+        document.getElementById("qRateDescription2").textContent = equip2;
+        
+        let rateText2 = peso(rate2) + " × " + days + (days === 1 ? " day" : " days");
+        if (isCombo && equip2 === "Tamron 18-300mm Fuji X Lens") rateText2 += " (Promo Applied)";
+        document.getElementById("qRateText2").textContent = rateText2;
+        
+        document.getElementById("qRental2_item").textContent = peso(rentalCost2);
+    } else {
+        row2.classList.add("hidden-row");
+    }
+
+    // Update Totals
+    document.getElementById("qDeposit").textContent = peso(securityDeposit);
+    document.getElementById("qDepositTotal").textContent = peso(securityDeposit);
+    document.getElementById("qRental2").textContent = peso(totalRental);
+    document.getElementById("qTotal").textContent = peso(total);
+
+    document.getElementById("quoteDate").textContent = new Date().toLocaleDateString("en-PH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
+
+/* =========================
+   DATE FORMAT
+========================= */
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(dateString + "T00:00:00");
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================
+   DOWNLOAD JPEG
+========================= */
+
+async function downloadQuotation() {
+
+    updateQuotation();
+
+    const quotation =
+        document.getElementById("quotation");
+
+    const canvas =
+        await html2canvas(
+            quotation,
+            {
+                scale: 2,
+                backgroundColor: "#ffffff",
+                useCORS: true,
+                allowTaint: false
+            }
+        );
+
+
+    const link =
+        document.createElement("a");
+
+    const name =
+        document.getElementById("clientName").value
+        .trim()
+        .replace(/[^a-z0-9]/gi, "-") ||
+        "Customer";
+
+
+    link.download =
+        "SnapGear-Quotation-" +
+        name +
+        ".jpg";
+
+
+    link.href =
+        canvas.toDataURL(
+            "image/jpeg",
+            0.95
+        );
+
+
+    link.click();
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        /*
+            Prevent selecting an end date
+            earlier than start date.
+        */
+
+        document
+            .getElementById("startDate")
+            .addEventListener(
+                "change",
+                function() {
+
+                    const end =
+                        document.getElementById("endDate");
+
+                    end.min = this.value;
+
+                    if (
+                        end.value &&
+                        end.value < this.value
+                    ) {
+
+                        end.value = "";
+
+                    }
+
+                    updateQuotation();
+
+                }
+            );
+
+
+        updateQuotation();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
