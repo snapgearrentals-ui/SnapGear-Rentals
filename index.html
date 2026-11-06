@@ -38,6 +38,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 78px;
 }
 
 body {
@@ -132,6 +133,8 @@ select {
     color: white;
     font-size: 27px;
     cursor: pointer;
+    background: none;
+    border: none;
 }
 
 /* =========================
@@ -250,6 +253,16 @@ select {
     background: rgba(255,255,255,.12);
 }
 
+.btn-dark {
+    background: var(--navy);
+    color: white;
+}
+
+.btn-dark:hover {
+    background: var(--navy2);
+    transform: translateY(-2px);
+}
+
 .hero-card {
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.16);
@@ -296,6 +309,65 @@ select {
 }
 
 /* =========================
+   RENTAL JOURNEY STRIP
+========================= */
+
+.journey {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 22px;
+}
+
+.journey-inner {
+    max-width: 1180px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.journey-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--light);
+    transition: .2s;
+}
+
+.journey-step:hover {
+    border-color: var(--navy);
+    transform: translateY(-2px);
+}
+
+.journey-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.journey-step strong {
+    display: block;
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+}
+
+.journey-step small {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================
    GENERAL
 ========================= */
 
@@ -326,6 +398,24 @@ select {
     margin-bottom: 10px;
 }
 
+.step-badge {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 99px;
+    margin-bottom: 14px;
+}
+
+.booking-section .step-badge {
+    background: white;
+    color: var(--navy);
+}
+
 .section-title h2 {
     font-family: "Montserrat", sans-serif;
     font-size: clamp(30px, 4vw, 46px);
@@ -336,6 +426,17 @@ select {
     max-width: 650px;
     margin: 14px auto 0;
     color: var(--muted);
+}
+
+.next-step {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.next-step small {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 10px;
 }
 
 /* =========================
@@ -475,7 +576,7 @@ select {
 }
 
 /* =========================
-   EQUIPMENT (REDESIGNED)
+   EQUIPMENT
 ========================= */
 
 .equipment-grid {
@@ -606,7 +707,7 @@ select {
 }
 
 /* =========================
-   BOOKING PAGE
+   BOOKING
 ========================= */
 
 .booking-section {
@@ -614,6 +715,14 @@ select {
         radial-gradient(circle at 10% 10%, rgba(38,83,137,.35), transparent 30%),
         var(--navy);
     color: white;
+}
+
+.booking-section .section-title .eyebrow {
+    color: #b8c8dd;
+}
+
+.booking-section .section-title p {
+    color: #b7c5d9;
 }
 
 .booking-layout {
@@ -645,6 +754,7 @@ select {
 .booking-list {
     display: grid;
     gap: 14px;
+    margin-bottom: 26px;
 }
 
 .booking-list div {
@@ -664,6 +774,7 @@ select {
     align-items: center;
     font-size: 12px;
     font-weight: 900;
+    flex-shrink: 0;
 }
 
 .booking-form-box {
@@ -685,6 +796,38 @@ select {
     margin-bottom: 20px;
 }
 
+.checklist {
+    background: var(--light);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+    display: grid;
+    gap: 12px;
+}
+
+.checklist label {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checklist input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--navy);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.checklist a {
+    color: var(--blue);
+    text-decoration: underline;
+    font-weight: 700;
+}
+
 .booking-button {
     width: 100%;
     background: var(--navy);
@@ -695,10 +838,28 @@ select {
     font-size: 16px;
     font-weight: 800;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    transition: .2s;
 }
 
 .booking-button:hover {
     background: var(--navy2);
+}
+
+.booking-button.locked {
+    background: #c5cfdc;
+    color: #f4f7fb;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.lock-note {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
 }
 
 /* =========================
@@ -839,7 +1000,6 @@ select {
     text-align: right;
 }
 
-/* Hide second item in quotation by default */
 .hidden-row {
     display: none !important;
 }
@@ -998,6 +1158,19 @@ footer {
         display: none;
     }
 
+    .nav-links.open {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: #06152f;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
     .mobile-menu {
         display: block;
     }
@@ -1029,6 +1202,10 @@ footer {
 }
 
 @media(max-width: 650px) {
+
+    html {
+        scroll-padding-top: 68px;
+    }
 
     .nav-inner {
         height: 68px;
@@ -1065,18 +1242,27 @@ footer {
         font-size: 16px;
     }
 
+    .journey-inner {
+        grid-template-columns: 1fr;
+    }
+
     .steps,
     .terms-grid,
     .reviews {
         grid-template-columns: 1fr;
     }
-    
+
     .equipment-grid {
         grid-template-columns: 1fr;
     }
 
     .section {
         padding: 65px 18px;
+    }
+
+    .booking-info,
+    .booking-form-box {
+        padding: 26px;
     }
 
     .footer-main {
@@ -1119,16 +1305,16 @@ footer {
             <div class="logo-text">SNAPGEAR RENTALS</div>
         </a>
 
-        <div class="nav-links">
+        <div class="nav-links" id="navLinks">
             <a href="#home">Home</a>
             <a href="#how">How to Rent</a>
             <a href="#terms">Terms</a>
-            <a href="#reviews">Reviews</a>
             <a href="#equipment">Equipment</a>
+            <a href="#reviews">Reviews</a>
             <a href="#booking" class="nav-book">BOOK A RENTAL</a>
         </div>
 
-        <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+        <button class="mobile-menu" onclick="toggleMenu()" aria-label="Open menu">☰</button>
 
     </div>
 </nav>
@@ -1163,18 +1349,12 @@ footer {
 
             <div class="hero-buttons">
 
-                <a
-                    href="#booking"
-                    class="btn btn-primary"
-                >
-                    📸 Book a Rental
+                <a href="#how" class="btn btn-primary">
+                    📸 Start Your Rental
                 </a>
 
-                <a
-                    href="#how"
-                    class="btn btn-outline"
-                >
-                    How to Rent
+                <a href="#equipment" class="btn btn-outline">
+                    View Equipment
                 </a>
 
             </div>
@@ -1239,7 +1419,42 @@ footer {
 
 
 <!-- =========================
-      HOW IT WORKS
+      RENTAL JOURNEY STRIP
+========================= -->
+
+<div class="journey">
+    <div class="journey-inner">
+
+        <a href="#how" class="journey-step">
+            <div class="journey-num">1</div>
+            <div>
+                <strong>How to Rent</strong>
+                <small>See the rental process</small>
+            </div>
+        </a>
+
+        <a href="#terms" class="journey-step">
+            <div class="journey-num">2</div>
+            <div>
+                <strong>Terms &amp; Conditions</strong>
+                <small>Read the requirements</small>
+            </div>
+        </a>
+
+        <a href="#booking" class="journey-step">
+            <div class="journey-num">3</div>
+            <div>
+                <strong>Book a Rental</strong>
+                <small>Fill out the booking form</small>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+
+<!-- =========================
+      STEP 1 — HOW TO RENT
 ========================= -->
 
 <section class="section" id="how">
@@ -1248,7 +1463,7 @@ footer {
 
         <div class="section-title">
 
-            <div class="eyebrow">Simple Process</div>
+            <div class="step-badge">Step 1 of 3</div>
 
             <h2>How to Rent</h2>
 
@@ -1336,13 +1551,18 @@ footer {
 
         </div>
 
+        <div class="next-step">
+            <small>Next step</small>
+            <a href="#terms" class="btn btn-dark">Read Terms &amp; Conditions ↓</a>
+        </div>
+
     </div>
 
 </section>
 
 
 <!-- =========================
-      TERMS
+      STEP 2 — TERMS
 ========================= -->
 
 <section class="section section-light" id="terms">
@@ -1351,13 +1571,13 @@ footer {
 
         <div class="section-title">
 
-            <div class="eyebrow">Please Read</div>
+            <div class="step-badge">Step 2 of 3</div>
 
-            <h2>Terms & Conditions</h2>
+            <h2>Terms &amp; Conditions</h2>
 
             <p>
-                These requirements help keep every rental
-                safe and secure.
+                Please read these before booking. These requirements
+                help keep every rental safe and secure.
             </p>
 
         </div>
@@ -1429,10 +1649,7 @@ footer {
                 </p>
 
                 <p style="margin-top:10px;">
-                    <a
-                        href="https://www.facebook.com/angelo.pacya12"
-                        target="_blank"
-                    >
+                    <a href="https://www.facebook.com/angelo.pacya12" target="_blank" rel="noopener">
                         Facebook Profile →
                     </a>
                 </p>
@@ -1449,209 +1666,130 @@ footer {
                 </p>
 
                 <p style="margin-top:10px;">
-                    <a
-                        href="https://script.google.com/a/*/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec"
-                        target="_blank"
-                    >
-                        Open Booking Form →
-                    </a>
+                    <a href="#booking">Go to Booking Form ↓</a>
                 </p>
             </div>
 
         </div>
 
+        <div class="next-step">
+            <small>Next step</small>
+            <a href="#booking" class="btn btn-dark">Book a Rental ↓</a>
+        </div>
+
     </div>
 
 </section>
 
 
 <!-- =========================
-      REVIEWS
+      STEP 3 — BOOKING
 ========================= -->
 
-<section class="section reviews-section" id="reviews">
+<section class="section booking-section" id="booking">
 
     <div class="container">
 
         <div class="section-title">
 
-            <div class="eyebrow">From Our Renters</div>
+            <div class="step-badge">Step 3 of 3</div>
 
-            <h2>What Our Customers Say</h2>
+            <h2>Book a Rental</h2>
 
             <p>
-                Real feedback from customers who rented
-                with SnapGear Rentals.
+                Ready to rent? Complete the booking form and
+                wait for the owner to contact you for confirmation.
             </p>
 
         </div>
 
 
-        <div class="reviews">
+        <div class="booking-layout">
 
-            <div class="review">
 
-                <div class="stars">★★★★★</div>
+            <div class="booking-info">
 
-                <div class="review-text">
-                    “Highly recommended! Super fast transaction
-                    and the owner, sir Angelo, is so kind and
-                    mabilis mag reply sa mga inquiries namin.
-                    Thank you so much!”
-                </div>
+                <h3>Ready to shoot?</h3>
 
-                <div class="review-author">
-                    — Mhel Faye
+                <p>
+                    Submit your rental request through our
+                    official booking form.
+                </p>
+
+                <div class="booking-list">
+
+                    <div>
+                        <span>1</span>
+                        <div>Choose your equipment and rental dates.</div>
+                    </div>
+
+                    <div>
+                        <span>2</span>
+                        <div>Complete the booking form.</div>
+                    </div>
+
+                    <div>
+                        <span>3</span>
+                        <div>
+                            The owner will message you using the
+                            Facebook account listed in the form.
+                        </div>
+                    </div>
+
+                    <div>
+                        <span>4</span>
+                        <div>Complete verification and rental requirements.</div>
+                    </div>
+
                 </div>
 
                 <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/1JKUFa6Jbk/"
+                    href="https://www.facebook.com/angelo.pacya12"
                     target="_blank"
+                    rel="noopener"
+                    class="btn btn-outline"
                 >
-                    View Facebook Post →
+                    Verify Owner on Facebook
                 </a>
 
             </div>
 
 
-            <div class="review">
+            <div class="booking-form-box">
 
-                <div class="stars">★★★★★</div>
+                <h3>Official Booking Form</h3>
 
-                <div class="review-text">
-                    “smooth transaction with Angelo! super legit!
-                    100% will recommend!!”
-                </div>
+                <p>
+                    After submitting the form, the owner will
+                    contact you through the personal Facebook
+                    account indicated in your submission.
+                </p>
 
-                <div class="review-author">
-                    — George
-                </div>
-
-                <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/17ubD7QtfQ/"
-                    target="_blank"
-                >
-                    View Facebook Post →
-                </a>
-
-            </div>
-
-
-            <div class="review">
-
-                <div class="stars">★★★★★</div>
-
-                <div class="review-text">
-                    “would totally recommend!! the owner is super
-                    accommodating and will help you figure out
-                    exactly which camera fits your vibe! Tried the
-                    Camera 360 and it was sooo goodddd. I’m already
-                    excited to check out their other ones next time.
-                    Thank uuu, SnapGear!”
-                </div>
-
-                <div class="review-author">
-                    — Raine
+                <div class="checklist">
+                    <label>
+                        <input type="checkbox" class="agree-check" onchange="updateBookingLock()">
+                        <span>I have read <a href="#how">How to Rent</a>.</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" class="agree-check" onchange="updateBookingLock()">
+                        <span>I have read and agree to the <a href="#terms">Terms &amp; Conditions</a>.</span>
+                    </label>
                 </div>
 
                 <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/1CsghtBxmg/"
+                    id="bookingButton"
+                    href="https://script.google.com/a/*/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec"
                     target="_blank"
+                    rel="noopener"
+                    class="booking-button locked"
+                    aria-disabled="true"
                 >
-                    View Facebook Post →
+                    OPEN BOOKING FORM
                 </a>
 
-            </div>
-
-
-            <div class="review">
-
-                <div class="stars">★★★★★</div>
-
-                <div class="review-text">
-                    “I recommend this! Very accommodating, respectful
-                    and fun to conversate with. Lalo yung may ari!
-                    Napakabait! Thank you po so much. 10/10. Legit!”
+                <div class="lock-note" id="lockNote">
+                    Tick both boxes above to open the booking form.
                 </div>
-
-                <div class="review-author">
-                    — Deondre
-                </div>
-
-                <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/18DqQ71Gio/"
-                    target="_blank"
-                >
-                    View Facebook Post →
-                </a>
-
-            </div>
-
-
-            <div class="review">
-
-                <div class="stars">★★★★★</div>
-
-                <div class="review-text">
-                    “Highly recommended!! Very accommodating kahit
-                    super rush ung booking. maraming salamat po at
-                    sa mga susunod na events ❤️. Special thanks
-                    kay Sir Angelo 👍”
-                </div>
-
-                <div class="review-author">
-                    — Jay
-                </div>
-
-                <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/1ascxLp5bE/"
-                    target="_blank"
-                >
-                    View Facebook Post →
-                </a>
-
-            </div>
-
-
-            <div class="review">
-
-                <div class="stars">★★★★★</div>
-
-                <div class="review-text">
-                    “Five out of five stars for SnapGear Rentals!
-                    My whole experience with them was super smooth
-                    and easy—the best rental process I've ever dealt
-                    with. they totally kept me updated on the shipping
-                    details, so I knew exactly when my unit would show
-                    up. Plus, they made the contract stuff incredibly
-                    easy to understand, which made me feel confident
-                    and stress-free about the whole thing. They got
-                    back to my questions right away and were always
-                    super polite and helpful. The shop is the perfect
-                    find if you want to take good quality, professional
-                    photos on your travels without dropping a ton of
-                    cash on a permanent camera. If you're looking for
-                    flexible, high-quality gear backed by genuinely
-                    great service, you've found it. I highly recommend
-                    checking them out!”
-                </div>
-
-                <div class="review-author">
-                    — Menchu
-                </div>
-
-                <a
-                    class="review-link"
-                    href="https://www.facebook.com/share/p/1HJB2XfHNL/"
-                    target="_blank"
-                >
-                    View Facebook Post →
-                </a>
 
             </div>
 
@@ -1663,7 +1801,7 @@ footer {
 
 
 <!-- =========================
-      EQUIPMENT (REDESIGNED)
+      EQUIPMENT
 ========================= -->
 
 <section class="section" id="equipment">
@@ -1992,117 +2130,9 @@ footer {
 
         </div>
 
-    </div>
-
-</section>
-
-
-<!-- =========================
-      BOOKING
-========================= -->
-
-<section class="section booking-section" id="booking">
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <div class="eyebrow">Reserve Your Gear</div>
-
-            <h2>Book a Rental</h2>
-
-            <p>
-                Ready to rent? Complete the booking form and
-                wait for the owner to contact you for confirmation.
-            </p>
-
-        </div>
-
-
-        <div class="booking-layout">
-
-
-            <div class="booking-info">
-
-                <h3>Ready to shoot?</h3>
-
-                <p>
-                    Submit your rental request through our
-                    official booking form.
-                </p>
-
-                <div class="booking-list">
-
-                    <div>
-                        <span>1</span>
-                        <div>
-                            Choose your equipment and rental dates.
-                        </div>
-                    </div>
-
-                    <div>
-                        <span>2</span>
-                        <div>
-                            Complete the booking form.
-                        </div>
-                    </div>
-
-                    <div>
-                        <span>3</span>
-                        <div>
-                            The owner will message you using the
-                            Facebook account listed in the form.
-                        </div>
-                    </div>
-
-                    <div>
-                        <span>4</span>
-                        <div>
-                            Complete verification and rental requirements.
-                        </div>
-                    </div>
-
-                </div>
-
-                <br>
-
-                <a
-                    href="https://www.facebook.com/angelo.pacya12"
-                    target="_blank"
-                    class="btn btn-outline"
-                >
-                    Verify Owner on Facebook
-                </a>
-
-            </div>
-
-
-            <div class="booking-form-box">
-
-                <h3>Official Booking Form</h3>
-
-                <p>
-                    Click the button below to open the official
-                    SnapGear Rentals booking form.
-                </p>
-
-                <p>
-                    After submitting the form, the owner will
-                    contact you through the personal Facebook
-                    account indicated in your submission.
-                </p>
-
-                <a
-                    href="https://script.google.com/a/*/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec"
-                    target="_blank"
-                    class="booking-button"
-                    style="display:flex;text-align:center;"
-                >
-                    OPEN BOOKING FORM
-                </a>
-
-            </div>
-
+        <div class="next-step">
+            <small>Found the gear you want?</small>
+            <a href="#booking" class="btn btn-dark">Book a Rental ↑</a>
         </div>
 
     </div>
@@ -2140,21 +2170,18 @@ footer {
                 <h3>Quotation Details</h3>
 
                 <div class="field">
-
-                    <label>Your Name</label>
-
+                    <label for="clientName">Your Name</label>
                     <input
                         type="text"
                         id="clientName"
                         placeholder="Enter your name"
                         oninput="updateQuotation()"
                     >
-
                 </div>
 
 
                 <div class="field">
-                    <label>Select Primary Equipment</label>
+                    <label for="equipmentSelect">Select Primary Equipment</label>
                     <select id="equipmentSelect" onchange="updateQuotation()">
                         <option value="DJI Osmo Pocket 3 Creator Combo" data-short="DJI Osmo Pocket 3" data-rate3="435" data-rate4="375">DJI Osmo Pocket 3 Creator Combo</option>
                         <option value="DJI Osmo Pocket 4 Creator Combo" data-short="DJI Osmo Pocket 4" data-rate3="450" data-rate4="550">DJI Osmo Pocket 4 Creator Combo</option>
@@ -2168,7 +2195,7 @@ footer {
                 </div>
 
                 <div class="field">
-                    <label>Select Second Equipment (Optional, Max 2)</label>
+                    <label for="equipmentSelect2">Select Second Equipment (Optional, Max 2)</label>
                     <select id="equipmentSelect2" onchange="updateQuotation()">
                         <option value="none" data-short="None" data-rate3="0" data-rate4="0">None (1 Item Only)</option>
                         <option value="DJI Osmo Pocket 3 Creator Combo" data-short="DJI Osmo Pocket 3" data-rate3="435" data-rate4="375">DJI Osmo Pocket 3 Creator Combo</option>
@@ -2184,50 +2211,22 @@ footer {
 
 
                 <div class="field">
-
-                    <label>Start Date</label>
-
-                    <input
-                        type="date"
-                        id="startDate"
-                        onchange="updateQuotation()"
-                    >
-
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
                 </div>
 
 
                 <div class="field">
-
-                    <label>End Date</label>
-
-                    <input
-                        type="date"
-                        id="endDate"
-                        onchange="updateQuotation()"
-                    >
-
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" onchange="updateQuotation()">
                 </div>
 
 
-                <div
-                    style="
-                    background:#f4f7fb;
-                    padding:15px;
-                    border-radius:10px;
-                    margin-bottom:18px;
-                    "
-                >
+                <div style="background:#f4f7fb;padding:15px;border-radius:10px;margin-bottom:18px;">
 
                     <strong>Rental Period</strong>
 
-                    <div
-                        id="daysDisplay"
-                        style="
-                        font-size:24px;
-                        font-family:Montserrat,sans-serif;
-                        margin-top:3px;
-                        "
-                    >
+                    <div id="daysDisplay" style="font-size:24px;font-family:Montserrat,sans-serif;margin-top:3px;">
                         0 days
                     </div>
 
@@ -2239,10 +2238,7 @@ footer {
                 </div>
 
 
-                <button
-                    class="download-btn"
-                    onclick="downloadQuotation()"
-                >
+                <button class="download-btn" onclick="downloadQuotation()">
                     DOWNLOAD QUOTATION AS JPEG
                 </button>
 
@@ -2256,19 +2252,12 @@ footer {
                     <div class="quote-header">
 
                         <div class="quote-brand">
-
                             <h2>SNAPGEAR RENTALS</h2>
-
                         </div>
 
                         <div class="quote-label">
-
                             <strong>QUOTATION</strong>
-
-                            <small id="quoteDate">
-                                —
-                            </small>
-
+                            <small id="quoteDate">—</small>
                         </div>
 
                     </div>
@@ -2307,7 +2296,6 @@ footer {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Item 1 -->
                             <tr>
                                 <td>
                                     <strong id="qRateDescription">Rental Rate (Item 1)</strong>
@@ -2316,7 +2304,6 @@ footer {
                                 </td>
                                 <td id="qRental">₱0</td>
                             </tr>
-                            <!-- Item 2 (Hidden by default) -->
                             <tr id="qRow2" class="hidden-row">
                                 <td>
                                     <strong id="qRateDescription2">Rental Rate (Item 2)</strong>
@@ -2336,63 +2323,174 @@ footer {
                     <div class="quote-total">
 
                         <div class="total-row">
-
                             <span>Rental Cost</span>
-
-                            <strong id="qRental2">
-                                ₱0
-                            </strong>
-
+                            <strong id="qRental2">₱0</strong>
                         </div>
 
                         <div class="total-row">
-
                             <span>Security Deposit</span>
-
                             <strong id="qDepositTotal">₱1,000</strong>
-
                         </div>
 
                         <div class="total-row grand">
-
                             <span>Total Due</span>
-
-                            <strong id="qTotal">
-                                ₱1,000
-                            </strong>
-
+                            <strong id="qTotal">₱1,000</strong>
                         </div>
 
                     </div>
 
 
                     <div class="refund-note">
-
                         <strong>Important:</strong>
                         The security deposit is refundable
                         upon return and inspection of the equipment.
                         This quotation does not include the ₱200
                         reservation fee.
-
                     </div>
 
 
                     <div class="quote-footer">
-
                         <strong>SNAPGEAR RENTALS</strong><br>
-
                         SMDC Vine Residences Tower 4,
                         Near SM Novaliches<br>
-
-                        Metro Manila & Nearby Provinces —
+                        Metro Manila &amp; Nearby Provinces —
                         Grab / Lalamove Delivery<br>
-
                         Contact: 0935-385-4220
-
                     </div>
 
                 </div>
 
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+      REVIEWS
+========================= -->
+
+<section class="section reviews-section" id="reviews">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">From Our Renters</div>
+
+            <h2>What Our Customers Say</h2>
+
+            <p>
+                Real feedback from customers who rented
+                with SnapGear Rentals.
+            </p>
+
+        </div>
+
+
+        <div class="reviews">
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “Highly recommended! Super fast transaction
+                    and the owner, sir Angelo, is so kind and
+                    mabilis mag reply sa mga inquiries namin.
+                    Thank you so much!”
+                </div>
+                <div class="review-author">— Mhel Faye</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/1JKUFa6Jbk/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
+            </div>
+
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “smooth transaction with Angelo! super legit!
+                    100% will recommend!!”
+                </div>
+                <div class="review-author">— George</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/17ubD7QtfQ/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
+            </div>
+
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “would totally recommend!! the owner is super
+                    accommodating and will help you figure out
+                    exactly which camera fits your vibe! Tried the
+                    Camera 360 and it was sooo goodddd. I’m already
+                    excited to check out their other ones next time.
+                    Thank uuu, SnapGear!”
+                </div>
+                <div class="review-author">— Raine</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/1CsghtBxmg/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
+            </div>
+
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “I recommend this! Very accommodating, respectful
+                    and fun to conversate with. Lalo yung may ari!
+                    Napakabait! Thank you po so much. 10/10. Legit!”
+                </div>
+                <div class="review-author">— Deondre</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/18DqQ71Gio/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
+            </div>
+
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “Highly recommended!! Very accommodating kahit
+                    super rush ung booking. maraming salamat po at
+                    sa mga susunod na events ❤️. Special thanks
+                    kay Sir Angelo 👍”
+                </div>
+                <div class="review-author">— Jay</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/1ascxLp5bE/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
+            </div>
+
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="review-text">
+                    “Five out of five stars for SnapGear Rentals!
+                    My whole experience with them was super smooth
+                    and easy—the best rental process I've ever dealt
+                    with. they totally kept me updated on the shipping
+                    details, so I knew exactly when my unit would show
+                    up. Plus, they made the contract stuff incredibly
+                    easy to understand, which made me feel confident
+                    and stress-free about the whole thing. They got
+                    back to my questions right away and were always
+                    super polite and helpful. The shop is the perfect
+                    find if you want to take good quality, professional
+                    photos on your travels without dropping a ton of
+                    cash on a permanent camera. If you're looking for
+                    flexible, high-quality gear backed by genuinely
+                    great service, you've found it. I highly recommend
+                    checking them out!”
+                </div>
+                <div class="review-author">— Menchu</div>
+                <a class="review-link" href="https://www.facebook.com/share/p/1HJB2XfHNL/" target="_blank" rel="noopener">
+                    View Facebook Post →
+                </a>
             </div>
 
         </div>
@@ -2427,39 +2525,18 @@ footer {
         <div class="contact-grid">
 
             <div class="contact-card">
-
                 <h3>📱 Contact</h3>
-
-                <p>
-                    <a href="tel:09353854220">
-                        0935-385-4220
-                    </a>
-                </p>
-
+                <p><a href="tel:09353854220">0935-385-4220</a></p>
             </div>
 
-
             <div class="contact-card">
-
                 <h3>📍 Pickup</h3>
-
-                <p>
-                    SMDC Vine Residences Tower 4,
-                    Near SM Novaliches
-                </p>
-
+                <p>SMDC Vine Residences Tower 4, Near SM Novaliches</p>
             </div>
 
-
             <div class="contact-card">
-
                 <h3>🚚 Delivery</h3>
-
-                <p>
-                    Grab / Lalamove around Metro Manila
-                    and nearby provinces
-                </p>
-
+                <p>Grab / Lalamove around Metro Manila and nearby provinces</p>
             </div>
 
         </div>
@@ -2480,43 +2557,28 @@ footer {
         <div class="footer-main">
 
             <div class="footer-brand">
-
                 <img
                     src="https://drive.google.com/thumbnail?id=1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH&sz=w300"
                     alt="SnapGear Rentals"
                 >
-
                 <strong>SNAPGEAR RENTALS</strong>
-
             </div>
 
 
             <div class="footer-links">
-
-                <a href="#home">Home</a>
-
-                <a href="#reviews">Reviews</a>
-
-                <a href="#equipment">Equipment</a>
-
+                <a href="#how">How to Rent</a>
+                <a href="#terms">Terms</a>
                 <a href="#booking">Booking</a>
-
-                <a
-                    href="https://www.facebook.com/angelo.pacya12"
-                    target="_blank"
-                >
-                    Facebook
-                </a>
-
+                <a href="#equipment">Equipment</a>
+                <a href="#reviews">Reviews</a>
+                <a href="https://www.facebook.com/angelo.pacya12" target="_blank" rel="noopener">Facebook</a>
             </div>
 
         </div>
 
 
         <div class="footer-bottom">
-
             © 2026 SnapGear Rentals. All rights reserved.
-
         </div>
 
     </div>
@@ -2535,28 +2597,36 @@ footer {
 ========================= */
 
 function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("open");
+}
 
-    const nav = document.querySelector(".nav-links");
+// Close the mobile menu after tapping a link
+document.querySelectorAll("#navLinks a").forEach(function(link) {
+    link.addEventListener("click", function() {
+        document.getElementById("navLinks").classList.remove("open");
+    });
+});
 
-    if (nav.style.display === "flex") {
 
-        nav.style.display = "none";
+/* =========================
+   BOOKING LOCK
+   The booking form opens only after the renter
+   confirms they read How to Rent and the Terms.
+========================= */
 
-    } else {
+function updateBookingLock() {
+    const checks = document.querySelectorAll(".agree-check");
+    const allChecked = Array.from(checks).every(function(c) { return c.checked; });
 
-        nav.style.display = "flex";
+    const button = document.getElementById("bookingButton");
+    const note = document.getElementById("lockNote");
 
-        nav.style.position = "absolute";
-        nav.style.top = "68px";
-        nav.style.left = "0";
-        nav.style.right = "0";
-        nav.style.padding = "20px";
-        nav.style.background = "#06152f";
-        nav.style.flexDirection = "column";
-        nav.style.alignItems = "stretch";
+    button.classList.toggle("locked", !allChecked);
+    button.setAttribute("aria-disabled", allChecked ? "false" : "true");
 
-    }
-
+    note.textContent = allChecked
+        ? "Thank you! You can now open the booking form."
+        : "Tick both boxes above to open the booking form.";
 }
 
 
@@ -2565,7 +2635,6 @@ function toggleMenu() {
 ========================= */
 
 function calculateDays() {
-
     const start = document.getElementById("startDate").value;
     const end = document.getElementById("endDate").value;
 
@@ -2576,14 +2645,7 @@ function calculateDays() {
     const startDate = new Date(start + "T00:00:00");
     const endDate = new Date(end + "T00:00:00");
 
-    const difference =
-        endDate.getTime() - startDate.getTime();
-
-    const days =
-        Math.round(difference / (1000 * 60 * 60 * 24));
-
-    return days;
-
+    return Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 
@@ -2592,9 +2654,7 @@ function calculateDays() {
 ========================= */
 
 function peso(number) {
-
     return "₱" + Number(number).toLocaleString("en-PH");
-
 }
 
 
@@ -2610,20 +2670,20 @@ function updateQuotation() {
 
     if (days < 0) days = 0;
 
-    // Get Item 1
+    // Item 1
     const select1 = document.getElementById("equipmentSelect");
     const option1 = select1.options[select1.selectedIndex];
     const equip1 = option1.value;
     let rate1 = days >= 4 ? Number(option1.dataset.rate4) : Number(option1.dataset.rate3);
 
-    // Get Item 2
+    // Item 2
     const select2 = document.getElementById("equipmentSelect2");
     const option2 = select2.options[select2.selectedIndex];
     const equip2 = option2.value;
     let rate2 = days >= 4 ? Number(option2.dataset.rate4) : Number(option2.dataset.rate3);
 
-    // PROMO LOGIC: Fujifilm XT30 II + Tamron 18-300mm combo
-    const isCombo = 
+    // PROMO: Fujifilm XT30 II + Tamron 18-300mm combo
+    const isCombo =
         (equip1 === "Fujifilm XT30 II" && equip2 === "Tamron 18-300mm Fuji X Lens") ||
         (equip2 === "Fujifilm XT30 II" && equip1 === "Tamron 18-300mm Fuji X Lens");
 
@@ -2632,50 +2692,47 @@ function updateQuotation() {
         if (equip2 === "Tamron 18-300mm Fuji X Lens") rate2 = 500;
     }
 
-    // Calculations
     const rentalCost1 = rate1 * days;
     const rentalCost2 = (equip2 !== "none") ? rate2 * days : 0;
     const totalRental = rentalCost1 + rentalCost2;
-    
-    // Security Deposit - 2,000 if two items, 1,000 if one item.
-    const securityDeposit = (equip2 !== "none") ? 2000 : 1000; 
+
+    // Security Deposit: 2,000 for two items, 1,000 for one
+    const securityDeposit = (equip2 !== "none") ? 2000 : 1000;
     const total = totalRental + securityDeposit;
 
-    // Update Client Info
+    const dayLabel = days + (days === 1 ? " day" : " days");
+
     document.getElementById("qClient").textContent = name;
     document.getElementById("qEquipment").innerHTML = equip1 + (equip2 !== "none" ? `<br><small style="color:var(--muted)">+ ${equip2}</small>` : "");
-    document.getElementById("qDays").textContent = days + (days === 1 ? " day" : " days");
-    document.getElementById("daysDisplay").textContent = days + (days === 1 ? " day" : " days");
+    document.getElementById("qDays").textContent = dayLabel;
+    document.getElementById("daysDisplay").textContent = dayLabel;
 
-    if (start && end) {
-        document.getElementById("qPeriod").textContent = formatDate(start) + " → " + formatDate(end);
-    } else {
-        document.getElementById("qPeriod").textContent = "—";
-    }
+    document.getElementById("qPeriod").textContent =
+        (start && end) ? formatDate(start) + " → " + formatDate(end) : "—";
 
-    // Update Item 1 UI
+    // Item 1 row
     document.getElementById("qRateDescription").textContent = equip1;
-    let rateText1 = peso(rate1) + " × " + days + (days === 1 ? " day" : " days");
+    let rateText1 = peso(rate1) + " × " + dayLabel;
     if (isCombo && equip1 === "Tamron 18-300mm Fuji X Lens") rateText1 += " (Promo Applied)";
     document.getElementById("qRateText").textContent = rateText1;
     document.getElementById("qRental").textContent = peso(rentalCost1);
 
-    // Update Item 2 UI (Show/Hide)
+    // Item 2 row
     const row2 = document.getElementById("qRow2");
     if (equip2 !== "none") {
         row2.classList.remove("hidden-row");
         document.getElementById("qRateDescription2").textContent = equip2;
-        
-        let rateText2 = peso(rate2) + " × " + days + (days === 1 ? " day" : " days");
+
+        let rateText2 = peso(rate2) + " × " + dayLabel;
         if (isCombo && equip2 === "Tamron 18-300mm Fuji X Lens") rateText2 += " (Promo Applied)";
         document.getElementById("qRateText2").textContent = rateText2;
-        
+
         document.getElementById("qRental2_item").textContent = peso(rentalCost2);
     } else {
         row2.classList.add("hidden-row");
     }
 
-    // Update Totals
+    // Totals
     document.getElementById("qDeposit").textContent = peso(securityDeposit);
     document.getElementById("qDepositTotal").textContent = peso(securityDeposit);
     document.getElementById("qRental2").textContent = peso(totalRental);
@@ -2694,19 +2751,12 @@ function updateQuotation() {
 ========================= */
 
 function formatDate(dateString) {
-
-    const date =
-        new Date(dateString + "T00:00:00");
-
-    return date.toLocaleDateString(
-        "en-PH",
-        {
-            month: "short",
-            day: "numeric",
-            year: "numeric"
-        }
-    );
-
+    const date = new Date(dateString + "T00:00:00");
+    return date.toLocaleDateString("en-PH", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+    });
 }
 
 
@@ -2715,49 +2765,25 @@ function formatDate(dateString) {
 ========================= */
 
 async function downloadQuotation() {
-
     updateQuotation();
 
-    const quotation =
-        document.getElementById("quotation");
+    const quotation = document.getElementById("quotation");
 
-    const canvas =
-        await html2canvas(
-            quotation,
-            {
-                scale: 2,
-                backgroundColor: "#ffffff",
-                useCORS: true,
-                allowTaint: false
-            }
-        );
+    const canvas = await html2canvas(quotation, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        allowTaint: false
+    });
 
-
-    const link =
-        document.createElement("a");
-
-    const name =
-        document.getElementById("clientName").value
+    const name = document.getElementById("clientName").value
         .trim()
-        .replace(/[^a-z0-9]/gi, "-") ||
-        "Customer";
+        .replace(/[^a-z0-9]/gi, "-") || "Customer";
 
-
-    link.download =
-        "SnapGear-Quotation-" +
-        name +
-        ".jpg";
-
-
-    link.href =
-        canvas.toDataURL(
-            "image/jpeg",
-            0.95
-        );
-
-
+    const link = document.createElement("a");
+    link.download = "SnapGear-Quotation-" + name + ".jpg";
+    link.href = canvas.toDataURL("image/jpeg", 0.95);
     link.click();
-
 }
 
 
@@ -2765,45 +2791,22 @@ async function downloadQuotation() {
    INITIALIZE
 ========================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+document.addEventListener("DOMContentLoaded", function() {
 
-        /*
-            Prevent selecting an end date
-            earlier than start date.
-        */
+    // Prevent selecting an end date earlier than the start date
+    document.getElementById("startDate").addEventListener("change", function() {
+        const end = document.getElementById("endDate");
+        end.min = this.value;
 
-        document
-            .getElementById("startDate")
-            .addEventListener(
-                "change",
-                function() {
-
-                    const end =
-                        document.getElementById("endDate");
-
-                    end.min = this.value;
-
-                    if (
-                        end.value &&
-                        end.value < this.value
-                    ) {
-
-                        end.value = "";
-
-                    }
-
-                    updateQuotation();
-
-                }
-            );
-
+        if (end.value && end.value < this.value) {
+            end.value = "";
+        }
 
         updateQuotation();
+    });
 
-    }
-);
+    updateQuotation();
+});
 
 </script>
 
