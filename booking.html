@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Form | SnapGear Rentals</title>
+  <meta name="description" content="Official SnapGear Rentals booking form.">
+  <meta name="robots" content="noindex">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f9;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #172033;
+    }
+
+    .header {
+      background: #0B1F3A;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .header-logo-img {
+      height: 52px;
+      max-height: 52px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-title {
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .06);
+    }
+
+    h1 {
+      color: #0B1F3A;
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid #e7ebf0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0B1F3A;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #25334a;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d5dce5;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      background: white;
+      margin-bottom: 16px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #0B1F3A;
+      box-shadow: 0 0 0 2px rgba(11, 31, 58, .08);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #707b8c;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+
+    .upload-box {
+      border: 1px dashed #b9c4d2;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 16px;
+      background: #fafbfd;
+    }
+
+    .upload-box label {
+      margin-bottom: 10px;
+    }
+
+    .notice {
+      background: #eef3f8;
+      border-left: 4px solid #0B1F3A;
+      padding: 13px;
+      font-size: 12px;
+      color: #465469;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .fb-action-card {
+      background: #f0f6ff;
+      border: 1px solid #bcd7ff;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .fb-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: #1877F2;
+      color: white;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .fb-btn:hover {
+      background: #0d65d9;
+    }
+
+    button {
+      width: 100%;
+      background: #0B1F3A;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #102b50;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #0B1F3A;
+      margin-top: 15px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .success-icon {
+      font-size: 50px;
+      margin-bottom: 10px;
+      color: #10b981;
+    }
+
+    .booking-id {
+      background: #eef3f8;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #0B1F3A;
+      margin: 15px 0;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #7a8493;
+      padding: 25px;
+    }
+
+    .header-back {
+      margin-left: auto;
+      color: #cfd9e8;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .header-back:hover {
+      color: #ffffff;
+    }
+
+    .load-error {
+      display: none;
+      background: #fff4f4;
+      border-left: 4px solid #c0392b;
+      padding: 13px;
+      font-size: 13px;
+      color: #6b1f1f;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .load-error a {
+      color: #6b1f1f;
+      font-weight: bold;
+    }
+
+    @media (max-width: 560px) {
+      .header {
+        flex-wrap: wrap;
+        padding: 14px 16px;
+      }
+
+      .header-title {
+        font-size: 13px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <img src="https://lh3.googleusercontent.com/d/1k8i3iCrQTpYOAkYoSrx1Mrn7AD-lbkgH" alt="SnapGear Rentals Logo" class="header-logo-img">
+    <div class="header-title">SNAPGEAR RENTALS — RESERVATION FORM</div>
+    <a href="./" class="header-back">← Back to website</a>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div id="formArea">
+        <h1>Rental Request</h1>
+        <p style="color:#667085;font-size:13px;">
+          Complete the form below to request your camera equipment rental.
+        </p>
+
+        <div class="notice">
+          Please make sure all details and verification documents are clear and accurate.
+        </div>
+
+        <div class="load-error" id="loadError">
+          We couldn't load the equipment list. Please refresh the page, or message us on
+          <a href="https://www.facebook.com/angelo.pacya12" target="_blank" rel="noopener">Facebook</a>
+          to book.
+        </div>
+
+        <!-- 01 CLIENT INFORMATION -->
+        <div class="section">
+          <div class="section-title">01 — Client Information</div>
+
+          <label>Full Name *</label>
+          <input type="text" id="clientName" placeholder="Enter your full name" required>
+
+          <label>Contact Number *</label>
+          <input type="tel" id="contactNumber" placeholder="09XXXXXXXXX" required>
+
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="you@email.com" required>
+
+          <label>Facebook Profile Link *</label>
+          <input type="url" id="facebook" placeholder="https://facebook.com/yourprofile" required>
+          <div class="hint">Ensure your profile is accessible so we can connect for verification.</div>
+
+          <label>Instagram Profile Link</label>
+          <input type="url" id="instagram" placeholder="https://instagram.com/yourusername">
+        </div>
+
+        <!-- 02 EQUIPMENT & DATES -->
+        <div class="section">
+          <div class="section-title">02 — Equipment & Schedule</div>
+
+          <label>Equipment / Camera *</label>
+          <select id="equipment" required>
+            <option value="">Select equipment</option>
+          </select>
+
+          <label>Rental Start *</label>
+          <input type="datetime-local" id="startDateTime" required>
+
+          <label>Return Date / Time *</label>
+          <input type="datetime-local" id="returnDateTime" required>
+
+          <label>Pickup / Delivery *</label>
+          <select id="pickupDelivery" required>
+            <option value="">Select option</option>
+            <option value="Pickup">Pickup</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+
+          <label>Complete Address *</label>
+          <textarea id="address" placeholder="Complete home or delivery address" required></textarea>
+        </div>
+
+        <!-- 03 IDENTITY VERIFICATION -->
+        <div class="section">
+          <div class="section-title">03 — Identity Verification</div>
+
+          <div class="upload-box">
+            <label>Valid ID #1 *</label>
+            <input type="file" id="id1" accept="image/*,.pdf" required>
+          </div>
+
+          <div class="upload-box">
+            <label>Valid ID #2 *</label>
+            <input type="file" id="id2" accept="image/*,.pdf" required>
+          </div>
+
+          <div class="upload-box">
+            <label>Selfie Holding Both Valid IDs *</label>
+            <input type="file" id="selfie" accept="image/*" required>
+          </div>
+
+          <div class="upload-box">
+            <label>Proof of Billing Address *</label>
+            <input type="file" id="billing" accept="image/*,.pdf" required>
+            <div class="hint" style="margin-top:4px;margin-bottom:0;color:#556987;">
+              * Note: Online deliveries (Shopee, Lazada, TikTok Shop, Grab, or courier waybills) will do.
+            </div>
+          </div>
+        </div>
+
+        <button id="submitButton" onclick="submitForm()">SUBMIT RENTAL REQUEST</button>
+        <div class="loading" id="loading">Compressing images & submitting request...</div>
+      </div>
+
+      <!-- SUCCESS SCREEN -->
+      <div class="success" id="successArea">
+        <div class="success-icon">✓</div>
+        <h1>Request Submitted</h1>
+        <p>
+          Thank you for choosing SnapGear Rentals.
+          Your rental request has been received and is now pending review.
+        </p>
+
+        <div class="booking-id">
+          Booking ID<br>
+          <span id="bookingId"></span>
+        </div>
+
+        <!-- FB VERIFICATION CARD -->
+        <div class="fb-action-card">
+          <strong style="color:#0B1F3A;font-size:14px;">⚠️ Important Next Step (Identity Verification):</strong>
+          <p style="font-size:13px;color:#334155;margin:8px 0;">
+            To proceed with verification, please make sure we are mutuals or connected on Facebook so we can communicate directly regarding your contract and pickup details.
+          </p>
+          <a href="https://www.facebook.com/angelo.pacya12" target="_blank" class="fb-btn">
+            Connect on Facebook →
+          </a>
+        </div>
+
+        <p style="font-size:13px;color:#667085;">
+          Please save your Booking ID. You will also receive an automated confirmation email once your booking is officially confirmed.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      © SnapGear Rentals
+    </div>
+  </div>
+
+  <script>
+    // SnapGear Apps Script web app. The page talks to it in the background
+    // (no Google sign-in involved), so it works even when the visitor's
+    // browser is signed in to several Google accounts.
+    const API_URL = 'https://script.google.com/macros/s/AKfycby5Vpnw_J36WgSgxykWtgZLjB39zUd-9vLvgWmW0Dwdtg5_zxyAz_VA8jkN30orB-Z6UQ/exec';
+
+    function loadEquipment() {
+      fetch(API_URL + '?action=equipment', { credentials: 'omit' })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (!data || !data.success) throw new Error((data && data.error) || 'Unknown error');
+          const select = document.getElementById('equipment');
+          data.items.forEach(function(item) {
+            const opt = document.createElement('option');
+            opt.value = item.name;
+            opt.textContent = item.name;
+            select.appendChild(opt);
+          });
+        })
+        .catch(function() {
+          document.getElementById('loadError').style.display = 'block';
+        });
+    }
+
+    function sendBooking(form) {
+      // text/plain keeps this a "simple" request, so the browser doesn't
+      // need a CORS preflight that Apps Script can't answer.
+      return fetch(API_URL, {
+        method: 'POST',
+        credentials: 'omit',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(form)
+      }).then(function(res) { return res.json(); });
+    }
+
+    function processAndCompressFile(file) {
+      return new Promise(function(resolve, reject) {
+        if (!file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function() {
+            resolve({ data: reader.result, name: file.name, type: file.type });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const maxDimension = 1400;
+
+            if (width > height && width > maxDimension) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else if (height > maxDimension) {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+            resolve({
+              data: compressedDataUrl,
+              name: file.name.replace(/\.[^/.]+$/, "") + ".jpg",
+              type: 'image/jpeg'
+            });
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitForm() {
+      const button = document.getElementById('submitButton');
+      const loading = document.getElementById('loading');
+
+      const name = document.getElementById('clientName').value.trim();
+      const contact = document.getElementById('contactNumber').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const facebook = document.getElementById('facebook').value.trim();
+      const instagram = document.getElementById('instagram').value.trim();
+
+      const equip = document.getElementById('equipment').value;
+      const start = document.getElementById('startDateTime').value;
+      const end = document.getElementById('returnDateTime').value;
+      const pickup = document.getElementById('pickupDelivery').value;
+      const address = document.getElementById('address').value.trim();
+
+      const id1 = document.getElementById('id1').files[0];
+      const id2 = document.getElementById('id2').files[0];
+      const selfie = document.getElementById('selfie').files[0];
+      const billing = document.getElementById('billing').files[0];
+
+      if (!name || !contact || !email || !facebook || !equip || !start || !end || !pickup || !address) {
+        alert('Please complete all required fields.');
+        return;
+      }
+
+      if (!id1 || !id2 || !selfie || !billing) {
+        alert('Please upload all 4 required files: ID #1, ID #2, Selfie with IDs, and Proof of Billing Address.');
+        return;
+      }
+
+      try {
+        button.disabled = true;
+        loading.style.display = 'block';
+
+        const files = await Promise.all([
+          processAndCompressFile(id1),
+          processAndCompressFile(id2),
+          processAndCompressFile(selfie),
+          processAndCompressFile(billing)
+        ]);
+
+        const form = {
+          clientName: name,
+          contactNumber: contact,
+          email: email,
+          socialLink: facebook,
+          equipment: equip,
+          startDateTime: start,
+          returnDateTime: end,
+          pickupDelivery: pickup,
+          address: address,
+          id1Data: files[0].data,
+          id1FileName: files[0].name,
+          id2Data: files[1].data,
+          id2FileName: files[1].name,
+          selfieData: files[2].data,
+          selfieFileName: files[2].name,
+          billingData: files[3].data,
+          billingFileName: files[3].name
+        };
+
+        let result;
+        try {
+          result = await sendBooking(form);
+        } catch (networkError) {
+          alert('Could not reach the booking system. Please check your internet connection and try again.');
+          button.disabled = false;
+          loading.style.display = 'none';
+          return;
+        }
+
+        if (!result || !result.success) {
+          alert((result && result.error) || 'Something went wrong. Please try again.');
+          button.disabled = false;
+          loading.style.display = 'none';
+          return;
+        }
+
+        document.getElementById('formArea').style.display = 'none';
+        document.getElementById('successArea').style.display = 'block';
+        document.getElementById('bookingId').textContent = result.bookingId;
+        window.scrollTo(0, 0);
+
+      } catch (error) {
+        alert('Unable to process your files. Please try again.');
+        button.disabled = false;
+        loading.style.display = 'none';
+      }
+    }
+
+    loadEquipment();
+  </script>
+</body>
+
+</html>
