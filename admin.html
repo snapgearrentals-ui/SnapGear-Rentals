@@ -149,6 +149,21 @@ tr.countrow td.zero{color:var(--over)}
 tr.countrow td.some{color:var(--free)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.wk{margin-bottom:14px}
+.wk-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.wk-head h3{font-size:16px;margin-right:auto}
+.wk-head .tot{font-size:13px;color:var(--muted)}
+.wk-grid{display:grid;grid-template-columns:repeat(7,minmax(112px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.wk-day{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 10px 8px;min-width:0}
+.wk-day.today{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.wk-day .dn{font-size:12px;color:var(--muted);font-weight:600}
+.wk-day .big{font-family:"Montserrat",sans-serif;font-size:28px;font-weight:800;line-height:1.1;margin:2px 0 0;color:var(--out)}
+.wk-day .big.zero{color:#aab4c3}
+.wk-day .lab{font-size:11px;color:var(--muted);margin-bottom:6px}
+.wk-day ul{list-style:none;margin:0;padding:6px 0 0;border-top:1px solid #eef1f5;font-size:12px}
+.wk-day li{display:flex;justify-content:space-between;gap:6px;padding:1px 0}
+.wk-day li span:last-child{font-weight:700}
+.wk-day .mv{font-size:11px;color:var(--muted);margin-top:6px}
 .cal-nav{display:flex;align-items:center;gap:8px}
 .cal-nav h3{min-width:160px;text-align:center;font-size:18px}
 
@@ -664,6 +679,37 @@ function runCheck(){
    CALENDAR  (one row per physical unit)
 ========================================================= */
 let calM = {y: new Date().getFullYear(), m: new Date().getMonth()};
+const mondayOf = s => { const d = parse(s); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return iso(d); };
+let calW = mondayOf(today());
+
+/* weekly strip: how many units are out on each day of a Mon–Sun week */
+function weekStrip(){
+  const t = today(), days = [];
+  for(let k=0; k<7; k++) days.push(addDays(calW, k));
+  let unitDays = 0, ids = new Set();
+  const cards = days.map(i => {
+    const bs = db.bookings.filter(b => occ(b) && b.start <= i && b.end >= i);
+    const perModel = {};
+    let n = 0;
+    bs.forEach(b => b.cameras.forEach(id => { const c = modelOf(id); if(!c) return; n++; perModel[c.short] = (perModel[c.short] || 0) + 1; }));
+    unitDays += n; bs.forEach(b => ids.add(b.id));
+    const out = bs.filter(b => b.start === i).length, back = bs.filter(b => b.end === i).length;
+    const lis = Object.entries(perModel).map(([k,v]) => `<li><span>${esc(k)}</span><span>×${v}</span></li>`).join('');
+    const dow = parse(i).toLocaleDateString('en-PH',{weekday:'short'});
+    return `<div class="wk-day ${i === t ? 'today' : ''}"><div class="dn">${dow} · ${fmt(i)}</div>
+      <div class="big ${n ? '' : 'zero'}">${n}</div><div class="lab">${n === 1 ? 'camera rented' : 'cameras rented'}</div>
+      ${lis ? `<ul>${lis}</ul>` : ''}
+      ${(out || back) ? `<div class="mv">${out ? `↗ ${out} pickup${out>1?'s':''}` : ''}${out && back ? ' · ' : ''}${back ? `↙ ${back} return${back>1?'s':''}` : ''}</div>` : ''}</div>`;
+  }).join('');
+  const isThis = calW === mondayOf(t);
+  return `<div class="wk"><div class="wk-head">
+    <h3>${isThis ? 'This week' : 'Week'}: ${fmt(calW)} – ${fmt(addDays(calW,6))}</h3>
+    <span class="tot">${ids.size} booking${ids.size===1?'':'s'} · ${unitDays} unit-day${unitDays===1?'':'s'}</span>
+    <button class="btn ghost sm" data-act="wkPrev">◀</button>
+    <button class="btn ghost sm" data-act="wkThis">This week</button>
+    <button class="btn ghost sm" data-act="wkNext">▶</button>
+  </div><div class="wk-grid">${cards}</div></div>`;
+}
 
 function renderCal(){
   const {y,m} = calM;
@@ -726,6 +772,7 @@ function renderCal(){
       <button class="btn sm" data-act="newBooking">+ New booking</button>
     </div>
   </div>
+  ${weekStrip()}
   <div class="legend">
     <span><i style="background:var(--free-bg);border:1px solid #bfe5cc"></i>Available</span>
     <span><i style="background:var(--res-bg);border:1px solid #f0cf85"></i>Reserved</span>
@@ -1792,6 +1839,9 @@ const actions = {
   saveBooking, delBooking: deleteBooking,
   calPrev: () => { calM.m--; if(calM.m < 0){ calM.m = 11; calM.y--; } renderCal(); },
   calNext: () => { calM.m++; if(calM.m > 11){ calM.m = 0; calM.y++; } renderCal(); },
+  wkPrev: () => { calW = addDays(calW,-7); renderCal(); },
+  wkNext: () => { calW = addDays(calW,7); renderCal(); },
+  wkThis: () => { calW = mondayOf(today()); renderCal(); },
   calToday: () => { calM = {y: new Date().getFullYear(), m: new Date().getMonth()}; renderCal(); },
   calFree: el => openBooking(null, {cam: el.dataset.cam, start: el.dataset.date, end: addDays(el.dataset.date,1)}),
   quickRent: el => { const b = db.bookings.find(x => x.id === el.dataset.id); b.status = 'rented'; if(b.depositStatus === 'pending' && b.deposit > 0) b.depositStatus = 'held'; save(); render(); toast('Marked as rented out.'); },
