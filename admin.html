@@ -880,7 +880,7 @@ function openBooking(id, pre = {}){
     <div class="field"><label>Renter name</label><input id="f_renter" value="${esc(d.renter)}" placeholder="Full name"></div>
     <div class="field"><label>Contact or Facebook</label><input id="f_contact" value="${esc(d.contact)}" placeholder="Number or FB name"></div>
   </div>
-  <div class="field"><label>Units to rent (max 2)</label>
+  <div class="field"><label>Units to rent (max 3)</label>
     <div class="checks" id="f_cams">${allUnits().map(({u}) => `<label data-u="${u.id}"><input type="checkbox" value="${u.id}" ${d.cameras.includes(u.id)?'checked':''}> <span>${esc(uName(u.id))}</span><em></em></label>`).join('')}</div>
   </div>
   <div class="row3">
@@ -945,7 +945,7 @@ function bfUpdate(){
   if(!$('#f_cams')) return;
   const boxes = [...document.querySelectorAll('#f_cams input')];
   const n = boxes.filter(i => i.checked).length;
-  boxes.forEach(i => i.disabled = n >= 2 && !i.checked);
+  boxes.forEach(i => i.disabled = n >= 3 && !i.checked);
   const f = readForm();
   const valid = f.start && f.end && f.end >= f.start;
   const live = f.status === 'reserved' || f.status === 'rented';
@@ -1654,7 +1654,7 @@ function startSync(){
 ========================================================= */
 const php = n => 'Php ' + Math.round(Number(n)||0).toLocaleString('en-PH');
 const longDate = s => parse(s).toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'});
-const ct = {name:'', u1:'', u2:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null};
+const ct = {name:'', u1:'', u2:'', u3:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null};
 
 const CT_CLAUSES = [
   ['1. Rental Period', [
@@ -1695,7 +1695,7 @@ const CT_CLAUSES = [
 ];
 
 const fullUnit = id => { const r = U(id); return r ? r.c.name + (r.c.units.length > 1 ? ` (${r.u.label})` : '') : ''; };
-const ctUnits = () => [ct.u1, ct.u2].filter((v,i,a) => v && U(v) && a.indexOf(v) === i);
+const ctUnits = () => [ct.u1, ct.u2, ct.u3].filter((v,i,a) => v && U(v) && a.indexOf(v) === i);
 const ctDays = () => (ct.start && ct.end && ct.end >= ct.start) ? Math.max(diff(ct.start, ct.end), 1) : 0;
 const ctAuto = () => ctUnits().length && ctDays() ? calcAmount(ctUnits(), ctDays()).total : 0;
 const ctFile = () => 'SnapGear Rentals_Terms and Conditions_' + ((ct.name.trim().replace(/[\\\/:*?"<>|]+/g,'').replace(/\s+/g,' ')) || 'Renter Name');
@@ -1740,6 +1740,7 @@ function renderContracts(){
       <div class="field"><label>Renter name</label><input id="ct_name" value="${esc(ct.name)}" placeholder="Full name" autocomplete="off"></div>
       <div class="field"><label>Unit 1</label><select id="ct_u1"><option value="">Select a unit…</option>${opts(ct.u1)}</select></div>
       <div class="field"><label>Unit 2 (optional)</label><select id="ct_u2"><option value="">None (1 item only)</option>${opts(ct.u2)}</select></div>
+      <div class="field"><label>Unit 3 (optional)</label><select id="ct_u3"><option value="">None</option>${opts(ct.u3)}</select></div>
       <div class="row2">
         <div class="field"><label>Start date</label><input type="date" id="ct_start" value="${ct.start}"></div>
         <div class="field"><label>Return date</label><input type="date" id="ct_end" value="${ct.end}"></div>
@@ -1769,7 +1770,7 @@ function renderContracts(){
   const fill = $('#ct_fill');
   if(fill) fill.addEventListener('change', () => {
     const b = db.bookings.find(x => x.id === fill.value); if(!b) return;
-    ct.bookingId = b.id; ct.name = b.renter; ct.u1 = b.cameras[0] || ''; ct.u2 = b.cameras[1] || '';
+    ct.bookingId = b.id; ct.name = b.renter; ct.u1 = b.cameras[0] || ''; ct.u2 = b.cameras[1] || ''; ct.u3 = b.cameras[2] || '';
     ct.start = b.start; ct.end = b.end; ct.amount = Number(b.amount) || 0; ct.deposit = Number(b.deposit) || 0;
     ct.amtManual = ct.amount !== ctAuto(); ct.depManual = ct.deposit !== 1000 * ctUnits().length;
     renderContracts();
@@ -1778,7 +1779,7 @@ function renderContracts(){
 }
 function ctRead(e){
   const g = id => $('#' + id);
-  ct.name = g('ct_name').value; ct.u1 = g('ct_u1').value; ct.u2 = g('ct_u2').value;
+  ct.name = g('ct_name').value; ct.u1 = g('ct_u1').value; ct.u2 = g('ct_u2').value; ct.u3 = g('ct_u3').value;
   ct.start = g('ct_start').value; ct.end = g('ct_end').value; ct.signed = g('ct_signed').value; ct.showDisc = g('ct_disc').checked;
   if(e && e.target && e.target.id === 'ct_amount'){ ct.amtManual = true; ct.amount = Number(g('ct_amount').value) || 0; }
   if(e && e.target && e.target.id === 'ct_deposit'){ ct.depManual = true; ct.deposit = Number(g('ct_deposit').value) || 0; }
@@ -1795,7 +1796,7 @@ function ctSync(setInputs){
     ? `<b>${days} day${days > 1 ? 's' : ''}</b> · regular rate <b>${peso(auto)}</b>${disc > 0 ? ` · discount <b>${peso(disc)}</b>` : ct.amtManual && disc < 0 ? ` · <b>${peso(-disc)}</b> above the regular rate` : ''}`
     : 'Pick the start and return dates to see the rental period.';
   const w = [];
-  if(ct.u1 && ct.u1 === ct.u2) w.push('Unit 1 and Unit 2 are the same unit.');
+  if([ct.u1, ct.u2, ct.u3].filter(Boolean).some((v,i,a) => a.indexOf(v) !== i)) w.push('The same unit is picked more than once.');
   if(ct.start && ct.end && ct.end < ct.start) w.push('The return date is before the start date.');
   if(ids.length && days) conflictsFor(ids, ct.start, ct.end, ct.bookingId).forEach(x => w.push(x + '.'));
   $('#ct_warn').innerHTML = w.length ? `<div class="warn">${w.map(esc).join('<br>')}</div>` : '';
@@ -1825,7 +1826,7 @@ async function ctJpg(){
   }catch(e){ toast('Could not create the image. Use Save as PDF instead.'); }
 }
 function ctReset(){
-  Object.assign(ct, {name:'', u1:'', u2:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null});
+  Object.assign(ct, {name:'', u1:'', u2:'', u3:'', start: today(), end: addDays(today(),1), signed: today(), amount:0, amtManual:false, deposit:0, depManual:false, showDisc:false, bookingId:null});
   renderContracts();
 }
 
